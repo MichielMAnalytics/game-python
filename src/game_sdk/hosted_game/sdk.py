@@ -102,7 +102,7 @@ class GameSDK:
                     "description": description,
                     "worldInfo": world_info,
                     "functions": functions,
-                    "customFunctions": custom_functions,
+                    "customFunctions": [x.toJson() for x in custom_functions],
                     "gameState" : {
                         "mainHeartbeat" : main_heartbeat,
                         "reactionHeartbeat" : reaction_heartbeat,
