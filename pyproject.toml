@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Official Python SDK for GAME by Virtuals"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -26,6 +26,7 @@ classifiers = [
 dependencies = [
     "typing-extensions>=4.0.0",
     "requests>=2.26.0",
+    "allora-sdk>=0.1.0; python_version>='3.9'"
 ]
 
 

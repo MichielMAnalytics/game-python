@@ -1,6 +1,6 @@
 import os
 from game_sdk.hosted_game.agent import Agent
-from game_sdk.hosted_game.functions.allora import AlloraClient
+from game_sdk.plugins.allora.allora import AlloraNetworkClient
 
 # Initialize the agent
 agent = Agent(
@@ -9,6 +9,7 @@ agent = Agent(
     description=(
         "You are an AI agent specialized in Allora Network."
         "You are able to get inferences from Allora Network and provide users insights into Allora topic inferences."
+        "You are also able to get price predictions from Allora Network and provide users insights into future price of different crypto assets."
     ),
     world_info=(
         "Allora Network empowers users and AI agents with real-time, advanced, "
@@ -19,11 +20,12 @@ agent = Agent(
 )
 
 # Add Allora functions to the agent
-allora_client = AlloraClient()
+allora_network_client = AlloraNetworkClient()
 
 agent.add_custom_function(
-    allora_client.get_function("get_all_allora_topics"),
-    allora_client.get_function("get_allora_topic_inference")
+    allora_network_client.get_function("get_all_topics"),
+    allora_network_client.get_function("get_inference_by_topic_id"),
+    allora_network_client.get_function("get_price_prediction")
 )
 
 # Test different queries
@@ -32,7 +34,8 @@ queries = [
     "What's the price of ETH in 25min?",
     "What's the price of SOL in 24h?",
     "What's the price of SHIB in 25min?",
-    "What other assets and timeframes are available on Allora?"
+    "What are the active topics on Allora?",
+    "What is are the topic ids for predicting future BTC prices?",
 ]
 
 for query in queries:
