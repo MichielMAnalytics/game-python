@@ -75,6 +75,8 @@ class GameSDK:
         if (tweet_id):
             payload["tweetId"] = tweet_id
             
+        print(payload)
+
         response = requests.post(
             url,
             json={

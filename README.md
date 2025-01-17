@@ -60,7 +60,7 @@ Function
 
 
 ## How to Contribute
-Contributions are welcome, especially in the form of new plugins! We are working on creating a plugins repo, but in meantime - please contact us via [Twitter](https://x.com/GAME_Virtuals) or [Telegram](https://t.me/virtuaIs_io).
+Contributions are welcome, especially in the form of new plugins! We are working on creating a plugins repo, but in the meantime - please contact us via [Twitter](https://x.com/GAME_Virtuals) or [Telegram](https://t.me/virtuals).
 
 ## Documentation
 Detailed documentation to better understand the configurable components and the GAME architecture can be found on [here](https://whitepaper.virtuals.io/developer-documents/game-framework).

@@ -109,6 +109,3 @@ agent.react(
 
 # running simulation module only for platform twitter
 agent.simulate_twitter(session_id="session-twitter")
-
-# deploying agent
-agent.deploy_twitter()

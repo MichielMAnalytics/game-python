@@ -4,7 +4,7 @@ from string import ContentLLMTemplate
 import json
 import uuid
 import requests
-from src.game_sdk.hosted_game import sdk
+from game_sdk.hosted_game import sdk
 
 
 @dataclass
@@ -295,20 +295,12 @@ class Agent:
         self.reaction_heartbeat = reaction_heartbeat
         return True
     
-    def set_tweet_usernames(self, usernames: List[str]) -> bool:
-        # Check username limit
-        if len(usernames) > 20:
-            raise ValueError("Maximum number of usernames allowed is 20")
-        
-        self.tweet_usernames = usernames
-        return True
-    
-    def set_task_description(self, task_description: str) -> bool:
+    def set_task_description(self, task_description: str):
         self.task_description = task_description
         return True
     
-    def get_tweet_usernames(self) -> List[str]:
-        return self.tweet_usernames
+    def get_task_description(self) -> str:
+        return self.task_description
 
     def get_goal(self) -> str:
         return self.goal
@@ -318,9 +310,6 @@ class Agent:
     
     def get_world_info(self) -> str:
         return self.world_info
-    
-    def get_task_description(self) -> str:
-        return self.task_description
 
     def list_available_default_twitter_functions(self) -> Dict[str, str]:
         """
@@ -391,10 +380,7 @@ class Agent:
             self.enabled_functions,
             self.custom_functions,
             self.main_heartbeat,
-            self.reaction_heartbeat,
-            self.tweet_usernames,
-            self.templates,
-            self.task_description
+            self.reaction_heartbeat
         )
 
     def export(self) -> str:
@@ -414,9 +400,7 @@ class Agent:
                     "config": asdict(func.config)
                 }
                 for func in self.custom_functions
-            ],
-            "templates": [template.to_dict() for template in self.templates],
-            "tweetUsernames": self.tweet_usernames
+            ]
         }
         agent_json = json.dumps(export_dict, indent=4)
 
