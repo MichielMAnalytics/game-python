@@ -12,7 +12,7 @@ class GetInferenceByTopicId(Function):
             args=[
                 FunctionArgument(
                     name="topic_id",
-                    description="The topic_id corresponds to the unique id of one of the active topics on Allora Network",
+                    description="The topic_id corresponds to the unique id of one of an active topic on Allora Network",
                     type="number",
                 )
             ],

@@ -26,7 +26,7 @@ class GetAllTopics(Function):
             topics_json = json.dumps(topics, indent=4)
             return (
                 FunctionResultStatus.DONE,
-                f"Successfully retrieved all topics. The topics available on Allora Network are:\n\n{topics_json}",
+                f"Successfully retrieved all topics from Allora Network. The topics available on Allora Network are:\n\n{topics_json}",
                 {
                     "topics": topics,
                 },
