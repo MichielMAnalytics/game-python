@@ -1,5 +1,5 @@
 import os
-from game_sdk.hosted_game.agent import Agent, Function, FunctionArgument, FunctionConfig, Template
+from game_sdk.hosted_game.agent import Agent, Function, FunctionArgument, FunctionConfig, ContentLLMTemplate
 
 agent = Agent(
     api_key=os.environ.get("VIRTUALS_API_KEY"),
@@ -65,7 +65,7 @@ Prepare your thought process first and then only curate the response. You must r
 
 # adding template for twitter
 agent.add_template(
-    Template(
+    ContentLLMTemplate(
         template_type="POST",
         user_prompt="{{agentName}}'s suggested tweet content: {{task}}. {{agentName}}'s reasoning: {{taskReasoning}}. Build a new tweet with the suggested tweet content. Do not hold twitter space. Do not use hashtag.",
         sys_prompt_response_format=[10,20,30,50],
@@ -80,7 +80,7 @@ agent.add_template(
 )
 
 agent.add_template(
-    Template(
+    ContentLLMTemplate(
         template_type="REPLY",
         user_prompt="""{{agentName}}'s suggested tweet content: {{task}}. {{agentName}}'s reasoning: {{taskReasoning}}
 

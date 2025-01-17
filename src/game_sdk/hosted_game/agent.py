@@ -1,6 +1,6 @@
 from typing import List, Any, Dict, Optional, Union, Set
 from dataclasses import dataclass, asdict
-from string import Template
+from string import ContentLLMTemplate
 import json
 import uuid
 import requests
@@ -84,9 +84,9 @@ class Function:
 
     def _interpolate_template(self, template_str: str, values: Dict[str, Any]) -> str:
         """Interpolate a template string with given values"""
-        # Convert Template-style placeholders ({{var}}) to Python style ($var)
+        # Convert ContentLLMTemplate-style placeholders ({{var}}) to Python style ($var)
         python_style = template_str.replace('{{', '$').replace('}}', '')
-        return Template(python_style).safe_substitute(values)
+        return ContentLLMTemplate(python_style).safe_substitute(values)
 
     def _prepare_request(self, arg_dict: Dict[str, Any]) -> Dict[str, Any]:
         """Prepare the request configuration with interpolated values"""
@@ -154,7 +154,7 @@ class Function:
             raise requests.exceptions.HTTPError(f"Request failed: {error_msg}")
 
 @dataclass
-class Template:
+class ContentLLMTemplate:
     template_type: str
     system_prompt: str = None
     sys_prompt_response_format: List[int] = None
@@ -270,7 +270,7 @@ class Agent:
         self.custom_functions: List[Function] = []
         self.main_heartbeat = main_heartbeat
         self.reaction_heartbeat = reaction_heartbeat
-        self.templates: List[Template] = []
+        self.templates: List[ContentLLMTemplate] = []
         self.tweet_usernames: List[str] = []
         self.task_description: str = task_description
         
@@ -351,7 +351,7 @@ class Agent:
         """
         Simulate the agent configuration for Twitter
         """
-        return self.game_sdk.simulate(
+        resp =  self.game_sdk.simulate(
             session_id,
             self.goal,
             self.description,
@@ -359,6 +359,9 @@ class Agent:
             self.enabled_functions,
             self.custom_functions
         )
+        
+        print(resp)
+        return resp
 
     def react(self, session_id: str, platform: str, tweet_id: str = None, event: str = None, task: str = None):
         """
@@ -423,12 +426,12 @@ class Agent:
 
         return agent_json
     
-    def add_template(self, template: Template) -> bool:
+    def add_template(self, template: ContentLLMTemplate) -> bool:
         """Add a template to the agent"""
         self.templates.append(template)
         return True
     
-    def get_templates(self) -> List[Template]:
+    def get_templates(self) -> List[ContentLLMTemplate]:
         """Get all templates"""
         return self.templates
     
@@ -438,19 +441,19 @@ class Agent:
         shared_prompt: str,
         end_system_prompt: str
     ) -> bool:
-        self.add_template(Template(
+        self.add_template(ContentLLMTemplate(
             template_type="TWITTER_START_SYSTEM_PROMPT",
             system_prompt=start_system_prompt,
             sys_prompt_response_format=[]
         ))
 
-        self.add_template(Template(
+        self.add_template(ContentLLMTemplate(
             template_type="SHARED",
             system_prompt=shared_prompt,
             sys_prompt_response_format=[]
         ))
 
-        self.add_template(Template(
+        self.add_template(ContentLLMTemplate(
             template_type="TWITTER_END_SYSTEM_PROMPT",
             system_prompt=end_system_prompt,
             sys_prompt_response_format=[]
