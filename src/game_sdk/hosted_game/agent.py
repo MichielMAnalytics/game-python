@@ -349,7 +349,6 @@ class Agent:
             self.custom_functions
         )
         
-        print(resp)
         return resp
 
     def react(self, session_id: str, platform: str, tweet_id: str = None, event: str = None, task: str = None):
