@@ -1,8 +1,8 @@
 import os
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import FunctionResult
-from game_sdk.plugins.allora.client import AlloraNetworkClient
-from game_sdk.plugins.allora.functions import (
+from plugins.allora.client import AlloraNetworkClient
+from plugins.allora.functions import (
     GetAllTopics,
     GetInferenceByTopicId,
     GetPricePrediction,

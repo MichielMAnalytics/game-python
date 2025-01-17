@@ -1,6 +1,6 @@
 import os
 from game_sdk.hosted_game.agent import Agent
-from game_sdk.plugins.allora.client import AlloraNetworkClient
+from plugins.allora.client import AlloraNetworkClient
 
 # Initialize the agent
 agent = Agent(
