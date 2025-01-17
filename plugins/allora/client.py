@@ -1,10 +1,10 @@
 from typing import Dict, List, Optional
-from game_sdk.hosted_game.agent import Function, FunctionConfig, FunctionArgument
-from allora_sdk.v2.api_client import AlloraAPIClient, ChainSlug, SignatureFormat
+from game_sdk.hosted_game.agent import Function
+from allora_sdk.v2.api_client import AlloraAPIClient, ChainSlug
 
-from game_sdk.plugins.allora.functions.get_all_topics import GetAllTopics
-from game_sdk.plugins.allora.functions.get_inference_by_topic_id import GetInferenceByTopicId
-from game_sdk.plugins.allora.functions.get_price_prediction import GetPricePrediction
+from plugins.allora.functions.get_all_topics import GetAllTopics
+from plugins.allora.functions.get_inference_by_topic_id import GetInferenceByTopicId
+from plugins.allora.functions.get_price_prediction import GetPricePrediction
 
 DEFAULT_ALLORA_BASE_API_URL = "https://api.allora.network/v2"
 DEFAULT_ALLORA_API_KEY = "UP-17f415babba7482cb4b446a1"
