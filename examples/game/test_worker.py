@@ -1,8 +1,9 @@
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import Function, Argument, FunctionResult, FunctionResultStatus
 from typing import Tuple
+import os
 
-game_api_key=""
+game_api_key = os.environ.get("GAME_API_KEY")
 
 def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     """

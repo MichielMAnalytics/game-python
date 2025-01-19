@@ -29,7 +29,7 @@ Executable functions must return a tuple of:
 
 ### 2. State Management
 
-Easy and flexible wayto define the state management, what the agent sees and how that changes.
+Easy and flexible way to define the state management, what the agent sees and how that changes.
 
 ```python
 def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
