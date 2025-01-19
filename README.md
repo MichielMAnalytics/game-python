@@ -90,8 +90,6 @@ Please refer to our [whitepaper](https://whitepaper.virtuals.io/developer-docume
 
 
 ## How to Contribute
-Contributions are welcome, especially in the form of new plugins!
-
 Want to help improve the project? Please see our detailed [Contribution Guide](./CONTRIBUTION_GUIDE.md).
 
 ## Documentation
