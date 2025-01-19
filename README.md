@@ -90,11 +90,13 @@ Please refer to our [whitepaper](https://whitepaper.virtuals.io/developer-docume
 
 
 ## How to Contribute
-Contributions are welcome, especially in the form of new plugins.
+Contributions are welcome, especially in the form of new plugins!
+
+Want to help improve the project? Please see our detailed [Contribution Guide](./CONTRIBUTION_GUIDE.md).
 
 ## Documentation
 Detailed documentation to better understand the configurable components and the GAME architecture can be found on [here](https://whitepaper.virtuals.io/developer-documents/game-framework).
 
 ## Useful Resources
-- [GAME TypeScript SDK](https://www.npmjs.com/package/@virtuals-protocol/game): The core logic of this SDK mirrors the logic of this python SDK if you prefer to develop your agents in TypeScript. Tyepscript SDK repository and contributed typescript plugins can be found [here](https://github.com/game-by-virtuals/game-node).
+- [GAME TypeScript SDK](https://github.com/game-by-virtuals/game-node): The core logic of this SDK mirrors the logic of this python SDK if you prefer to develop your agents in TypeScript. Tyepscript SDK repository and contributed typescript plugins can be found [here](https://github.com/game-by-virtuals/game-node).
 - [Hosted GAME Agent](./src/game_sdk/hosted_game/README.md): This SDK also enables configuration and deployment of an out-of-the-box hosted agent that can be used to interact with the Twitter/X platform, powered by GAME. This agent comes with existing functions/actions that can be used to interact with the Twitter/X platform and can be immediately hosted/deployed as you configure it. This is similar to configuring your agent in the [Agent Sandbox](https://game-lite.virtuals.io/) on the [Virtuals Platform](https://app.virtuals.io/) but through a developer-friendly SDK interface.
