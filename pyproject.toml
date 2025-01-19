@@ -26,8 +26,14 @@ classifiers = [
 dependencies = [
     "typing-extensions>=4.0.0",
     "requests>=2.26.0",
+    "tweepy>=4.15.0"
 ]
 
+[tool.hatch.build.targets.wheel]
+include = [
+    "src/**",
+    "plugins/**"
+]
 
 [project.urls]
 "Homepage" = "https://github.com/game-by-virtuals/game-python"
