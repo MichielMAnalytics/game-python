@@ -21,7 +21,7 @@ class AlloraPlugin:
         from allora_sdk.v2.api_client import ChainSlug
 
         client = AlloraPlugin(
-            chain_slug=ChainSlug.TESTNET,
+            chain_slug=os.environ.get("ALLORA_API_KEY"),
             api_key=os.environ.get("ALLORA_API_KEY"),
             base_api_url=os.environ.get("ALLORA_API_URL"),
         )

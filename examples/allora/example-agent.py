@@ -1,7 +1,6 @@
 import os
 from game_sdk.game.agent import Agent, WorkerConfig
 from game_sdk.game.custom_types import FunctionResult
-from game_sdk.game.worker import Worker
 from plugins.allora.allora_plugin import AlloraPlugin
 from allora_sdk.v2.api_client import ChainSlug, PricePredictionToken, PricePredictionTimeframe
 
@@ -35,8 +34,8 @@ def get_worker_state(function_result: FunctionResult, current_state: dict) -> di
 
     return current_state
 
-allora_network_client = AlloraPlugin(
-  chain_slug=ChainSlug.TESTNET,
+allora_network_plugin = AlloraPlugin(
+  chain_slug=os.environ.get("ALLORA_CHAIN_SLUG", ChainSlug.TESTNET),
   api_key=os.environ.get("ALLORA_API_KEY") or "UP-17f415babba7482cb4b446a1",
 )
 
@@ -45,7 +44,7 @@ price_prediction_worker = WorkerConfig(
     worker_description="Worker specialized in using Allora Network to get price predictions",
     get_state_fn=get_worker_state,
     action_space=[
-        allora_network_client.get_function("get_price_prediction"),
+        allora_network_plugin.get_function("get_price_prediction"),
     ],
 )
 
@@ -54,8 +53,8 @@ topics_inferences_worker = WorkerConfig(
     worker_description="Worker specialized in using Allora Network to get topics details and inferences for a specific topic",
     get_state_fn=get_worker_state,
     action_space=[
-        allora_network_client.get_function("get_all_topics"),
-        allora_network_client.get_function("get_inference_by_topic_id"),
+        allora_network_plugin.get_function("get_all_topics"),
+        allora_network_plugin.get_function("get_inference_by_topic_id"),
     ]
 )
 

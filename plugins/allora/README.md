@@ -1,0 +1,57 @@
+# Allora Network Plugin for GAME SDK
+
+The [Allora Network](https://allora.network) plugin seamlessly empowers G.A.M.E agents with real-time, advanced, self-improving AI inferences, delivering high-performance insights without introducing any additional complexity.
+
+## Features
+- Get price predictions for various assets and timeframes
+- Get all available topics on Allora Network
+- Fetch inferences by topic ID
+
+## Avilable functions Functions
+
+1. `get_price_prediction(asset: str, timeframe: str)` - Gets price prediction for a crypto asset
+2. `get_all_topics()` - Retrieves all available topics on Allora Network
+3. `get_inference_by_topic_id(topic_id: int)` - Fetches inference for a specific topic
+
+## Setup and configuration
+1. Set the following environment variables:
+  - `ALLORA_API_KEY`: Create an API key by [creating an account](https://developer.upshot.xyz/signup).
+  - `ALLORA_CHAIN_SLUG` (Optional): Must be one of: `mainnet`, `testnet`. Default value: `testnet`
+
+2. Import and initialize the plugin to use in your worker:
+```python
+from plugins.allora.allora_plugin import AlloraPlugin
+
+allora_network_plugin = AlloraPlugin(
+  chain_slug=os.environ.get("ALLORA_CHAIN_SLUG", ChainSlug.TESTNET),
+  api_key=os.environ.get("ALLORA_API_KEY", "UP-17f415babba7482cb4b446a1"),
+)
+```
+
+**Basic worker example:**
+```python
+def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
+    """
+    Update state based on the function results
+    """
+    init_state = {}
+
+    if current_state is None:
+        return init_state
+
+    # Update state with the function result info
+    current_state.update(function_result.info)
+
+    return current_state
+
+price_prediction_worker = Worker(
+    api_key=os.environ.get("GAME_API_KEY"),
+    description="Worker specialized in using Allora Network to get price predictions",
+    get_state_fn=get_state_fn,
+    action_space=[
+        allora_network_plugin.get_function("get_price_prediction"),
+    ],
+)
+
+price_prediction_worker.run("Query the price of BTC in 5min")
+```

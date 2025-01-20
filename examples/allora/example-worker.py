@@ -19,8 +19,8 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     return current_state
 
 
-allora_network_client = AlloraPlugin(
-  chain_slug=ChainSlug.TESTNET,
+allora_network_plugin = AlloraPlugin(
+  chain_slug=os.environ.get("ALLORA_CHAIN_SLUG", ChainSlug.TESTNET),
   api_key=os.environ.get("ALLORA_API_KEY", "UP-17f415babba7482cb4b446a1"),
 )
 
@@ -30,7 +30,7 @@ price_prediction_worker = Worker(
     description="Worker specialized in using Allora Network to get price predictions",
     get_state_fn=get_state_fn,
     action_space=[
-        allora_network_client.get_function("get_price_prediction"),
+        allora_network_plugin.get_function("get_price_prediction"),
     ],
 )
 
