@@ -1,7 +1,7 @@
 import os
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import FunctionResult
-from plugins.allora.allora_plugin import AlloraPlugin
+from allora_game_sdk.allora_plugin import AlloraPlugin
 from allora_sdk.v2.api_client import ChainSlug
 
 def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:

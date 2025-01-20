@@ -1,6 +1,6 @@
 from typing import Tuple
 from game_sdk.game.custom_types import FunctionResultStatus
-from plugins.allora.allora_plugin import AlloraPlugin
+from allora_game_sdk.allora_plugin import AlloraPlugin
 from allora_sdk.v2.api_client import ChainSlug
 
 def print_function_result(function_result: Tuple[FunctionResultStatus, str, dict]):

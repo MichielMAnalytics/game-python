@@ -1,7 +1,7 @@
 import os
 from game_sdk.game.agent import Agent, WorkerConfig
 from game_sdk.game.custom_types import FunctionResult
-from plugins.allora.allora_plugin import AlloraPlugin
+from allora_game_sdk.allora_plugin import AlloraPlugin
 from allora_sdk.v2.api_client import ChainSlug, PricePredictionToken, PricePredictionTimeframe
 
 def get_agent_state_fn(function_result: FunctionResult, current_state: dict) -> dict:

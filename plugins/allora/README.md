@@ -55,3 +55,31 @@ price_prediction_worker = Worker(
 
 price_prediction_worker.run("Query the price of BTC in 5min")
 ```
+
+## Running examples
+
+To run the examples showcased in the plugin's directory, follow these steps:
+
+1. Install dependencies:
+```
+poetry install
+```
+
+2. Set up environment variables:
+```
+export GAME_API_KEY="your-game-api-key"
+export ALLORA_API_KEY="your-allora-api-key" # Default key: UP-17f415babba7482cb4b446a1
+export ALLORA_CHAIN_SLUG="testnet"  # or "mainnet"
+```
+
+3. Run example scripts:
+
+Example worker:
+```
+poetry run python ./examples/example-worker.py  
+```
+
+Example agent:
+```
+poetry run python ./examples/example-agent.py
+```
