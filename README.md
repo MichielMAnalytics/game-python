@@ -23,7 +23,11 @@ git clone https://github.com/game-by-virtuals/game-python.git
 cd game-python
 pip install -e .
 ```
-To exclude plugin folders in the installation, you may edit or remove the plugins paths in `[tool.hatch.build.targets.wheel]` as needed before running `pip install -e .`.
+To install the latest versions of the plugins, navigate to the plugin folder to run the installation, e.g.:
+```bash
+cd plugins/twitter
+pip install -e .
+```
 
 ## Usage
 1. `game`:
