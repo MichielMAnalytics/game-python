@@ -26,9 +26,7 @@ classifiers = [
 dependencies = [
     "typing-extensions>=4.0.0",
     "requests>=2.26.0",
-    "allora-sdk>=0.1.0; python_version>='3.9'"
 ]
-
 
 [project.urls]
 "Homepage" = "https://github.com/game-by-virtuals/game-python"
