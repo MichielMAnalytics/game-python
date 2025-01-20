@@ -12,6 +12,45 @@ There are 2 main folders in the source code (`src` folder)
     
     Note that this README focuses on the code in the `game` folder. More details about `hosted_game` can be found in [`src/hosted_game/README.md`](src/game_sdk/hosted_game/README.md).
 
+## Installation
+```bash
+pip install game_sdk
+```
+
+To get the latest version of the SDK, clone the repository and install from source:
+```bash
+git clone https://github.com/game-by-virtuals/game-python.git
+cd game-python
+pip install -e .
+```
+To exclude plugin folders in the installation, you may edit or remove the plugins paths in `[tool.hatch.build.targets.wheel]` as needed before running `pip install -e .`.
+
+## Usage
+1. `game`:
+   - Request for a GAME API key (currently, this is only possible by contacting Virtuals support or DevRel team members via Discord or Telegram)
+   - Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
+      
+      ```bash
+      export GAME_API_KEY="your_game_api_key"
+      ```
+   - Refer to [`src/game/README.md`](src/game_sdk/game/README.md) for usage guidelines, and refer to [`test_agent.py`](examples/game/test_agent.py) and [`test_worker.py`](examples/game/test_worker.py) for usage examples.
+
+2. `hosted_game`<br/>
+    - Open the [Virtuals Platform](https://app.virtuals.io/) and create/get an API key from the Agent Sandbox by clicking `SDK/API Access`
+      ![getGAMEApi](docs/imgs/accesskey.jpg)
+    
+    - Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
+      
+      ```bash
+      export VIRTUALS_API_KEY="your_virtuals_api_key"
+      ```
+    - Refer to [`src/hosted_game/README.md`](src/game_sdk/hosted_game/README.md) for usage examples.
+
+## About G.A.M.E.
+GAME is a modular agentic framework which enables an agent to plan actions and make decisions autonomously based on information provided to it.
+
+Please refer to our [whitepaper](https://whitepaper.virtuals.io/developer-documents/game-framework) for more information and resources.
+
 ## About GAME Python SDK
 Currently, the SDK (specifically the code in the `game` folder) allows you to develop your agents powered by the GAME architecture in its most fullest and most flexible form.
 
@@ -49,50 +88,10 @@ Function
 > - Ability to control the low-level planner via description prompt (previously, only the high-level planner and functions could be controlled via description prompts)
 > - The description defined in the agent is equivalent to what was previously known as world information and agent description
 
-## Installation
-```bash
-pip install game_sdk
-```
-
-To get the latest version of the SDK, clone the repository and install from source:
-```bash
-git clone https://github.com/game-by-virtuals/game-python.git
-cd game-python
-pip install -e .
-```
-To exclude plugin folders in the installation, you may edit or remove the plugins paths in `[tool.hatch.build.targets.wheel]` as needed before running `pip install -e .`.
-
-## Usage
-1. `game`:
-   - Request for a GAME API key (currently, this is only possible by contacting Virtuals support or DevRel team members via Discord or Telegram)
-   - Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
-      
-      ```bash
-      export GAME_API_KEY="your_game_api_key"
-      ```
-   - Refer to [`src/game/README.md`](src/game_sdk/game/README.md) for usage guidelines, and refer to [`test_agent.py`](examples/game/test_agent.py) and [`test_worker.py`](examples/game/test_worker.py) for usage examples.
-
-2. `hosted_game`<br/>
-    - Open the [Virtuals Platform](https://app.virtuals.io/) and create/get an API key from the Agent Sandbox by clicking “Access G.A.M.E API” 
-      ![getGAMEApi](docs/imgs/accesskey.png)
-    
-    - Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
-      
-      ```bash
-      export VIRTUALS_API_KEY="your_virtuals_api_key"
-      ```
-    - Refer to [`src/hosted_game/README.md`](src/game_sdk/hosted_game/README.md) for usage examples.
-
-## About G.A.M.E.
-GAME is a modular agentic framework which enables an agent to plan actions and make decisions autonomously based on information provided to it.
-
-Please refer to our [whitepaper](https://whitepaper.virtuals.io/developer-documents/game-framework) for more information and resources.
-
-
 ## How to Contribute
 Contributions are welcome, especially in the form of new plugins!
 
-Want to help improve the project? Please see our detailed [Contribution Guide](./CONTRIBUTION_GUIDE.md).
+Want to help improve the project? Please see our detailed [Contribution Guide](CONTRIBUTION_GUIDE.md).
 
 ## Documentation
 Detailed documentation to better understand the configurable components and the GAME architecture can be found on [here](https://whitepaper.virtuals.io/developer-documents/game-framework).
