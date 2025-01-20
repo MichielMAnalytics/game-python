@@ -76,7 +76,6 @@ class GameSDK:
             payload["tweetId"] = tweet_id
             
         print(payload)
-        print(f"VIRTUALS API KEY: {self.api_key}")
         response = requests.post(
             url,
             json={
