@@ -7,11 +7,11 @@ The [Allora Network](https://allora.network) plugin seamlessly empowers G.A.M.E 
 - Get all available topics on Allora Network
 - Fetch inferences by topic ID
 
-## Avilable functions Functions
+## Avilable Functions
 
-1. `get_price_prediction(asset: str, timeframe: str)` - Gets price prediction for a crypto asset
+1. `get_price_prediction(asset: str, timeframe: str)` - Fetches the price prediction for the specified asset and a timeframe
 2. `get_all_topics()` - Retrieves all available topics on Allora Network
-3. `get_inference_by_topic_id(topic_id: int)` - Fetches inference for a specific topic
+3. `get_inference_by_topic_id(topic_id: int)` - Fetches the latest inference for a specific topic
 
 ## Setup and configuration
 1. Set the following environment variables:
