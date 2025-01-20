@@ -3,13 +3,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "game_sdk"
-version = "0.1.1"
+name = "twitter_game_sdk"
+version = "0.1.0"
 authors = [
-  { name = "Your Name", email = "your.email@example.com" },
+  { name = "Celeste Ang", email = "celeste@virtuals.io" },
 ]
-description = "Official Python SDK for GAME by Virtuals"
-readme = "README.md"
+description = "Twitter Plugin for Python SDK for GAME by Virtuals"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -24,10 +23,11 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "typing-extensions>=4.0.0",
-    "requests>=2.26.0",
     "tweepy>=4.15.0"
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["twitter_game_sdk"]
 
 [project.urls]
 "Homepage" = "https://github.com/game-by-virtuals/game-python"

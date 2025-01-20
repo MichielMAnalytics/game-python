@@ -1,5 +1,5 @@
 import os
-from plugins.twitter.twitter_plugin import TwitterPlugin
+from twitter_game_sdk.twitter_plugin import TwitterPlugin
 
 # Define your options with the necessary credentials
 options = {
