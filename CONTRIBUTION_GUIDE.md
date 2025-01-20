@@ -3,11 +3,12 @@
 There are various ways you can contribute to the GAME SDK, whether it's fixing bugs, adding new plugins, or improving the documentation.
 
 ### Submitting Code (e.g. plugins)
-1. **Create a Branch** for your changes.
-2. **Make Changes** to address the issue or add the feature.
-3. **Commit** with a message that clearly explains your change.
-4. **Push** the branch to your fork and submit a pull request.
-5. **Label** the pull request appropriately based on the [label definitions](#label-definitions)
+1. **Fork** the repository and clone it to your local machine.
+2. **Create a Branch** for your changes.
+3. **Make Changes** to address the issue or add the feature.
+4. **Commit** with a message that clearly explains your change.
+5. **Push** the branch to your fork and submit a pull request.
+6. **Label** the pull request appropriately based on the [label definitions](#label-definitions)
    
 ### Reporting Bugs
 - Open an issue in the [Issues](https://github.com/game-by-virtuals/game-python/issues) tab and tag it as a `bug`.
