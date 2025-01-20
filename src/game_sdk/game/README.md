@@ -56,7 +56,7 @@ Key features:
 - Processes function execution results to update state
 
 ### 3. Workers
-Workers are simple interactiable agents that exectue the tasks defined by the user. They can be specialized agents with defined capabilities:
+Workers are simple interactiable agents that execute the tasks defined by the user. They can be specialized agents with defined capabilities:
 
 ```python
 worker = Worker(

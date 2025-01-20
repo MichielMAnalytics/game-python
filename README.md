@@ -89,9 +89,7 @@ Function
 > - The description defined in the agent is equivalent to what was previously known as world information and agent description
 
 ## How to Contribute
-Contributions are welcome, especially in the form of new plugins!
-
-Want to help improve the project? Please see our detailed [Contribution Guide](CONTRIBUTION_GUIDE.md).
+Want to help improve the project? Please see our detailed [Contribution Guide](./CONTRIBUTION_GUIDE.md).
 
 ## Documentation
 Detailed documentation to better understand the configurable components and the GAME architecture can be found on [here](https://whitepaper.virtuals.io/developer-documents/game-framework).
