@@ -1,8 +1,9 @@
 from game_sdk.game.agent import Agent, WorkerConfig
 from game_sdk.game.custom_types import Function, Argument, FunctionResult, FunctionResultStatus
 from typing import Tuple
+import os
 
-game_api_key=""
+game_api_key = os.environ.get("GAME_API_KEY")
 
 # the get_worker_state_fn and the get_agent_state_fn can be the same function or diffferent
 # each worker can also have a different get_worker_state_fn and maintain their own state

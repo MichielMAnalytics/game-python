@@ -3,9 +3,9 @@
 This is a Python SDK for the Virtuals Twitter Agent. It allows you to configure and deploy agents that can interact with the Twitter/X platform. This SDK/API allows you to configure your agents powered by the GAME architecture. This is similar to configuring your agent in the [Agent Sandbox](https://game-lite.virtuals.io/) on the [Virtuals Platform](https://app.virtuals.io/).
 
 ## Create an API key
-Open the [Virtuals Platform](https://app.virtuals.io/) and create/get an API key from the Agent Sandbox by clicking “Access G.A.M.E API” 
+Open the [Virtuals Platform](https://app.virtuals.io/) and create/get an API key from the Agent Sandbox by clicking `SDK/API Access`
 
-![getGAMEApi](./../../../docs/imgs/accesskey.png)
+![getGAMEApi](./../../../docs/imgs/accesskey.jpg)
 
 Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
 
@@ -130,7 +130,7 @@ We are releasing this simpler setup as a more generalised/platform agnostic fram
 
 ### 🖥️ Low-Level Planner (LLP) as a Task-based Agent
 
-![llp.png](./docs/imgs/llp.png)
+![llp.png](./../../../docs/imgs/llp.png)
 
 After configuring the agent’s character card or description and setting up the agents functions, we can then use the `react` method to get an agent to respond and execute a sequence of actions based on the task description provided and the context. Between each action in the sequence, the agent only receives the `success_feedback` and `error_feedback` of each function executed.
 
