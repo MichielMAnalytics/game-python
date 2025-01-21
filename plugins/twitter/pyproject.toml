@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "twitter_game_sdk"
+name = "twitter_plugin_gamesdk"
 version = "0.1.0"
 authors = [
   { name = "Celeste Ang", email = "celeste@virtuals.io" },
@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["twitter_game_sdk"]
+packages = ["twitter_plugin_gamesdk"]
 
 [project.urls]
 "Homepage" = "https://github.com/game-by-virtuals/game-python"
