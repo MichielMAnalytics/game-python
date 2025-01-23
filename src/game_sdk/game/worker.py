@@ -45,10 +45,10 @@ class Worker:
         # # setup action space (functions/tools available to the worker)
         # check action space type - if not a dict
         if not isinstance(action_space, dict):
-            self.action_space = {
+            self.action_space: Dict[str, Function] = {
                 f.get_function_def()["fn_name"]: f for f in action_space}
         else:
-            self.action_space = action_space
+            self.action_space: Dict[str, Function] = action_space
 
         # initialize an agent instance for the worker
         self._agent_id: str = create_agent(

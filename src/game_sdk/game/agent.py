@@ -28,7 +28,6 @@ class WorkerConfig:
         self.worker_description = worker_description
         self.instruction = instruction
         self.get_state_fn = get_state_fn
-        self.action_space = action_space
 
         # setup get state function with the instructions
         self.get_state_fn = lambda function_result, current_state: {
