@@ -5,8 +5,8 @@ from game_sdk.game.custom_types import Argument, Function, FunctionResultStatus
 from allora_sdk.v2.api_client import (
     AlloraAPIClient,
     ChainSlug,
-    PricePredictionToken,
-    PricePredictionTimeframe,
+    PriceInferenceToken,
+    PriceInferenceTimeframe,
 )
 
 DEFAULT_ALLORA_BASE_API_URL = "https://api.allora.network/v2"
@@ -28,7 +28,7 @@ class AlloraPlugin:
 
         all_topics_fn = client.get_function("get_all_topics")
         get_inference_by_topic_id_fn = client.get_function("get_inference_by_topic_id")
-        get_price_prediction_fn = client.get_function("get_price_prediction")
+        get_price_inference_fn = client.get_function("get_price_inference")
     """
 
     def __init__(
@@ -70,26 +70,26 @@ class AlloraPlugin:
                         type="number",
                     )
                 ],
-                hint="This function is used to get the inference by topic id. For obtaining the topic id associated to a certain inference/price prediction, use the get_all_topics function.",
+                hint="This function is used to get the inference by topic id. For obtaining the topic id associated to a certain inference/price inference, use the get_all_topics function.",
                 executable=self.get_inference_by_topic_id,
             ),
-            "get_price_prediction": Function(
-                fn_name="get_price_prediction",
-                fn_description="Fetches from Allora Network the future price prediction for a given crypto asset and timeframe.",
+            "get_price_inference": Function(
+                fn_name="get_price_inference",
+                fn_description="Fetches from Allora Network the future price inference for a given crypto asset and timeframe.",
                 args=[
                     Argument(
                         name="asset",
-                        description="The crypto asset symbol to get the price prediction for. Example: BTC, ETH, SOL, SHIB, etc.",
+                        description="The crypto asset symbol to get the price inference for. Example: BTC, ETH, SOL, SHIB, etc.",
                         type="string",
                     ),
                     Argument(
                         name="timeframe",
-                        description="The timeframe to get the price prediction for. Example: 5m, 8h, 24h, etc.",
+                        description="The timeframe to get the price inference for. Example: 5m, 8h, 24h, etc.",
                         type="string",
                     ),
                 ],
-                hint="This function is used to get the price prediction for a given crypto asset and timeframe.",
-                executable=self.get_price_prediction,
+                hint="This function is used to get the price inference for a given crypto asset and timeframe.",
+                executable=self.get_price_inference,
             ),
         }
 
@@ -173,13 +173,13 @@ class AlloraPlugin:
                 },
             )
 
-    def get_price_prediction(
-        self, asset: PricePredictionToken, timeframe: PricePredictionTimeframe, **kwargs
+    def get_price_inference(
+        self, asset: PriceInferenceToken, timeframe: PriceInferenceTimeframe, **kwargs
     ) -> Tuple[FunctionResultStatus, str, dict]:
-        """Get price prediction of a given asset for a given timeframe.
+        """Get price inference of a given asset for a given timeframe.
 
         Returns:
-            Tuple[FunctionResultStatus, str, dict]: The status of the function, the feedback message, and the dictionary with the price prediction details.
+            Tuple[FunctionResultStatus, str, dict]: The status of the function, the feedback message, and the dictionary with the price inference details.
         """
         asset = asset.upper()
         timeframe = timeframe.lower()
@@ -187,13 +187,13 @@ class AlloraPlugin:
         # Get asset enum key by value
         asset_enum_key = [
             key
-            for key, value in PricePredictionToken.__members__.items()
+            for key, value in PriceInferenceToken.__members__.items()
             if value == asset
         ]
         if len(asset_enum_key) == 0:
             return (
                 FunctionResultStatus.FAILED,
-                f"Unsupported asset: {asset}. Supported assets are: {', '.join([token.value for token in PricePredictionToken])}",
+                f"Unsupported asset: {asset}. Supported assets are: {', '.join([token.value for token in PriceInferenceToken])}",
                 {
                     "asset": asset,
                     "timeframe": timeframe,
@@ -205,13 +205,13 @@ class AlloraPlugin:
         # Get timeframe enum key by value
         timeframe_enum_key = [
             key
-            for key, value in PricePredictionTimeframe.__members__.items()
+            for key, value in PriceInferenceTimeframe.__members__.items()
             if value == timeframe
         ]
         if len(timeframe_enum_key) == 0:
             return (
                 FunctionResultStatus.FAILED,
-                f"Unsupported timeframe: {timeframe}. Supported timeframes are: {', '.join([timeframe.value for timeframe in PricePredictionTimeframe])}",
+                f"Unsupported timeframe: {timeframe}. Supported timeframes are: {', '.join([timeframe.value for timeframe in PriceInferenceTimeframe])}",
                 {
                     "asset": asset,
                     "timeframe": timeframe,
@@ -221,31 +221,31 @@ class AlloraPlugin:
             timeframe_enum_key = timeframe_enum_key[0]
 
         try:
-            price_prediction = asyncio.run(
-                self.allora_api_client.get_price_prediction(
-                    PricePredictionToken[asset_enum_key],
-                    PricePredictionTimeframe[timeframe_enum_key],
+            price_inference = asyncio.run(
+                self.allora_api_client.get_price_inference(
+                    PriceInferenceToken[asset_enum_key],
+                    PriceInferenceTimeframe[timeframe_enum_key],
                 )
             )
-            normalized_price_prediction = (
-                price_prediction.inference_data.network_inference_normalized
+            normalized_price_inference = (
+                price_inference.inference_data.network_inference_normalized
             )
             return (
                 FunctionResultStatus.DONE,
-                f"The price prediction for {asset} in {timeframe} is: {normalized_price_prediction}",
+                f"The price inference for {asset} in {timeframe} is: {normalized_price_inference}",
                 {
                     "asset": asset,
                     "timeframe": timeframe,
-                    "price_prediction": normalized_price_prediction,
+                    "price_inference": normalized_price_inference,
                 },
             )
         except Exception as e:
             print(
-                f"An error occurred while fetching price prediction from Allora Network: {str(e)}"
+                f"An error occurred while fetching price inference from Allora Network: {str(e)}"
             )
             return (
                 FunctionResultStatus.FAILED,
-                f"An error occurred while fetching price prediction from Allora Network: {str(e)}",
+                f"An error occurred while fetching price inference from Allora Network: {str(e)}",
                 {
                     "asset": asset,
                     "timeframe": timeframe,

@@ -25,8 +25,8 @@ inference_result = allora_network_plugin.get_inference_by_topic_id(topic_id=1)
 print_function_result(inference_result)
 print("-" * 100)
 
-# Get price prediction
-print("3. Fetching price prediction...")
-price_prediction = allora_network_plugin.get_price_prediction(asset="BTC", timeframe="5m")
-print_function_result(price_prediction)
+# Get price inference
+print("3. Fetching price inference...")
+price_inference = allora_network_plugin.get_price_inference(asset="BTC", timeframe="5m")
+print_function_result(price_inference)
 print("-" * 100)

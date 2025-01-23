@@ -23,7 +23,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-  "allora-sdk>=0.1.0",
+  "allora-sdk>=0.2.0",
   "game-sdk>=0.1.1",
 ]
 

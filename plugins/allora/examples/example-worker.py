@@ -25,23 +25,23 @@ allora_network_plugin = AlloraPlugin(
 )
 
 # Create worker
-price_prediction_worker = Worker(
+price_inference_worker = Worker(
     api_key=os.environ.get("GAME_API_KEY"),
-    description="Worker specialized in using Allora Network to get price predictions",
+    description="Worker specialized in using Allora Network to get price inferences",
     get_state_fn=get_state_fn,
     action_space=[
-        allora_network_plugin.get_function("get_price_prediction"),
+        allora_network_plugin.get_function("get_price_inference"),
     ],
 )
 
 # # Run example query
 queries = [
-    "Fetch the price prediction for BTC in 5min",
-    "Fetch the price prediction for SOL in 8h",
-    "Fetch the price prediction for SHIB in 24h",
-    "Fetch the price prediction for ETH in 5m",
+    "Fetch the price inference for BTC in 5min",
+    "Fetch the price inference for SOL in 8h",
+    "Fetch the price inference for SHIB in 24h",
+    "Fetch the price inference for ETH in 5m",
 ]
 for query in queries:
     print("-" * 100)
     print(f"Query: {query}")
-    price_prediction_worker.run(query)
+    price_inference_worker.run(query)

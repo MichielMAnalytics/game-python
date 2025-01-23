@@ -3,13 +3,13 @@
 The [Allora Network](https://allora.network) plugin seamlessly empowers G.A.M.E agents with real-time, advanced, self-improving AI inferences, delivering high-performance insights without introducing any additional complexity.
 
 ## Features
-- Get price predictions for various assets and timeframes
+- Get price inferences for various assets and timeframes
 - Get all available topics on Allora Network
 - Fetch inferences by topic ID
 
 ## Avilable Functions
 
-1. `get_price_prediction(asset: str, timeframe: str)` - Fetches the price prediction for the specified asset and a timeframe
+1. `get_price_inference(asset: str, timeframe: str)` - Fetches the price inferences for the specified asset and a timeframe
 2. `get_all_topics()` - Retrieves all available topics on Allora Network
 3. `get_inference_by_topic_id(topic_id: int)` - Fetches the latest inference for a specific topic
 
@@ -44,16 +44,16 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
 
     return current_state
 
-price_prediction_worker = Worker(
+price_inference_worker = Worker(
     api_key=os.environ.get("GAME_API_KEY"),
-    description="Worker specialized in using Allora Network to get price predictions",
+    description="Worker specialized in using Allora Network to get price inferences",
     get_state_fn=get_state_fn,
     action_space=[
-        allora_network_plugin.get_function("get_price_prediction"),
+        allora_network_plugin.get_function("get_price_inference"),
     ],
 )
 
-price_prediction_worker.run("Query the price of BTC in 5min")
+price_inference_worker.run("Query the price of BTC in 5min")
 ```
 
 ## Running examples
