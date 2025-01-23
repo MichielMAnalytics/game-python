@@ -4,7 +4,40 @@ from game_sdk.game.utils import create_agent, post
 
 class Worker:
     """
-    A interactable worker agent, that can autonomously complete tasks with its available functions when given a task
+    An autonomous worker agent in the GAME SDK system.
+
+    The Worker class represents an intelligent agent that can autonomously complete tasks
+    using its configured action space. Each worker has its own state management,
+    description, and set of available functions.
+
+    Args:
+        api_key (str): Authentication key for API access.
+        description (str): Detailed description of the worker's role and capabilities.
+        get_state_fn (Callable): Function to retrieve and manage worker state.
+        action_space (List[Function]): List of functions available to the worker.
+        instruction (Optional[str]): Additional specific instructions for the worker.
+
+    Attributes:
+        description (str): Worker's role description used in interactions.
+        instruction (str): Additional behavioral instructions.
+        state (dict): Current state of the worker.
+        action_space (Dict[str, Function]): Available functions mapped by name.
+
+    Raises:
+        ValueError: If API key is not provided.
+
+    Example:
+        ```python
+        def get_state(result, current):
+            return {"context": "current task context"}
+
+        worker = Worker(
+            api_key="your_api_key",
+            description="A helper worker that processes text",
+            get_state_fn=get_state,
+            action_space=[text_processing_function]
+        )
+        ```
     """
 
     def __init__(

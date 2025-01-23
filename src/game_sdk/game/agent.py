@@ -5,16 +5,51 @@ from game_sdk.game.custom_types import Function, FunctionResult, FunctionResultS
 from game_sdk.game.utils import create_agent, create_workers, post
 
 class Session:
+    """
+    Manages a unique session for agent interactions.
+
+    A Session maintains state for a single interaction sequence, including function results
+    and a unique identifier. It can be reset to start a fresh interaction sequence.
+
+    Attributes:
+        id (str): Unique identifier for the session, generated using UUID4.
+        function_result (Optional[FunctionResult]): Result of the last executed function.
+    """
     def __init__(self):
         self.id = str(uuid.uuid4())
         self.function_result: Optional[FunctionResult] = None
 
     def reset(self):
+        """
+        Resets the session by generating a new ID and clearing function results.
+        This is useful when starting a new interaction sequence.
+        """
         self.id = str(uuid.uuid4())
         self.function_result = None
 
 
 class WorkerConfig:
+    """
+    Configuration for a GAME SDK worker.
+
+    This class defines the behavior and capabilities of a worker within the GAME system.
+    Workers are specialized agents that can perform specific tasks using their defined
+    action space and state management functions.
+
+    Args:
+        id (str): Unique identifier for the worker.
+        worker_description (str): Description of the worker's capabilities for task generation.
+        get_state_fn (Callable): Function to retrieve the worker's current state.
+        action_space (List[Function]): List of functions the worker can execute.
+        instruction (Optional[str]): Additional instructions for the worker.
+
+    Attributes:
+        id (str): Worker's unique identifier.
+        worker_description (str): Description used by task generator.
+        instruction (str): Additional worker instructions.
+        get_state_fn (Callable): State retrieval function with instruction context.
+        action_space (Dict[str, Function]): Available functions mapped by name.
+    """
     def __init__(self,
                  id: str,
                  worker_description: str,
@@ -43,6 +78,26 @@ class WorkerConfig:
 
 
 class Agent:
+    """
+    Main agent class for the GAME SDK.
+
+    The Agent class represents an autonomous agent that can perform tasks using configured
+    workers. It manages the interaction flow, state management, and task execution within
+    the GAME system.
+
+    Args:
+        api_key (str): Authentication key for API access.
+        name (str): Name of the agent.
+        agent_goal (str): High-level goal or purpose of the agent.
+        agent_description (str): Detailed description of the agent's capabilities.
+        get_agent_state_fn (Callable): Function to retrieve agent's current state.
+
+    The Agent class serves as the primary interface for:
+    - Managing worker configurations
+    - Handling task execution
+    - Maintaining session state
+    - Coordinating API interactions
+    """
     def __init__(self,
                  api_key: str,
                  name: str,

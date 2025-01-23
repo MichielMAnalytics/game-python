@@ -1,9 +1,59 @@
+"""
+Twitter Plugin for the GAME SDK.
+
+This plugin provides a wrapper around the Twitter API using tweepy, enabling
+GAME SDK agents to interact with Twitter programmatically. It supports common
+Twitter operations like posting tweets, replying, quoting, and getting metrics.
+
+Example:
+    ```python
+    options = {
+        "id": "twitter_agent",
+        "name": "Twitter Bot",
+        "description": "A Twitter bot that posts updates",
+        "credentials": {
+            "apiKey": "your_api_key",
+            "apiSecretKey": "your_api_secret",
+            "accessToken": "your_access_token",
+            "accessTokenSecret": "your_access_token_secret"
+        }
+    }
+    
+    twitter_plugin = TwitterPlugin(options)
+    twitter_plugin.get_function('post_tweet')("Hello, World!")
+    ```
+"""
+
 import tweepy
 import logging
 from typing import Dict, Callable, Any, Optional, List, Callable
 
 
 class TwitterPlugin:
+    """
+    A plugin for interacting with Twitter through the GAME SDK.
+
+    This class provides a set of functions for common Twitter operations,
+    wrapped in a format compatible with the GAME SDK's plugin system.
+
+    Args:
+        options (Dict[str, Any]): Configuration options including:
+            - id (str): Unique identifier for the plugin instance
+            - name (str): Display name for the plugin
+            - description (str): Plugin description
+            - credentials (Dict[str, str]): Twitter API credentials
+
+    Attributes:
+        id (str): Plugin identifier
+        name (str): Plugin name
+        description (str): Plugin description
+        twitter_client (tweepy.Client): Authenticated Twitter API client
+        logger (logging.Logger): Plugin logger
+
+    Raises:
+        ValueError: If required Twitter API credentials are missing
+    """
+
     def __init__(self, options: Dict[str, Any]) -> None:
         self.id: str = options.get("id", "twitter_plugin")
         self.name: str = options.get("name", "Twitter Plugin")
@@ -37,21 +87,32 @@ class TwitterPlugin:
 
     @property
     def available_functions(self) -> List[str]:
-        """Get list of available function names."""
+        """
+        Get a list of all available Twitter functions.
+
+        Returns:
+            List[str]: Names of all available functions in this plugin.
+        """
         return list(self._functions.keys())
 
     def get_function(self, fn_name: str) -> Callable:
         """
-        Get a specific function by name.
+        Retrieve a specific Twitter function by name.
 
         Args:
-            fn_name: Name of the function to retrieve
-
-        Raises:
-            ValueError: If function name is not found
+            fn_name (str): Name of the function to retrieve.
 
         Returns:
-            Function object
+            Callable: The requested function.
+
+        Raises:
+            ValueError: If the requested function name is not found.
+
+        Example:
+            ```python
+            post_tweet = twitter_plugin.get_function('post_tweet')
+            post_tweet("Hello from GAME SDK!")
+            ```
         """
         if fn_name not in self._functions:
             raise ValueError(
@@ -60,6 +121,15 @@ class TwitterPlugin:
         return self._functions[fn_name]
 
     def _get_metrics(self) -> Dict[str, int]:
+        """
+        Get engagement metrics for the authenticated user.
+
+        Returns:
+            Dict[str, int]: User metrics including followers, following, and tweets.
+
+        Raises:
+            tweepy.TweepyException: If there's an error accessing the user metrics.
+        """
         try:
             user = self.twitter_client.get_me(user_fields=["public_metrics"])
             if not user or not user.data:
@@ -76,6 +146,16 @@ class TwitterPlugin:
             return {}
 
     def _reply_tweet(self, tweet_id: int, reply: str) -> None:
+        """
+        Reply to a specific tweet.
+
+        Args:
+            tweet_id (int): ID of the tweet to reply to.
+            reply (str): Content of the reply.
+
+        Raises:
+            tweepy.TweepyException: If there's an error posting the reply.
+        """
         try:
             self.twitter_client.create_tweet(in_reply_to_tweet_id=tweet_id, text=reply)
             self.logger.info(f"Successfully replied to tweet {tweet_id}.")
@@ -83,6 +163,18 @@ class TwitterPlugin:
             self.logger.error(f"Failed to reply to tweet {tweet_id}: {e}")
 
     def _post_tweet(self, tweet: str) -> Dict[str, Any]:
+        """
+        Post a new tweet.
+
+        Args:
+            tweet (str): Content of the tweet.
+
+        Returns:
+            Dict[str, Any]: Details of the posted tweet.
+
+        Raises:
+            tweepy.TweepyException: If there's an error posting the tweet.
+        """
         try:
             self.twitter_client.create_tweet(text=tweet)
             self.logger.info("Tweet posted successfully.")
@@ -90,6 +182,15 @@ class TwitterPlugin:
             self.logger.error(f"Failed to post tweet: {e}")
 
     def _like_tweet(self, tweet_id: int) -> None:
+        """
+        Like a specific tweet.
+
+        Args:
+            tweet_id (int): ID of the tweet to like.
+
+        Raises:
+            tweepy.TweepyException: If there's an error liking the tweet.
+        """
         try:
             self.twitter_client.like(tweet_id)
             self.logger.info(f"Tweet {tweet_id} liked successfully.")
@@ -97,6 +198,16 @@ class TwitterPlugin:
             self.logger.error(f"Failed to like tweet {tweet_id}: {e}")
 
     def _quote_tweet(self, tweet_id: int, quote: str) -> None:
+        """
+        Quote a specific tweet with additional text.
+
+        Args:
+            tweet_id (int): ID of the tweet to quote.
+            quote (str): Text to add to the quote.
+
+        Raises:
+            tweepy.TweepyException: If there's an error posting the quote tweet.
+        """
         try:
             self.twitter_client.create_tweet(quote_tweet_id=tweet_id, text=quote)
             self.logger.info(f"Successfully quoted tweet {tweet_id}.")
