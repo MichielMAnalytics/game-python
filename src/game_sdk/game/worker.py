@@ -25,7 +25,7 @@ class Worker:
             raise ValueError("API key not set")
 
         self.description: str = description
-        self.instruction: str = instruction
+        self.instruction: Optional[str] = instruction
 
         # setup get state function and initial state
         self.get_state_fn = lambda function_result, current_state: {
