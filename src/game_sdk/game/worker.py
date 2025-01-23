@@ -99,7 +99,12 @@ class Worker:
             )
 
         # get observations from the state if present
-        observations = self.state["observations"] if "observations" in self.state else None
+        if "observations" in self.state:
+            observations = {
+                "content": self.state["observations"],
+            }
+        else:
+            observations = None
             
         # set up data payload
         data = {
