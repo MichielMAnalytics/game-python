@@ -97,6 +97,10 @@ class Worker:
                 feedback_message="",
                 info={},
             )
+
+        # get observations from the state if present
+        observations = self.agent_state["observations"] if "observations" in self.agent_state else None
+
         # set up data payload
         data = {
             "environment": self.state,  # state (updated state)
@@ -107,6 +111,7 @@ class Worker:
                 function_result.model_dump(
                     exclude={'info'}) if function_result else None
             ),
+            "observations": observations.model_dump() if observations else None,
         }
 
         # make API call
