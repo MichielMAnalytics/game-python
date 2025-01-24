@@ -76,7 +76,7 @@ def create_workers(base_url: str,
                    api_key: str,
                    workers: List) -> str:
     """
-    API call to create workers and worker description for the task generator
+    API call to create workers and worker description for the task generator (for agent)
     """
 
     res = post(
@@ -91,5 +91,43 @@ def create_workers(base_url: str,
         },
     )
 
-
     return res["id"]
+
+
+def set_worker_task(base_url: str, api_key: str, agent_id: str, task: str):
+    """
+    API call to set worker task (for standalone worker)
+    """
+    response = post(base_url=base_url,
+                    api_key=api_key,
+                    endpoint=f"/v2/agents/{agent_id}/tasks",
+                    data={"task": task},
+                )
+    
+    return response
+
+def get_worker_action(base_url: str, api_key: str, agent_id: str, submission_id: str, data: dict):
+    """
+    API call to get worker actions (for standalone worker)
+    """
+
+    response = post(base_url=base_url,
+                    api_key=api_key,
+                    endpoint=f"/v2/agents/{agent_id}/tasks/{submission_id}/next",
+                    data=data,
+                )
+    
+    return response
+
+def get_agent_action(base_url: str, api_key: str, agent_id: str, data: dict):
+    """
+    API call to get agent actions/next step (for agent)
+    """
+
+    response = post(base_url=base_url,
+                api_key=api_key,
+                endpoint=f"/v2/agents/{agent_id}/actions",
+                data=data,
+            )
+    
+    return response

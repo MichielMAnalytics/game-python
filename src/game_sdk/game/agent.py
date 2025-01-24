@@ -2,7 +2,7 @@ from typing import List, Optional, Callable, Dict
 import uuid
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import Function, FunctionResult, FunctionResultStatus, ActionResponse, ActionType
-from game_sdk.game.utils import create_agent, create_workers, post
+from game_sdk.game.api import create_agent, create_workers, post
 
 class Session:
     def __init__(self):
@@ -28,7 +28,6 @@ class WorkerConfig:
         self.worker_description = worker_description
         self.instruction = instruction
         self.get_state_fn = get_state_fn
-        self.action_space = action_space
 
         # setup get state function with the instructions
         self.get_state_fn = lambda function_result, current_state: {
@@ -169,10 +168,10 @@ class Agent:
         }
 
         # make API call
-        response = post(
+        response = get_agent_action(
             base_url=self._base_url,
             api_key=self._api_key,
-            endpoint=f"/v2/agents/{self.agent_id}/actions",
+            agent_id=self.agent_id,
             data=data,
         )
 

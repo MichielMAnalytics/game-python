@@ -1,6 +1,6 @@
 from typing import Any, Callable, Dict, Optional, List
 from game_sdk.game.custom_types import Function, FunctionResult, FunctionResultStatus, ActionResponse, ActionType
-from game_sdk.game.utils import create_agent, post
+
 
 class Worker:
     """
@@ -17,7 +17,13 @@ class Worker:
         instruction: Optional[str] = "",
     ):
 
-        self._base_url: str = "https://game.virtuals.io"
+        if api_key.startswith("apt"):
+            self._base_url = "https://game.virtuals.io"
+            from game_sdk.game.api_v2 import create_agent, get_worker_action, set_worker_task
+        else:
+            self._base_url = "https://game.virtuals.io"
+            from game_sdk.game.api import create_agent, get_worker_action, set_worker_task
+
         self._api_key: str = api_key
 
         # checks
@@ -65,11 +71,10 @@ class Worker:
         """
         Sets the task for the agent
         """
-        set_task_response = post(
-            base_url=self._base_url,
-            api_key=self._api_key,
-            endpoint=f"/v2/agents/{self._agent_id}/tasks",
-            data={"task": task},
+        set_task_response = set_worker_task(
+            self._base_url, 
+            self._api_key, 
+            self._agent_id, task
         )
         # response_json = set_task_response.json()
 
@@ -110,11 +115,12 @@ class Worker:
         }
 
         # make API call
-        response = post(
-            base_url=self._base_url,
-            api_key=self._api_key,
-            endpoint=f"/v2/agents/{self._agent_id}/tasks/{self._submission_id}/next",
-            data=data,
+        response = get_worker_action(
+            self._base_url, 
+            self._api_key, 
+            self._agent_id, 
+            self._submission_id, 
+            data
         )
 
         return ActionResponse.model_validate(response)
