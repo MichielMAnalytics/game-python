@@ -18,7 +18,7 @@ class Worker:
         instruction: Optional[str] = "",
     ):
 
-        if api_key.startswith("apt"):
+        if api_key.startswith("apt-"):
             self.client = GAMEClientV2(api_key)
         else:
             self.client = GAMEClient(api_key)
