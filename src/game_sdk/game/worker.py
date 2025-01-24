@@ -1,6 +1,7 @@
 from typing import Any, Callable, Dict, Optional, List
 from game_sdk.game.custom_types import Function, FunctionResult, FunctionResultStatus, ActionResponse, ActionType
-
+from game_sdk.game.api import GAMEClient
+from game_sdk.game.api_v2 import GAMEClientV2
 
 class Worker:
     """
@@ -18,12 +19,10 @@ class Worker:
     ):
 
         if api_key.startswith("apt"):
-            self._base_url = "https://game.virtuals.io"
-            from game_sdk.game.api_v2 import create_agent, get_worker_action, set_worker_task
+            self.client = GAMEClientV2(api_key)
         else:
-            self._base_url = "https://game.virtuals.io"
-            from game_sdk.game.api import create_agent, get_worker_action, set_worker_task
-
+            self.client = GAMEClient(api_key)
+            
         self._api_key: str = api_key
 
         # checks
@@ -57,8 +56,8 @@ class Worker:
             self.action_space = action_space
 
         # initialize an agent instance for the worker
-        self._agent_id: str = create_agent(
-            self._base_url, self._api_key, "StandaloneWorker", self.description, "N/A"
+        self._agent_id: str = self.client.create_agent(
+            "StandaloneWorker", self.description, "N/A"
         )
 
         # persistent variables that is maintained through the worker running
@@ -71,11 +70,7 @@ class Worker:
         """
         Sets the task for the agent
         """
-        set_task_response = set_worker_task(
-            self._base_url, 
-            self._api_key, 
-            self._agent_id, task
-        )
+        set_task_response = self.client.set_worker_task(self._agent_id, task)
         # response_json = set_task_response.json()
 
         # if set_task_response.status_code != 200:
@@ -115,9 +110,7 @@ class Worker:
         }
 
         # make API call
-        response = get_worker_action(
-            self._base_url, 
-            self._api_key, 
+        response = self.client.get_worker_action(
             self._agent_id, 
             self._submission_id, 
             data
