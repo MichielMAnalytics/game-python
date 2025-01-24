@@ -2,7 +2,8 @@ from typing import List, Optional, Callable, Dict
 import uuid
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import Function, FunctionResult, FunctionResultStatus, ActionResponse, ActionType
-from game_sdk.game.utils import create_agent, create_workers, post
+from game_sdk.game.api import GAMEClient
+from game_sdk.game.api_v2 import GAMEClientV2
 
 class Session:
     def __init__(self):
@@ -28,7 +29,6 @@ class WorkerConfig:
         self.worker_description = worker_description
         self.instruction = instruction
         self.get_state_fn = get_state_fn
-        self.action_space = action_space
 
         # setup get state function with the instructions
         self.get_state_fn = lambda function_result, current_state: {
@@ -52,7 +52,11 @@ class Agent:
                  workers: Optional[List[WorkerConfig]] = None,
                  ):
 
-        self._base_url: str = "https://game.virtuals.io"
+        if api_key.startswith("apt-"):
+            self.client = GAMEClientV2(api_key)
+        else:
+            self.client = GAMEClient(api_key)
+
         self._api_key: str = api_key
 
         # checks
@@ -80,8 +84,8 @@ class Agent:
         self.agent_state = self.get_agent_state_fn(None, None)
 
         # create agent
-        self.agent_id = create_agent(
-            self._base_url, self._api_key, self.name, self.agent_description, self.agent_goal
+        self.agent_id = self.client.create_agent(
+            self.name, self.agent_description, self.agent_goal
         )
 
     def compile(self):
@@ -91,8 +95,7 @@ class Agent:
 
         workers_list = list(self.workers.values())
 
-        self._map_id = create_workers(
-            self._base_url, self._api_key, workers_list)
+        self._map_id = self.client.create_workers(workers_list)
         self.current_worker_id = next(iter(self.workers.values())).id
 
         # initialize and set up worker states
@@ -169,10 +172,8 @@ class Agent:
         }
 
         # make API call
-        response = post(
-            base_url=self._base_url,
-            api_key=self._api_key,
-            endpoint=f"/v2/agents/{self.agent_id}/actions",
+        response = self.client.get_agent_action(
+            agent_id=self.agent_id,
             data=data,
         )
 
