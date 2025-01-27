@@ -31,7 +31,7 @@ pip install -e .
 
 ## Usage
 1. `game`:
-   - Request for a GAME API key (currently, this is only possible by contacting Virtuals support or DevRel team members via Discord or Telegram)
+   - Request for a GAME API key in the Game Console https://console.game.virtuals.io/ 
    - Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
       
       ```bash
@@ -49,6 +49,8 @@ pip install -e .
       export VIRTUALS_API_KEY="your_virtuals_api_key"
       ```
     - Refer to [`src/hosted_game/README.md`](src/game_sdk/hosted_game/README.md) for usage examples.
+  
+<small> If you have any trouble, contact Virtuals support or DevRel team members via Discord or Telegram </small>
 
 ## About G.A.M.E.
 GAME is a modular agentic framework which enables an agent to plan actions and make decisions autonomously based on information provided to it.
