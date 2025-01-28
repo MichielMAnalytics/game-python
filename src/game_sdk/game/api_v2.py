@@ -6,7 +6,7 @@ from typing import List, Dict
 class GAMEClientV2:
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self.base_url = "https://sdk.game.virtuals.io"
+        self.base_url = "https://sdk.game.virtuals.io/v2"
         self.headers = {
             "Content-Type": "application/json",
             "x-api-key": self.api_key
