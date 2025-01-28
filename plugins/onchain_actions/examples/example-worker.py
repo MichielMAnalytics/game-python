@@ -52,8 +52,14 @@ assert uniswap_api_key is not None, "You must set UNISWAP_API_KEY environment va
 assert uniswap_base_url is not None, "You must set UNISWAP_BASE_URL environment variable"
 
 actions = get_onchain_actions(
+        # You can also use other wallet types, such as Solana, etc.
+        # See an example [here](https://github.com/goat-sdk/goat/blob/main/python/examples/solana/wallet/example.py)
         wallet=Web3EVMWalletClient(w3),
         plugins=[
+            # Add any plugin you'd want to use here. You can see a list of all available 
+            # plugins in Python [here](https://github.com/goat-sdk/goat/tree/main/python#plugins)
+            #
+            # Swap tokens with Uniswap or Jupiter, get info from CoinGecko, etc.
             erc20(options=ERC20PluginOptions(tokens=[USDC, PEPE])),
             uniswap(options=UniswapPluginOptions(
                 api_key=uniswap_api_key,
