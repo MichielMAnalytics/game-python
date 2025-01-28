@@ -90,7 +90,9 @@ class GAMEClientV2:
         response = requests.post(
             f"{self.base_url}/agents/{agent_id}/tasks/{submission_id}/next",
             headers=self.headers,
-            json=data
+            json={
+                "data": data
+            }
         )
 
         response_json = response.json()
@@ -106,7 +108,9 @@ class GAMEClientV2:
         response = requests.post(
             f"{self.base_url}/agents/{agent_id}/actions",
             headers=self.headers,
-            json=data
+            json={
+                "data": data
+            }
         )
 
         response_json = response.json()
