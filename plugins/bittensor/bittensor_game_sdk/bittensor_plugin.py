@@ -1,26 +1,26 @@
 import aiohttp
 from typing import Dict, Any, Optional
-from game_sdk.game_sdk import GameSDK, GameSDKInterface
 import requests
 import os
 
-class BittensorPlugin(GameSDKInterface):
+class BittensorPlugin:
     """
     Bittensor Plugin for interacting with Bittensor subnets via BitMind API
     """
     
-    def __init__(self, game_sdk: GameSDK):
+    def __init__(self) -> None:
         """Initialize the Bittensor plugin"""
-        super().__init__(game_sdk)
-        self.api_key = self.game_sdk.get_env("BITMIND_API_KEY")
+        self.id: str = "bittensor_plugin"
+        self.name: str = "Bittensor Plugin"
+        self.api_key = os.environ.get("BITMIND_API_KEY")
         self.api_base_url = "https://subnet-api.bitmind.ai/v1"
         
-    async def initialize(self):
+    def initialize(self):
         """Initialize the plugin"""
         if not self.api_key:
             raise ValueError("BITMIND_API_KEY environment variable is required")
 
-    async def call_subnet(
+    def call_subnet(
         self,
         subnet_id: int,
         payload: Dict[str, Any],
@@ -37,6 +37,9 @@ class BittensorPlugin(GameSDKInterface):
         Returns:
             Dict[str, Any]: The response from the subnet
         """
+        if subnet_id == 34:
+            return self.detect_image(payload['image'])
+        
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
@@ -50,11 +53,17 @@ class BittensorPlugin(GameSDKInterface):
         if parameters:
             data.update(parameters)
             
-        if subnet_id == 34:
-            return self.detect_image(payload['image'])
+        response = requests.post(
+            f"{self.api_base_url}/inference",
+            headers=headers,
+            json=data
+        )
+        if response.status_code != 200:
+            raise Exception(f"Bitmind API error: {response.text}")
             
+        return response.json()
 
-    async def get_subnet_info(self, subnet_id: int) -> Dict[str, Any]:
+    def get_subnet_info(self, subnet_id: int) -> Dict[str, Any]:
         """
         Get information about a specific subnet
         
@@ -69,18 +78,16 @@ class BittensorPlugin(GameSDKInterface):
             "Content-Type": "application/json"
         }
         
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"{self.api_base_url}/subnets/{subnet_id}",
-                headers=headers
-            ) as response:
-                if response.status != 200:
-                    error_text = await response.text()
-                    raise Exception(f"Bitmind API error: {error_text}")
-                    
-                return await response.json()
+        response = requests.get(
+            f"{self.api_base_url}/subnets/{subnet_id}",
+            headers=headers
+        )
+        if response.status_code != 200:
+            raise Exception(f"Bitmind API error: {response.text}")
+            
+        return response.json()
 
-    async def list_subnets(self) -> Dict[str, Any]:
+    def list_subnets(self) -> Dict[str, Any]:
         """
         Get a list of available subnets
         
@@ -92,18 +99,16 @@ class BittensorPlugin(GameSDKInterface):
             "Content-Type": "application/json"
         }
         
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"{self.api_base_url}/subnets",
-                headers=headers
-            ) as response:
-                if response.status != 200:
-                    error_text = await response.text()
-                    raise Exception(f"Bitmind API error: {error_text}")
-                    
-                return await response.json()
+        response = requests.get(
+            f"{self.api_base_url}/subnets",
+            headers=headers
+        )
+        if response.status_code != 200:
+            raise Exception(f"Bitmind API error: {response.text}")
+            
+        return response.json()
 
-    def detect_image(img_url: str) -> dict:
+    def detect_image(self, img_url: str) -> dict:
         """
         Function to detect the image's fakeness using Trinity API
         """
