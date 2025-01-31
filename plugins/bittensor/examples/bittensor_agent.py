@@ -47,22 +47,6 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     """
     return {}
 
-def detect_image(img_url: str) -> dict:
-    """
-    Function to detect the image's fakeness using Trinity API
-    """
-    response = requests.post(
-        'https://subnet-api.bitmindlabs.ai/detect-image',
-        headers={
-            "Authorization": f"Bearer {os.environ.get('BITMINDLABS_API_KEY')}",
-            'Content-Type': 'application/json'
-        },
-        json={
-            'image': img_url
-        }
-    )
-    return response.json()
-
 def detect(image_url: str) -> dict:
     """Function to detect the image's fakeness using BitMind API"""
     return bittensor_plugin.call_subnet(34, {"image": image_url})
@@ -107,7 +91,7 @@ def get_twitter_user_mentions(username: str) -> Optional[List[Dict]]:
     return user_mentions
 
 # Write function reply to tweet which takes in the tweet id and response from detect_image and replies to the tweet
-def reply_to_tweet(tweet_id: str, detect_image_response: dict) -> None:
+def reply_to_detect_tweet(tweet_id: str, detect_image_response: dict) -> None:
     """
     Function to reply to a tweet with the response from detect_image
     """
@@ -149,7 +133,7 @@ def detect_tweeted_images(start_time: str, **kwargs) -> tuple:
                 print(f"media_url: {media_url}")
                 response = detect(media_url)
                 print(f"isAI: {response['isAI']}")
-                reply_to_tweet(res["id"], response)
+                reply_to_detect_tweet(res["id"], response)
         return FunctionResultStatus.DONE, f"Successfully verified all tweeted images", {}
     except Exception as e:
         print(f"Error: {str(e)}")
