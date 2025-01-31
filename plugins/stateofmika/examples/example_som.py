@@ -1,6 +1,6 @@
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import FunctionResult
-from game_sdk.plugins.stateofmika.functions.router import SOMRouterFunction
+from stateofmika_plugin_gamesdk.functions.router import SOMRouterFunction
 
 
 # Example state function
