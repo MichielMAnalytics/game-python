@@ -24,7 +24,7 @@ class SOMRouter:
             async with session.post(
                 f"{self.base_url}/{endpoint}",
                 headers={
-                    "Authorization": f"Bearer {self.api_key}",
+                    "X-API-Key": self.api_key,
                 },
                 data=form_data,
             ) as response:
