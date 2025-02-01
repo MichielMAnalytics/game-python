@@ -12,7 +12,6 @@ class SOMRouter:
     def __init__(self, api_key: str = ""):
         self.api_key = api_key
         self.base_url = "https://state.gmika.io/api"
-        self.executable = self._sync_executable
 
     async def _make_request(
         self, endpoint: str, data: Dict[str, Any]
@@ -100,5 +99,5 @@ class SOMRouter:
                 ),
             ],
             hint="This function is used to route a natural language query to appropriate tools and process responses.",
-            executable=self.executable,
+            executable=self._sync_executable,
         )
