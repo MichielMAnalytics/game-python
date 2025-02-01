@@ -22,7 +22,7 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
 
 
 # Initialize worker with SOM router
-game_api_key = ""
+game_api_key = "your_game_api_key"
 
 # Create router function
 router_fn = SOMRouter()
@@ -36,4 +36,4 @@ worker = Worker(
 )
 
 # Run example query
-worker.run("what is the price of bitcoin?")
+worker.run("What's the latest price of Bitcoin?")
