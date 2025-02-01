@@ -1,4 +1,3 @@
-import aiohttp
 from typing import Dict, Any, Optional
 import requests
 import os
