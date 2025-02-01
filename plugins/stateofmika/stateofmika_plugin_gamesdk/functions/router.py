@@ -2,12 +2,9 @@ import asyncio
 from typing import Dict, Any, Tuple
 from game_sdk.game.custom_types import Function, Argument, FunctionResultStatus
 import aiohttp
-from pydantic import Field
 
 
 class SOMRouter:
-    api_key: str = Field(default="", exclude=True)
-
     """
     StateOfMika Router Function for intelligent query routing
     """
@@ -87,7 +84,7 @@ class SOMRouter:
         except Exception as e:
             return (
                 FunctionResultStatus.FAILED,
-                f"Error executing query synchronously: {str(e)}",
+                f"Error routing query: {str(e)}",
                 {},
             )
 
