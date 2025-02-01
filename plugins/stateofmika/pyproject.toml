@@ -21,7 +21,8 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "aiohttp>=3.11.11"
+    "aiohttp>=3.11.11",
+    "game-sdk>=0.1.1"
 ]
 
 [tool.hatch.build.targets.wheel]
