@@ -115,7 +115,7 @@ def detect_tweeted_images(start_time: str, **kwargs) -> tuple:
     2. Pass image urls through Bitmind API to detect fakeness
     """
     print("start_time", start_time)
-    TWITTER_HANDLE = "seraphagent"
+    TWITTER_HANDLE = "seraphagent" # TODO: CHANGE TO YOUR TWITTER HANDLE
     try:
         res_twitter_mentions = get_twitter_user_mentions(username=TWITTER_HANDLE)
         # mock data if needed

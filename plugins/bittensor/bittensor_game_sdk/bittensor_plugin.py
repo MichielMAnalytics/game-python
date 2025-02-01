@@ -38,29 +38,8 @@ class BittensorPlugin:
         """
         if subnet_id == 34:
             return self.detect_image(payload['image'])
-        
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        
-        data = {
-            "subnet_id": subnet_id,
-            "payload": payload
-        }
-        
-        if parameters:
-            data.update(parameters)
-            
-        response = requests.post(
-            f"{self.api_base_url}/inference",
-            headers=headers,
-            json=data
-        )
-        if response.status_code != 200:
-            raise Exception(f"Bitmind API error: {response.text}")
-            
-        return response.json()
+        else:
+            raise NotImplementedError(f"Subnet {subnet_id} not supported")
 
     def get_subnet_info(self, subnet_id: int) -> Dict[str, Any]:
         """

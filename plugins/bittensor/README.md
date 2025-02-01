@@ -4,7 +4,7 @@ A plugin for interacting with Bittensor subnets through the GAME SDK. Currently 
 
 ## Installation
 
-```
+```bash
 pip install game-sdk
 pip install -e plugins/bittensor
 ```
@@ -13,27 +13,26 @@ pip install -e plugins/bittensor
 
 Set up your environment variables in a `.env` file:
 
-```
+```env
 GAME_API_KEY=your_game_api_key
 BITMIND_API_KEY=your_bitmind_api_key
 ```
+
 ## Usage
-```
+
+```python
 from bittensor_game_sdk.bittensor_plugin import BittensorPlugin
-Initialize plugin
+# Initialize plugin
 plugin = BittensorPlugin()
-Detect if an image is AI-generated
+# Detect if an image is AI-generated
 result = plugin.call_subnet(34, {"image": "https://example.com/image.jpg"})
 print(f"Is AI: {result.get('isAI')}")
 print(f"Confidence: {result.get('confidence')}%")
 ```
 
-
-### Basic Image Detection
-
 ## Examples
 
-```
+```bash
 python plugins/bittensor/examples/bittensor_agent.py
 ```
 
