@@ -9,7 +9,7 @@ class SOMRouter:
     StateOfMika Router Function for intelligent query routing
     """
 
-    def __init__(self, api_key: str = ""):
+    def __init__(self, api_key: str = "1ef4dccd-c80a-410b-86c6-220df04ab589"):
         self.api_key = api_key
         self.base_url = "https://state.gmika.io/api"
 
@@ -18,40 +18,29 @@ class SOMRouter:
     ) -> Dict[str, Any]:
         """Make request to StateOfMika API"""
         async with aiohttp.ClientSession() as session:
+            form_data = aiohttp.FormData()
+            for key, value in data.items():
+                form_data.add_field(key, str(value))
             async with session.post(
                 f"{self.base_url}/{endpoint}",
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                },
-                json=data,
+                headers={"X-API-Key": self.api_key},
+                data=form_data,
             ) as response:
                 if response.status == 200:
                     return await response.json()
                 else:
-                    error_msg = await response.text()
-                    raise ValueError(f"API request failed: {error_msg}")
+                    raise ValueError(
+                        f"API request failed with status {response.status}"
+                    )
 
-    async def _execute_query(
+    async def _execute_query_async(
         self, query: str, **kwargs
     ) -> Tuple[FunctionResultStatus, str, Dict[str, Any]]:
         """
-        Execute the router function
-
-        Args:
-            query: Natural language query
-            context: Optional context information
-
-        Returns:
-            Tuple of (status, message, response data)
+        Execute the router function asynchronously.
         """
         try:
-            # Prepare request data
-            data = {
-                "query": query,
-            }
-
-            # Make API request
+            data = {"query": query}
             response = await self._make_request("v1/", data)
 
             return (
@@ -61,25 +50,22 @@ class SOMRouter:
             )
 
         except Exception as e:
-            return (FunctionResultStatus.FAILED, f"Error routing query: {str(e)}", {})
+            return (
+                FunctionResultStatus.FAILED,
+                f"Error routing query: {str(e)}",
+                {},
+            )
 
-    def _sync_executable(
-        self, **kwargs
+    def _execute_query(
+        self, query: str, **kwargs
     ) -> Tuple[FunctionResultStatus, str, Dict[str, Any]]:
         """
-        Synchronous wrapper for the asynchronous executable
-        """
-        query = kwargs.get("query", "")
+        Synchronous wrapper for the asynchronous _execute_query_async function.
 
-        # Use `asyncio.run` to execute the async function in a blocking manner
+        Ensures the function can be called synchronously.
+        """
         try:
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                # If we're in an existing event loop (e.g., in a Jupyter notebook), use `asyncio.ensure_future`
-                result = asyncio.ensure_future(self._execute_query(query))
-                return loop.run_until_complete(result)
-            else:
-                return asyncio.run(self._execute_query(query))
+            return asyncio.run(self._execute_query_async(query))
         except Exception as e:
             return (
                 FunctionResultStatus.FAILED,
@@ -99,5 +85,5 @@ class SOMRouter:
                 ),
             ],
             hint="This function is used to route a natural language query to appropriate tools and process responses.",
-            executable=self._sync_executable,
+            executable=self._execute_query,
         )
