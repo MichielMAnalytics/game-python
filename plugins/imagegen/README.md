@@ -19,7 +19,7 @@ Can change endpoints, params, etc to suit your needs.
 ```python
 from plugins.imagegen.imagegen_plugin import ImageGenPlugin
 
-imagegen_plugin = AlloraPlugin(
+imagegen_plugin = ImageGenPlugin(
   api_key=os.environ.get("TOGETHER_API_KEY", "UP-17f415babba7482cb4b446a1"),
 )
 ```
@@ -40,16 +40,16 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
 
     return current_state
 
-price_inference_worker = Worker(
-    api_key=os.environ.get("GAME_API_KEY"),
-    description="Worker specialized in using Allora Network to get price inferences",
+generate_image_worker = Worker(
+    api_key=os.environ.get("TOGETHER_API_KEY"),
+    description="Worker for generating AI images based on prompt",
     get_state_fn=get_state_fn,
     action_space=[
-        allora_network_plugin.get_function("get_price_inference"),
+        imagegen_plugin.get_function("generate_image"),
     ],
 )
 
-price_inference_worker.run("Query the price of BTC in 5min")
+generate_image_worker.run("Cute anime girl with twitter logo")
 ```
 
 ## Running examples
