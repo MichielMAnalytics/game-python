@@ -22,7 +22,7 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
 
 
 # Initialize worker with SOM router
-game_api_key = "96MkRxUwPQCMGzl4ipO3"
+game_api_key = ""
 
 # Create router function
 router_fn = SOMRouter()
