@@ -1,3 +1,4 @@
+from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import FunctionResult
 from stateofmika_plugin_gamesdk.functions.router import SOMRouter
 
@@ -20,10 +21,19 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     return current_state
 
 
+# Initialize worker with SOM router
+game_api_key = "96MkRxUwPQCMGzl4ipO3"
+
 # Create router function
 router_fn = SOMRouter()
 
-output = router_fn._execute_query(query="what is the price of bitcoin")
-print("-" * 50)
-print(output)
-print("-" * 50)
+# Create worker
+worker = Worker(
+    api_key=game_api_key,
+    description="An intelligent assistant that uses StateOfMika for routing queries",
+    get_state_fn=get_state_fn,
+    action_space=[router_fn.get_function()],
+)
+
+# Run example query
+worker.run("what is the price of bitcoin?")
