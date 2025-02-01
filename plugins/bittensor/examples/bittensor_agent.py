@@ -108,8 +108,6 @@ def reply_to_detect_tweet(tweet_id: str, detect_image_response: dict) -> None:
     except Exception as e:
         print("Error replying to tweet", e)
 
-    
-
 def detect_tweeted_images(start_time: str, **kwargs) -> tuple:
     """
     Function with 2 main steps
