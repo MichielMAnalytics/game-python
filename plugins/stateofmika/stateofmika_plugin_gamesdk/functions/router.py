@@ -9,7 +9,7 @@ class SOMRouter:
     StateOfMika Router Function for intelligent query routing
     """
 
-    def __init__(self, api_key: str = ""):
+    def __init__(self, api_key: str = "1ef4dccd-c80a-410b-86c6-220df04ab589"):
         self.api_key = api_key
         self.base_url = "https://state.gmika.io/api"
 
