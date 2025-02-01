@@ -115,7 +115,7 @@ class BittensorPlugin:
         response = requests.post(
             'https://subnet-api.bitmindlabs.ai/detect-image',
             headers={
-                "Authorization": f"Bearer {os.environ.get('BITMINDLABS_API_KEY')}",
+                "Authorization": f"Bearer {os.environ.get('BITMIND_API_KEY')}",
                 'Content-Type': 'application/json'
             },
             json={

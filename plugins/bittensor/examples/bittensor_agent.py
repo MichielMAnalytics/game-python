@@ -17,7 +17,7 @@ load_dotenv()
 print("Environment variables loaded:")
 print(f"TWITTER_BEARER_TOKEN: {os.environ.get('TWITTER_BEARER_TOKEN')}")
 print(f"GAME_API_KEY: {os.environ.get('GAME_API_KEY')}")
-print(f"BITMINDLABS_API_KEY: {os.environ.get('BITMINDLABS_API_KEY')}")
+print(f"BITMIND_API_KEY: {os.environ.get('BITMIND_API_KEY')}")
 
 game_api_key = os.environ.get("GAME_API_KEY")
 
