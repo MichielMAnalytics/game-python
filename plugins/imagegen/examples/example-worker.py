@@ -19,7 +19,7 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
 
 
 imagegen_plugin = ImageGenPlugin(
-  api_key=os.environ.get("TOGETHER_API_KEY", "UP-17f415babba7482cb4b446a1"),
+  api_key=os.environ.get("TOGETHER_API_KEY"),
 )
 
 # Create worker

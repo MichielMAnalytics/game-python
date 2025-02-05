@@ -7,7 +7,7 @@ Can change endpoints, params, etc to suit your needs.
 - Generate images based on prompt
 - Receive images as temporary URL or B64 objects
 
-## Avilable Functions
+## Available Functions
 
 1. `generate_image(prompt: str)` - Generates image based on prompt
 
@@ -20,7 +20,7 @@ Can change endpoints, params, etc to suit your needs.
 from plugins.imagegen.imagegen_plugin import ImageGenPlugin
 
 imagegen_plugin = ImageGenPlugin(
-  api_key=os.environ.get("TOGETHER_API_KEY", "UP-17f415babba7482cb4b446a1"),
+  api_key=os.environ.get("TOGETHER_API_KEY"),
 )
 ```
 
@@ -64,7 +64,7 @@ poetry install
 2. Set up environment variables:
 ```
 export GAME_API_KEY="your-game-api-key"
-export TOGETHER_API_KEY="your-together-api-key" # Default key: UP-17f415babba7482cb4b446a1
+export TOGETHER_API_KEY="your-together-api-key"
 ```
 
 3. Run example scripts:

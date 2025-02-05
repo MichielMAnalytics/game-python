@@ -1,27 +1,29 @@
 from typing import Dict, List, Optional, Tuple
 from game_sdk.game.custom_types import Argument, Function, FunctionResultStatus
 import requests
+import os
 
 DEFAULT_BASE_API_URL = "https://api.together.xyz/v1/images/generations"
-DEFAULT_API_KEY = "UP-17f415babba7482cb4b446a1"
 
 
 class ImageGenPlugin:
     """
-    AI Image Generation plugin.
-
+    AI Image Generation plugin using Together.ai API.
+    
+    Requires:
+    - Together.ai API key
+    
     Example:
         client = ImageGenPlugin(
-            api_key=os.environ.get("TOGETHER_API_KEY"),
-            api_url=os.environ.get("https://api.together.xyz/v1/images/generations"),
+            api_key="your-together-api-key",
+            api_url="https://api.together.xyz/v1/images/generations",
         )
 
         generate_image_fn = client.get_function("generate_image")
     """
-
     def __init__(
         self,
-        api_key: Optional[str] = DEFAULT_API_KEY,
+        api_key: Optional[str] = os.environ.get("TOGETHER_API_KEY"),
         api_url: Optional[str] = DEFAULT_BASE_API_URL,
     ):
         self.api_key = api_key
