@@ -2,19 +2,55 @@ from typing import List, Optional, Callable, Dict
 import uuid
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import Function, FunctionResult, FunctionResultStatus, ActionResponse, ActionType
-from game_sdk.game.utils import create_agent, create_workers, post
+from game_sdk.game.api import GAMEClient
+from game_sdk.game.api_v2 import GAMEClientV2
 
 class Session:
+    """
+    Manages a unique session for agent interactions.
+
+    A Session maintains state for a single interaction sequence, including function results
+    and a unique identifier. It can be reset to start a fresh interaction sequence.
+
+    Attributes:
+        id (str): Unique identifier for the session, generated using UUID4.
+        function_result (Optional[FunctionResult]): Result of the last executed function.
+    """
     def __init__(self):
         self.id = str(uuid.uuid4())
         self.function_result: Optional[FunctionResult] = None
 
     def reset(self):
+        """
+        Resets the session by generating a new ID and clearing function results.
+        This is useful when starting a new interaction sequence.
+        """
         self.id = str(uuid.uuid4())
         self.function_result = None
 
 
 class WorkerConfig:
+    """
+    Configuration for a GAME SDK worker.
+
+    This class defines the behavior and capabilities of a worker within the GAME system.
+    Workers are specialized agents that can perform specific tasks using their defined
+    action space and state management functions.
+
+    Args:
+        id (str): Unique identifier for the worker.
+        worker_description (str): Description of the worker's capabilities for task generation.
+        get_state_fn (Callable): Function to retrieve the worker's current state.
+        action_space (List[Function]): List of functions the worker can execute.
+        instruction (Optional[str]): Additional instructions for the worker.
+
+    Attributes:
+        id (str): Worker's unique identifier.
+        worker_description (str): Description used by task generator.
+        instruction (str): Additional worker instructions.
+        get_state_fn (Callable): State retrieval function with instruction context.
+        action_space (Dict[str, Function]): Available functions mapped by name.
+    """
     def __init__(self,
                  id: str,
                  worker_description: str,
@@ -42,6 +78,26 @@ class WorkerConfig:
 
 
 class Agent:
+    """
+    Main agent class for the GAME SDK.
+
+    The Agent class represents an autonomous agent that can perform tasks using configured
+    workers. It manages the interaction flow, state management, and task execution within
+    the GAME system.
+
+    Args:
+        api_key (str): Authentication key for API access.
+        name (str): Name of the agent.
+        agent_goal (str): High-level goal or purpose of the agent.
+        agent_description (str): Detailed description of the agent's capabilities.
+        get_agent_state_fn (Callable): Function to retrieve agent's current state.
+
+    The Agent class serves as the primary interface for:
+    - Managing worker configurations
+    - Handling task execution
+    - Maintaining session state
+    - Coordinating API interactions
+    """
     def __init__(self,
                  api_key: str,
                  name: str,
@@ -51,7 +107,11 @@ class Agent:
                  workers: Optional[List[WorkerConfig]] = None,
                  ):
 
-        self._base_url: str = "https://game.virtuals.io"
+        if api_key.startswith("apt-"):
+            self.client = GAMEClientV2(api_key)
+        else:
+            self.client = GAMEClient(api_key)
+
         self._api_key: str = api_key
 
         # checks
@@ -86,8 +146,8 @@ class Agent:
         }
 
         # create agent
-        self.agent_id = create_agent(
-            self._base_url, self._api_key, self.name, self.agent_description, self.agent_goal
+        self.agent_id = self.client.create_agent(
+            self.name, self.agent_description, self.agent_goal
         )
 
     def compile(self):
@@ -97,8 +157,7 @@ class Agent:
 
         workers_list = list(self.workers.values())
 
-        self._map_id = create_workers(
-            self._base_url, self._api_key, workers_list)
+        self._map_id = self.client.create_workers(workers_list)
         self.current_worker_id = next(iter(self.workers.values())).id
 
         # initialize and set up worker states
@@ -176,10 +235,8 @@ class Agent:
         }
 
         # make API call
-        response = post(
-            base_url=self._base_url,
-            api_key=self._api_key,
-            endpoint=f"/v2/agents/{self.agent_id}/actions",
+        response = self.client.get_agent_action(
+            agent_id=self.agent_id,
             data=data,
         )
 
@@ -232,7 +289,7 @@ class Agent:
             update_observation = "worker"
 
         elif action_response.action_type == ActionType.WAIT:
-            print("Task ended completed or ended (not possible wiht current actions)")
+            print("Task ended completed or ended (not possible with current actions)")
             update_observation = "task"
 
         elif action_response.action_type == ActionType.GO_TO:
