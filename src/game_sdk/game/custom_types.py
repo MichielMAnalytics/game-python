@@ -80,12 +80,12 @@ class Function(BaseModel):
         return self.model_dump(exclude={'executable'})
 
     @staticmethod
-    def _default_executable(**kwargs) -> Tuple[FunctionResultStatus, str]:
+    def _default_executable(**kwargs) -> Tuple[FunctionResultStatus, str, dict]:
         """
         Default no-op implementation for functions.
 
         Returns:
-            Tuple[FunctionResultStatus, str]: Returns DONE status with a default message.
+            Tuple[FunctionResultStatus, str, dict]: Returns DONE status with a default message.
         """
         return FunctionResultStatus.DONE, "Default implementation - no action taken", {}
     
