@@ -16,10 +16,10 @@ class GAMEClient:
             headers={"x-api-key": self.api_key}
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to get token: {response_json}")
+            raise ValueError(f"Failed to get token (status {response.status_code}). Response: {response.text}")
 
+        response_json = response.json()
         return response_json["data"]["accessToken"]
 
     def _post(self, endpoint: str, data: dict) -> dict:
@@ -43,10 +43,10 @@ class GAMEClient:
             headers={"Authorization": f"Bearer {access_token}"},
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to post data: {response_json}")
+            raise ValueError(f"Failed to post data (status {response.status_code}). Response: {response.text}")
 
+        response_json = response.json()
         return response_json["data"]
 
     def create_agent(self, name: str, description: str, goal: str) -> str:
