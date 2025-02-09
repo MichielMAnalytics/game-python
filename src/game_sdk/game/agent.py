@@ -56,7 +56,7 @@ class WorkerConfig:
                  worker_description: str,
                  get_state_fn: Callable,
                  action_space: List[Function],
-                 instruction: Optional[str] = "",
+                 instruction: Optional[str] = None,
                  ):
 
         self.id = id  # id or name of the worker
@@ -139,7 +139,7 @@ class Agent:
         self.agent_state = self.get_agent_state_fn(None, None)
 
         # initialize observation
-        observation_content = self.agent_state["observations"] if "observations" in self.agent_state else None
+        observation_content = self.agent_state["observations"] if "observations" in self.agent_state else ""
         self.observation = {
             "content": observation_content,
             "is_global": True,
@@ -315,7 +315,7 @@ class Agent:
                 observation_content = self.agent_state["observations"]
                 self.observation = {
                     "content": observation_content,
-                    "is_gloabl": True,
+                    "is_global": True,
                 }
             else:
                 self.observation = None
@@ -328,9 +328,15 @@ class Agent:
                     "is_global": False,
                 }
             else:
-                self.observation = None
+                self.observation = {
+                    "content": "",
+                    "is_global": True
+                }
         else:
-            self.observation = None
+            self.observation = {
+                "content": "",
+                "is_global": True
+            }
 
 
     def run(self):
