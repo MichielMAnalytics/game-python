@@ -164,7 +164,6 @@ class ContentLLMTemplate:
     top_p: float = 0.7
     repetition_penalty: float = 1.0
     type: str = None
-    taskDescription: str = None
     isSandbox: bool = False
 
     def _validate_fields(self):
@@ -190,11 +189,7 @@ class ContentLLMTemplate:
             self.type = self.template_type
             self.isSandbox = False
             self.userPrompt = self.user_prompt or ""
-            
-            # Additional settings for REPLY only
-            if self.template_type == "REPLY":
-                self.taskDescription = self.taskDescription or "Process incoming tweet. Ignore if it is boring or unimportant. Ignore if the conversation has gone too long."
-                
+                            
         elif self.template_type in ["TWITTER_START_SYSTEM_PROMPT", "TWITTER_END_SYSTEM_PROMPT", "SHARED"]:
             if not self.system_prompt:
                 raise ValueError("system_prompt is required")
@@ -259,7 +254,8 @@ class Agent:
         world_info: str = "",
         main_heartbeat: int = 15,
         reaction_heartbeat: int = 5,
-        task_description: str = ""
+        task_description: str = "",
+        game_engine_model: str = "llama_3_1_405b"
     ):
         self.game_sdk = sdk.GameSDK(api_key)
         self.goal = goal
@@ -272,7 +268,7 @@ class Agent:
         self.templates: List[ContentLLMTemplate] = []
         self.tweet_usernames: List[str] = []
         self.task_description: str = task_description
-        
+        self.game_engine_model: str = game_engine_model
 
     def set_goal(self, goal: str):
         self.goal = goal
@@ -298,8 +294,16 @@ class Agent:
         self.task_description = task_description
         return True
     
+    def set_game_engine_model(self, game_engine_model: str):
+        # Available models: llama_3_1_405b, deepseek_r1, llama_3_3_70b_instruct, qwen2p5_72b_instruct, deepseek_v3
+        self.game_engine_model = game_engine_model
+        return True
+    
     def get_task_description(self) -> str:
         return self.task_description
+    
+    def get_game_engine_model(self) -> str:
+        return self.game_engine_model
 
     def get_goal(self) -> str:
         return self.goal
@@ -378,7 +382,10 @@ class Agent:
             self.enabled_functions,
             self.custom_functions,
             self.main_heartbeat,
-            self.reaction_heartbeat
+            self.reaction_heartbeat,
+            self.tweet_usernames,
+            self.templates,
+            self.game_engine_model
         )
 
     def export(self) -> str:
