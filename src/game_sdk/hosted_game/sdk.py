@@ -90,7 +90,7 @@ class GameSDK:
 
         return response.json()["data"]
 
-    def deploy(self, goal: str, description: str, world_info: str, functions: list, custom_functions: list, main_heartbeat: int, reaction_heartbeat: int, tweet_usernames: list = None, templates: list = None, task_description: str = None):
+    def deploy(self, goal: str, description: str, world_info: str, functions: list, custom_functions: list, main_heartbeat: int, reaction_heartbeat: int, tweet_usernames: list = None, templates: list = None, game_engine_model: str = "llama_3_1_405b"):
         """
         Simulate the agent configuration
         """
@@ -104,9 +104,9 @@ class GameSDK:
                 "mainHeartbeat": main_heartbeat,
                 "reactionHeartbeat": reaction_heartbeat,
             },
-            "taskDescription": task_description
+            "gameEngineModel": game_engine_model
         }
-        
+            
         if tweet_usernames is not None:
             payload["tweetUsernames"] = tweet_usernames
             
@@ -126,3 +126,12 @@ class GameSDK:
             raise Exception(response.json())
 
         return response.json()["data"]
+    
+    def reset_memory(self):
+        response = requests.get(
+            f"{self.api_url}/reset-session", headers={"x-api-key": self.api_key})
+
+        if (response.status_code != 200):
+            raise Exception("Failed to reset memory.")
+
+        return "Memory reset successfully."

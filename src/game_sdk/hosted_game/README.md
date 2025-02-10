@@ -68,6 +68,10 @@ agent.get_description()
 agent.get_world_info()
 agent.get_task_description()
 
+# set game engine model
+# Available models: llama_3_1_405b, deepseek_r1, llama_3_3_70b_instruct, qwen2p5_72b_instruct, deepseek_v3
+agent.set_game_engine_model("llama_3_1_405b")
+
 # Set heartbeat
 agent.set_main_heartbeat(15)
 agent.set_reaction_heartbeat(5)
