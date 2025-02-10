@@ -28,9 +28,10 @@ class GAMEClientV2:
             json=payload
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to post data: {response_json}")
+            raise ValueError(f"Failed to create agent (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
 
         return response_json["data"]["id"]
 
@@ -53,9 +54,10 @@ class GAMEClientV2:
             json=payload
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to post data: {response_json}")
+            raise ValueError(f"Failed to get token (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
 
         return response_json["data"]["id"]
 
@@ -75,9 +77,10 @@ class GAMEClientV2:
             json=payload
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to post data: {response_json}")
+            raise ValueError(f"Failed to set worker task (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
 
         return response_json["data"]
 
@@ -93,9 +96,10 @@ class GAMEClientV2:
             }
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to post data: {response_json}")
+            raise ValueError(f"Failed to get worker action (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
 
         return response_json["data"]
 
@@ -111,8 +115,9 @@ class GAMEClientV2:
             }
         )
 
-        response_json = response.json()
         if response.status_code != 200:
-            raise ValueError(f"Failed to post data: {response_json}")
+            raise ValueError(f"Failed to get agent action (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
 
         return response_json["data"]
