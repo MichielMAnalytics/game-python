@@ -84,13 +84,13 @@ class GAMEClientV2:
 
         return response_json["data"]
 
-    def get_worker_action(self, agent_id: str, submission_id: str, data: dict) -> Dict:
+    def get_worker_action(self, agent_id: str, submission_id: str, data: dict, model_name: str) -> Dict:
         """
         API call to get worker actions (for standalone worker)
         """
         response = requests.post(
             f"{self.base_url}/agents/{agent_id}/tasks/{submission_id}/next",
-            headers=self.headers,
+            headers=self.headers | {"model_name": model_name},
             json={
                 "data": data
             }
@@ -103,13 +103,13 @@ class GAMEClientV2:
 
         return response_json["data"]
 
-    def get_agent_action(self, agent_id: str, data: dict) -> Dict:
+    def get_agent_action(self, agent_id: str, data: dict, model_name: str) -> Dict:
         """
         API call to get agent actions/next step (for agent)
         """
         response = requests.post(
             f"{self.base_url}/agents/{agent_id}/actions",
-            headers=self.headers,
+            headers=self.headers | {"model_name": model_name},
             json={
                 "data": data
             }

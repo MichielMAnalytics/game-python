@@ -274,7 +274,8 @@ chaos_agent = Agent(
     agent_goal="Conquer the world by causing chaos.",
     agent_description="You are a mischievous master of chaos is very strong but with a very short attention span, and not so much brains",
     get_agent_state_fn=get_agent_state_fn,
-    workers=[fruit_thrower, furniture_thrower]
+    workers=[fruit_thrower, furniture_thrower],
+    llm_name="Llama-3.1-405B-Instruct"
 )
 
 # # interact and instruct the worker to do something

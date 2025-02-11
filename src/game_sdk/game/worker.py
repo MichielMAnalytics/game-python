@@ -49,6 +49,7 @@ class Worker:
         action_space: List[Function],
         # specific additional instruction for the worker (PROMPT)
         instruction: Optional[str] = "",
+        model_name: str = "Llama-3.1-405B-Instruct",
     ):
 
         if api_key.startswith("apt-"):
@@ -57,6 +58,8 @@ class Worker:
             self.client = GAMEClient(api_key)
             
         self._api_key: str = api_key
+
+        self._llm_name: str = model_name
 
         # checks
         if not self._api_key:
@@ -156,7 +159,8 @@ class Worker:
         response = self.client.get_worker_action(
             self._agent_id, 
             self._submission_id, 
-            data
+            data,
+            model_name=self._llm_name
         )
 
         return ActionResponse.model_validate(response)

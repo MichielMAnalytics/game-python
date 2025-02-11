@@ -32,6 +32,16 @@ cd plugins/twitter
 pip install -e .
 ```
 
+## Model Selection
+The GAME supports multiple language models that can be specified when creating agents or workers. The default model is "Llama-3.1-405B-Instruct".
+
+Currently supported models:
+- "Llama-3.1-405B-Instruct" (default)
+- "Llama-3.3-70B-Instruct"
+- "DeepSeek-R1"
+- "DeepSeek-V3"
+- "Qwen-2.5-72B-Instruct"
+
 ## Usage
 1. `game`:
    - Request for a GAME API key in the Game Console https://console.game.virtuals.io/ 
