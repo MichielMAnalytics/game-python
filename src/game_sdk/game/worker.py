@@ -59,7 +59,7 @@ class Worker:
             
         self._api_key: str = api_key
 
-        self._llm_name: str = model_name
+        self._model_name: str = model_name
 
         # checks
         if not self._api_key:
@@ -160,7 +160,7 @@ class Worker:
             self._agent_id, 
             self._submission_id, 
             data,
-            model_name=self._llm_name
+            model_name=self._model_name
         )
 
         return ActionResponse.model_validate(response)

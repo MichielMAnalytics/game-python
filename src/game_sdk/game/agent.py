@@ -105,7 +105,7 @@ class Agent:
                  agent_description: str,
                  get_agent_state_fn: Callable,
                  workers: Optional[List[WorkerConfig]] = None,
-                 llm_name: str = "Llama-3.1-405B-Instruct",
+                 model_name: str = "Llama-3.1-405B-Instruct",
                  ):
 
         if api_key.startswith("apt-"):
@@ -115,7 +115,7 @@ class Agent:
 
         self._api_key: str = api_key
 
-        self._llm_name: str = llm_name
+        self._model_name: str = model_name
 
         # checks
         if not self._api_key:
@@ -241,7 +241,7 @@ class Agent:
         response = self.client.get_agent_action(
             agent_id=self.agent_id,
             data=data,
-            model_name=self._llm_name
+            model_name=self._model_name
         )
 
         return ActionResponse.model_validate(response)
