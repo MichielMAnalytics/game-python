@@ -42,6 +42,8 @@ The models currently supported are:
 - "DeepSeek-V3"
 - "Qwen-2.5-72B-Instruct"
 
+**Note: If model is not specified in the API call (REST API level) or on the SDK level when creating the agents, the default (Llama-3.1-405B-Instruct) model will be used.
+
 ## Usage
 1. `game`:
    - Request for a GAME API key in the Game Console https://console.game.virtuals.io/ 
