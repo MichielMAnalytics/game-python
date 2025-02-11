@@ -33,9 +33,9 @@ pip install -e .
 ```
 
 ## Model Selection
-The GAME supports multiple language models that can be specified when creating agents or workers. The default model is "Llama-3.1-405B-Instruct".
+The foundation models which power the GAME framework can also be confgiured and selected. This can be specified when creating agents or workers. The default model used is "Llama-3.1-405B-Instruct".
 
-Currently supported models:
+The models currently supported are:
 - "Llama-3.1-405B-Instruct" (default)
 - "Llama-3.3-70B-Instruct"
 - "DeepSeek-R1"
