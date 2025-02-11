@@ -107,7 +107,8 @@ worker = Worker(
     description="You are an evil NPC in a game.",
     instruction="Choose the evil-est actions.",  
     get_state_fn=get_state_fn,
-    action_space=action_space
+    action_space=action_space,
+    model_name="Llama-3.1-405B-Instruct"
 )
 
 # interact and instruct the worker to do something
