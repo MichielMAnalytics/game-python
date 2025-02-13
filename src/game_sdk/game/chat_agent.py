@@ -1,5 +1,7 @@
 from typing import Any, Callable, Dict, List, Optional, Tuple
 from game_sdk.game.custom_types import (
+    ChatResponse,
+    FunctionCallResponse,
     FunctionResult,
     GameChatResponse,
     Function,
@@ -23,7 +25,7 @@ class Chat:
         )
         self.get_state_fn = get_state_fn
 
-    def next(self, message: str) -> Tuple[GameChatResponse, Optional[str]]:
+    def next(self, message: str) -> ChatResponse:
 
         convo_response = self._update_conversation(message)
 
@@ -46,12 +48,21 @@ class Chat:
                     "args": convo_response.function_call.args,
                 }
             )
-            function_report_response = self._report_function_result(result)
-            
+            response_message = self._report_function_result(result)
+            function_call_response = FunctionCallResponse(
+                fn_name=fn_name,
+                fn_args=convo_response.function_call.args,
+                result=result,
+            )
         else:
-            function_report_response = None
-        
-        return convo_response, function_report_response
+            response_message = convo_response.message or ""
+            function_call_response = None
+
+        return ChatResponse(
+            message=response_message,
+            is_finished=convo_response.is_finished,
+            function_call=function_call_response,
+        )
 
     def end(self, message: Optional[str] = None):
         self.client.end_chat(
@@ -96,10 +107,10 @@ class ChatAgent:
         self,
         api_key: str,
         prompt: str,
-    ):  
+    ):
         self._api_key = api_key
         self.prompt = prompt
-        
+
         if api_key.startswith("apt-"):
             self.client = GAMEClientV2(api_key)
         else:
@@ -112,7 +123,7 @@ class ChatAgent:
         action_space: Optional[List[Function]] = None,
         get_state_fn: Optional[Callable[[], Dict[str, Any]]] = None,
     ) -> Chat:
-        
+
         chat_id = self.client.create_chat(
             {
                 "prompt": self.prompt,
@@ -121,9 +132,4 @@ class ChatAgent:
             },
         )
 
-        return Chat(
-            chat_id,
-            self.client,
-            action_space,
-            get_state_fn
-        )
+        return Chat(chat_id, self.client, action_space, get_state_fn)

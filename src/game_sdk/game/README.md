@@ -141,39 +141,20 @@ chat = chat_agent.create_chat(
     partner_id="user123",
     partner_name="User Name",
     action_space=[list_of_functions],  # Optional
-    message_handler=lambda message: print(f"Agent: {message.message}")  # Required callback for handling agent messages
     get_state_fn=lambda: {...}  # Optional, allows to push state of the environment to the agent
 )
 
 # Run conversation
-while chat.next("User message"):
-    # Continue conversation
-    pass
+chat_continue = True
+while chat_continue:
+    user_message = input("Enter a message: ")
+    response = chat.next(user_message)
+    ...
+    if response.is_finished:
+        chat_continue = False
 
 # End chat
 chat.end("Optional ending message")
-```
-
-### Message Handler
-
-The `message_handler` is a required callback function that processes messages from the agent. It receives an `AgentMessage` object containing:
-- `message`: The text response from the agent
-- `chat_id`: The ID of the current chat session
-
-Example message handlers:
-
-```python
-# Simple print handler
-def print_handler(message):
-    print(f"Agent: {message.message}")
-
-# Custom logging handler
-def log_handler(message):
-    logger.info(f"Chat {message.chat_id}: {message.message}")
-    
-# UI update handler
-def ui_handler(message):
-    update_chat_window(message.message)
 ```
 
 ### Chat Termination

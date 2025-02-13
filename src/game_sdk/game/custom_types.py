@@ -253,3 +253,13 @@ class GameChatResponse(BaseModel):
 class AgentMessage(BaseModel):
     message: str
     chat_id: str
+
+class FunctionCallResponse(BaseModel):
+    fn_name: str
+    fn_args: Dict[str, Any]
+    result: FunctionResult
+
+class ChatResponse(BaseModel):
+    message: str
+    is_finished: bool
+    function_call: Optional[FunctionCallResponse] = None

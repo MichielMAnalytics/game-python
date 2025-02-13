@@ -68,18 +68,16 @@ while chat_continue:
 
     user_message = input("Enter a message: ")
 
-    response, function_report_response = chat.next(user_message)
+    response = chat.next(user_message)
+
+    if response.function_call:
+        print(f"Function call: {response.function_call.fn_name}")
 
     if response.message:
         print(f"Response: {response.message}")
 
-    if function_report_response:
-        print(f"Response: {function_report_response}")
-
     if response.is_finished:
         chat_continue = False
         break
-
-
 
 print("Chat ended")
