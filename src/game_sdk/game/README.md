@@ -187,3 +187,7 @@ The chat can be terminated in two ways:
 chat.end("Optional farewell message")
 ```
 
+### Chat Memory
+
+ChatAgent maintains a simple short-term memory by keeping track of recent messages in the conversation. This allows the agent to maintain context and provide coherent responses based on the conversation history. The memory is temporary and limited to the current chat session.
+
