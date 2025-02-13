@@ -342,6 +342,7 @@ class Agent:
                 "is_global": True
             }
 
+        return action_response, self._session.function_result
 
     def run(self):
         self._session = Session()

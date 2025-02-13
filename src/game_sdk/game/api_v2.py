@@ -28,12 +28,7 @@ class GAMEClientV2:
             json=payload
         )
 
-        if response.status_code != 200:
-            raise ValueError(f"Failed to create agent (status {response.status_code}). Response: {response.text}")
-
-        response_json = response.json()
-
-        return response_json["data"]["id"]
+        return self._get_response_body(response)["id"]
 
     def create_workers(self, workers: List) -> str:
         """
@@ -54,12 +49,7 @@ class GAMEClientV2:
             json=payload
         )
 
-        if response.status_code != 200:
-            raise ValueError(f"Failed to get token (status {response.status_code}). Response: {response.text}")
-
-        response_json = response.json()
-
-        return response_json["data"]["id"]
+        return self._get_response_body(response)["id"]
 
     def set_worker_task(self, agent_id: str, task: str) -> Dict:
         """
@@ -77,12 +67,7 @@ class GAMEClientV2:
             json=payload
         )
 
-        if response.status_code != 200:
-            raise ValueError(f"Failed to set worker task (status {response.status_code}). Response: {response.text}")
-
-        response_json = response.json()
-
-        return response_json["data"]
+        return self._get_response_body(response)
 
     def get_worker_action(self, agent_id: str, submission_id: str, data: dict, model_name: str) -> Dict:
         """
@@ -117,6 +102,66 @@ class GAMEClientV2:
 
         if response.status_code != 200:
             raise ValueError(f"Failed to get agent action (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
+
+        return response_json["data"]
+    
+    def create_chat(self, data: dict) -> str:
+        response = requests.post(
+            f"{self.base_url}/conversation",
+            headers=self.headers,
+            json={
+                "data": data
+            }
+        )
+        
+        chat_id = self._get_response_body(response).get("conversation_id")
+        if not chat_id:
+            raise Exception("Agent did not return a conversation_id for the chat.")
+        return chat_id
+    
+    def update_chat(self, conversation_id: str, data: dict) -> dict:
+        response = requests.post(
+            f"{self.base_url}/conversation/{conversation_id}/next",
+            headers=self.headers,
+            json={
+                "data": data
+            }
+        )
+        
+        if response.status_code != 200:
+            raise ValueError(f"Failed to update conversation (status {response.status_code}). Response: {response.text}")
+
+        response_json = response.json()
+
+        return response_json["data"]
+    
+    def report_function(self, conversation_id: str, data: dict) -> dict:
+        response = requests.post(
+            f"{self.base_url}/conversation/{conversation_id}/function/result",
+            headers=self.headers,
+            json={
+                "data": data
+            }
+        )
+
+        return self._get_response_body(response)
+    
+    def end_chat(self, conversation_id: str, data: dict) -> dict:
+        response = requests.post(
+            f"{self.base_url}/conversation/{conversation_id}/end",
+            headers=self.headers,
+            json={
+                "data": data
+            }
+        )
+
+        return self._get_response_body(response)
+    
+    def _get_response_body(self, response: requests.Response) -> dict:
+        if response.status_code != 200:
+            raise ValueError(f"Failed to get response body (status {response.status_code}). Response: {response.text}")
 
         response_json = response.json()
 
