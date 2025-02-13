@@ -58,15 +58,28 @@ agent = ChatAgent(
 )
 
 chat = agent.create_chat(
-    "tom",
-    "Tom",
+    partner_id="tom",
+    partner_name="Tom",
     action_space=action_space,
-    message_handler=lambda message: print(f"Response from agent: {message.message}"),
 )
 
-user_message = input("Enter a message: ")
+chat_continue = True
+while chat_continue:
 
-while chat.next(user_message):
     user_message = input("Enter a message: ")
+
+    response, function_report_response = chat.next(user_message)
+
+    if response.message:
+        print(f"Response: {response.message}")
+
+    if function_report_response:
+        print(f"Response: {function_report_response}")
+
+    if response.is_finished:
+        chat_continue = False
+        break
+
+
 
 print("Chat ended")

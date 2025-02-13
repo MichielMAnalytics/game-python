@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from game_sdk.game.custom_types import (
     FunctionResult,
     GameChatResponse,
@@ -13,7 +13,6 @@ class Chat:
         self,
         conversation_id: str,
         client: GAMEClientV2,
-        message_handler: Callable[[AgentMessage], None],
         action_space: Optional[List[Function]] = None,
         get_state_fn: Optional[Callable[[], Dict[str, Any]]] = None,
     ):
@@ -23,16 +22,12 @@ class Chat:
             {f.fn_name: f for f in action_space} if action_space else None
         )
         self.get_state_fn = get_state_fn
-        self.message_handler = message_handler
 
-    def next(self, message: str) -> bool:
+    def next(self, message: str) -> Tuple[GameChatResponse, Optional[str]]:
+
         convo_response = self._update_conversation(message)
 
-        if convo_response.message:
-            self.message_handler(
-                AgentMessage(message=convo_response.message, chat_id=self.chat_id)
-            )
-
+        # execute functions/actions if present
         if convo_response.function_call:
             if not self.action_space:
                 raise Exception("No functions provided")
@@ -52,10 +47,11 @@ class Chat:
                 }
             )
             function_report_response = self._report_function_result(result)
-            self.message_handler(
-                AgentMessage(message=function_report_response, chat_id=self.chat_id)
-            )
-        return not convo_response.is_finished
+            
+        else:
+            function_report_response = None
+        
+        return convo_response, function_report_response
 
     def end(self, message: Optional[str] = None):
         self.client.end_chat(
@@ -98,12 +94,12 @@ class Chat:
 class ChatAgent:
     def __init__(
         self,
+        api_key: str,
         prompt: str,
-        api_key: str
-    ):
+    ):  
+        self._api_key = api_key
         self.prompt = prompt
-        self.api_key = api_key
-
+        
         if api_key.startswith("apt-"):
             self.client = GAMEClientV2(api_key)
         else:
@@ -113,10 +109,10 @@ class ChatAgent:
         self,
         partner_id: str,
         partner_name: str,
-        message_handler: Callable[[AgentMessage], None],
         action_space: Optional[List[Function]] = None,
         get_state_fn: Optional[Callable[[], Dict[str, Any]]] = None,
     ) -> Chat:
+        
         chat_id = self.client.create_chat(
             {
                 "prompt": self.prompt,
@@ -128,7 +124,6 @@ class ChatAgent:
         return Chat(
             chat_id,
             self.client,
-            message_handler,
             action_space,
             get_state_fn
         )
