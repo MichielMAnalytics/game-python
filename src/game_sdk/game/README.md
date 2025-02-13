@@ -110,3 +110,80 @@ worker = agent.get_worker("worker_id")
 worker.run("Bring me some fruits")
 ```
 
+### 5. Chat Agents
+
+Chat Agents enable interactive conversations with AI agents that can execute functions. They are simpler to use than full Agents and are ideal for chatbot-like interactions where the agent can perform actions.
+
+```python
+# Initialize the chat agent
+chat_agent = ChatAgent(
+    prompt="You are helpful assistant",
+    api_key="your_api_key"
+)
+
+# Define functions
+```python
+def generate_picture(prompt: str):
+    # Implementation
+    return FunctionResultStatus.DONE, "Picture generated", {}
+
+action_space = [
+    Function(
+        fn_name="generate_picture",
+        fn_description="Generate a picture",
+        args=[Argument(name="prompt", description="The prompt for the picture")],
+        executable=generate_picture
+    )
+]
+
+# Create a chat session
+chat = chat_agent.create_chat(
+    partner_id="user123",
+    partner_name="User Name",
+    action_space=[list_of_functions],  # Optional
+    message_handler=lambda message: print(f"Agent: {message.message}")  # Required callback for handling agent messages
+    get_state_fn=lambda: {...}  # Optional, allows to push state of the environment to the agent
+)
+
+# Run conversation
+while chat.next("User message"):
+    # Continue conversation
+    pass
+
+# End chat
+chat.end("Optional ending message")
+```
+
+### Message Handler
+
+The `message_handler` is a required callback function that processes messages from the agent. It receives an `AgentMessage` object containing:
+- `message`: The text response from the agent
+- `chat_id`: The ID of the current chat session
+
+Example message handlers:
+
+```python
+# Simple print handler
+def print_handler(message):
+    print(f"Agent: {message.message}")
+
+# Custom logging handler
+def log_handler(message):
+    logger.info(f"Chat {message.chat_id}: {message.message}")
+    
+# UI update handler
+def ui_handler(message):
+    update_chat_window(message.message)
+```
+
+### Chat Termination
+
+The chat can be terminated in two ways:
+
+1. **Agent-initiated**: The agent may decide to end the chat on its own when it determines the conversation is complete. In this case, `chat.next()` will return `False`.
+
+2. **Client-initiated**: The client can manually end the chat at any time by calling:
+```python
+chat.end("Optional farewell message")
+```
+

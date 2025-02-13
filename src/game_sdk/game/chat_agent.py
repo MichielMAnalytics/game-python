@@ -99,12 +99,10 @@ class ChatAgent:
     def __init__(
         self,
         prompt: str,
-        api_key: str,
-        get_state_fn: Optional[Callable[[], Dict[str, Any]]] = None,
+        api_key: str
     ):
         self.prompt = prompt
         self.api_key = api_key
-        self.get_state_fn = get_state_fn
 
         if api_key.startswith("apt-"):
             self.client = GAMEClientV2(api_key)
@@ -117,6 +115,7 @@ class ChatAgent:
         partner_name: str,
         message_handler: Callable[[AgentMessage], None],
         action_space: Optional[List[Function]] = None,
+        get_state_fn: Optional[Callable[[], Dict[str, Any]]] = None,
     ) -> Chat:
         chat_id = self.client.create_chat(
             {
@@ -131,5 +130,5 @@ class ChatAgent:
             self.client,
             message_handler,
             action_space,
-            self.get_state_fn,
+            get_state_fn
         )
