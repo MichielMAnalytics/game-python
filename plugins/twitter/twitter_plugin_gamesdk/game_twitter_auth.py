@@ -87,10 +87,15 @@ class AuthManager:
             webbrowser.open(login_url)
             server.serve_forever()
 
-
-if __name__ == "__main__":
+def start() -> None:
+    """
+    Entry point for the game twitter auth process.
+    """
     parser = argparse.ArgumentParser(prog="game-twitter-plugin", description="CLI to authenticate and interact with GAME's Twitter API")
     parser.add_argument("auth", help="Authenticate with Twitter API", nargs='?')
     parser.add_argument("-k", "--key", help="Project's API key", required=True, type=str)
     args = parser.parse_args()
     AuthManager.start_authentication(args.key)
+
+if __name__ == "__main__":
+    start()
