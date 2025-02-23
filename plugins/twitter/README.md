@@ -54,7 +54,7 @@ poetry install
         post_tweet_fn = game_twitter_plugin.get_function('post_tweet')
         post_tweet_fn("Hello world!")
         ```
-        You can refer to `test_game_twitter.py` for more examples on how to call the twitter functions. Note that there is a limited number of functions available. If you require more, please submit a feature requests via Github Issues.
+        You can refer to `examples/test_game_twitter.py` for more examples on how to call the twitter functions. Note that there is a limited number of functions available. If you require more, please submit a feature requests via Github Issues.
       
    - `TwitterPlugin`
      - If you don't already have one, create a X (twitter) account and navigate to the [developer portal](https://developer.x.com/en/portal/dashboard).
@@ -87,4 +87,4 @@ poetry install
         post_tweet_fn = twitter_plugin.get_function('post_tweet')
         post_tweet_fn("Hello world!")
         ```
-        You can refer to `test_twitter.py` for more examples on how to call the twitter functions.
+        You can refer to `examples/test_twitter.py` for more examples on how to call the twitter functions.
