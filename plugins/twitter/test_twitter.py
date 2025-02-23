@@ -19,43 +19,43 @@ options = {
 twitter_plugin = TwitterPlugin(options)
 
 # Test case 1: Post a Tweet
-print("Running Test Case 1: Post a Tweet")
+print("\nRunning Test Case 1: Post a Tweet")
 post_tweet_fn = twitter_plugin.get_function('post_tweet')
 post_tweet_fn("Hello world! This is a test tweet from the Twitter Plugin!")
 print("Posted tweet!")
 
 # Test case 2: Reply to a Tweet
-print("Running Test Case 2: Reply to a Tweet")
+print("\nRunning Test Case 2: Reply to a Tweet")
 reply_tweet_fn = twitter_plugin.get_function('reply_tweet')
 reply_tweet_fn(tweet_id=1879472470362816626, reply="Hey! This is a test reply!")
 print("Replied to tweet!")
 
 # Test case 3: Like a Tweet
-print("Running Test Case 3: Like a Tweet")
+print("\nRunning Test Case 3: Like a Tweet")
 like_tweet_fn = twitter_plugin.get_function('like_tweet')
 like_tweet_fn(tweet_id=1879472470362816626)
 print("Liked tweet!")
 
 # Test case 4: Quote a Tweet
-print("Running Test Case 4: Quote a Tweet")
+print("\nRunning Test Case 4: Quote a Tweet")
 quote_tweet_fn = twitter_plugin.get_function('quote_tweet')
 quote_tweet_fn(tweet_id=1879472470362816626, quote="Hey! This is a test quote tweet!")
 print("Quoted tweet!")
 
 # Test case 5: Get Metrics
-print("Running Test Case 5: Get Metrics")
+print("\nRunning Test Case 5: Get Metrics")
 get_metrics_fn = twitter_plugin.get_function('get_metrics')
 metrics = get_metrics_fn()
 print("Metrics:", metrics)
 
 # Test case 6: Get User From Handle
-print("Running Test Case 6: Get User From Handle")
+print("\nRunning Test Case 6: Get User From Handle")
 get_user_fn = twitter_plugin.get_function('get_user_from_handle')
 user_id = get_user_fn('celesteanglm')
 print("user_id:", user_id)
 
 # Test case 7: Get User Mentions
-print("Running Test Case 7: Get User Mentions")
+print("\nRunning Test Case 7: Get User Mentions")
 get_user_fn = twitter_plugin.get_function("get_user_from_handle")
 user_id = get_user_fn("GAME_Virtuals")
 get_user_mentions_fn = twitter_plugin.get_function("get_user_mentions")
