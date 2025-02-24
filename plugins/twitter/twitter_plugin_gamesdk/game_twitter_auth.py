@@ -35,18 +35,18 @@ class AuthHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header("Content-type", "text/plain")
                 self.end_headers()
-                self.wfile.write("Authentication successful! You may close this window and return to the terminal.")
+                self.wfile.write(b"Authentication successful! You may close this window and return to the terminal.")
                 print("Authentication successful!")
                 print(f"Access Token: {access_token}")
                 self.server.shutdown()  # Stop the server after successful auth
             else:
                 self.send_response(400)
                 self.end_headers()
-                self.wfile.write("Invalid request")
+                self.wfile.write(b"Invalid request")
         else:
             self.send_response(404)
             self.end_headers()
-            self.wfile.write("Not Found")
+            self.wfile.write(b"Not Found")
 
 
 class AuthManager:
