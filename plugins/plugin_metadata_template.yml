@@ -1,7 +1,6 @@
 # General Information
 plugin_name: ""           # Name of the plugin
-version: ""               # Current version (e.g., 1.0.0)
-author: ""                # Author or team name
+author: ""                # Author and team name
 logo_url: ""              # URL to the author photo or team logo (512x512 recommended)
 release_date: ""          # Release date (DD-MM-YYYY)
 
@@ -10,7 +9,7 @@ short_description: ""      # One-liner description for listings
 detailed_description: ""   # Full description with features and benefits
 
 # Media & Assets
-plugin_logo_url: ""        # URL to the plugin logo (512x512 recommended)
+plugin_logo_url: ""        # URL to the plugin logo (512x512 recommended) (if any or fallback to logo_url)
 screenshots:               # List of screenshots showcasing the plugin
   - ""                     # e.g., "https://example.com/screenshot1.png"
   - ""
@@ -19,5 +18,6 @@ documentation_url: ""      # Link to the plugin's official documentation (if ava
 changelog_url: ""          # Link to the changelog (if maintained)
 
 # Contact & Support
+x_account_handle: ""       # X (formerly known as Twitter) account handle (ie: @GAME_Virtuals)
 support_contact: ""        # Email or Slack/Discord link for user support
 community_link: ""         # Forum or community link (if any)

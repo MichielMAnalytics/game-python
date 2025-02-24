@@ -2,16 +2,11 @@
 
 One-liner - what does this change?
 
-## Links
-
-- Jira/Notion:
-- Issue link:
-- Other useful links:
-
 ## Changes
 
 (Answer where applicable)
 
+- Important links (Jira/Notion/GitHub Issues):
 - Why this PR is needed?
 - What does this add?
 - What does this deprecate?
@@ -35,12 +30,3 @@ One-liner - what does this change?
 
 - Screenshots
 - Video Recordings
-
-## Pre-release Checklist
-
-- [ ] QA/PM's approval
-- [ ] (If files are removed) Check all usages of the deleted files
-
-## Rollback Steps
-
-- Any steps to follow in the event of rollback due to breaking release. Eg. toggle feature flag, revert commit etc.
