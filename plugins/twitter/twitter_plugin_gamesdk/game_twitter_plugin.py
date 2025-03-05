@@ -56,7 +56,7 @@ class GameTwitterPlugin:
         self._functions: Dict[str, Callable[..., Any]] = {
             "reply_tweet": self._reply_tweet,
             "post_tweet": self._post_tweet,
-            # "like_tweet": self._like_tweet,
+            "like_tweet": self._like_tweet,
             "quote_tweet": self._quote_tweet,
             "search_tweets": self._search_tweets,
             "get_authenticated_user": self._get_authenticated_user,
@@ -112,14 +112,15 @@ class GameTwitterPlugin:
 
         return response.json()
 
-    def _post_tweet(self, tweet: str, media_id: Optional[str] = None) -> Dict[str, Any]:
+    def _post_tweet(self, tweet: str, media_ids: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Post a tweet with optional media.
         """
+        if media_ids and len(media_ids) > 4:
+            raise ValueError("media_ids cannot contain more than 4 items.")
         payload = {"content": tweet}
-        if media_id:
-            payload["mediaId"] = media_id
-
+        if media_ids:
+            payload["mediaIds"] = media_ids
         return self._fetch_api("/post", "POST", data=payload)
 
     def _search_tweets(self, query: str) -> Dict[str, Any]:
@@ -128,13 +129,15 @@ class GameTwitterPlugin:
         """
         return self._fetch_api(f"/search?query={requests.utils.quote(query)}", "GET")
 
-    def _reply_tweet(self, tweet_id: int, reply: str, media_id: Optional[str] = None) -> None:
+    def _reply_tweet(self, tweet_id: int, reply: str, media_ids: Optional[str] = None) -> None:
         """
         Reply to a tweet.
         """
+        if media_ids and len(media_ids) > 4:
+            raise ValueError("media_ids cannot contain more than 4 items.")
         payload = {"content": reply}
-        if media_id:
-            payload["mediaId"] = media_id
+        if media_ids:
+            payload["mediaIds"] = media_ids
         return self._fetch_api(f"/reply/{tweet_id}", "POST", data=payload)
 
     def _like_tweet(self, tweet_id: int) -> None:
@@ -143,11 +146,15 @@ class GameTwitterPlugin:
         """
         return self._fetch_api(f"/like/{tweet_id}", "POST")
 
-    def _quote_tweet(self, tweet_id: int, quote: str) -> None:
+    def _quote_tweet(self, tweet_id: int, quote: str, media_ids: Optional[str] = None) -> None:
         """
         Quote a tweet.
         """
+        if media_ids and len(media_ids) > 4:
+            raise ValueError("media_ids cannot contain more than 4 items.")
         payload = {"content": quote}
+        if media_ids:
+            payload["mediaIds"] = media_ids
         return self._fetch_api(f"/quote/{tweet_id}", "POST", data=payload)
 
     def _get_authenticated_user(self) -> Dict[str, Any]:
