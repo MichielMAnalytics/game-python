@@ -1,6 +1,5 @@
 import os
 from twitter_plugin_gamesdk.game_twitter_plugin import GameTwitterPlugin
-import base64
 
 # Define your options with the necessary credentials
 options = {

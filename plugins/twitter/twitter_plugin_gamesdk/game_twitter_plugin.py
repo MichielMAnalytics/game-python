@@ -24,7 +24,7 @@ Example:
 
 import requests
 from typing import Optional, Dict, Any, Callable, List
-import os,io
+import os
 import logging
 
 
