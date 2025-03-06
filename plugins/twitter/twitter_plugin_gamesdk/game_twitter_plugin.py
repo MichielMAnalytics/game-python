@@ -24,7 +24,7 @@ Example:
 
 import requests
 from typing import Optional, Dict, Any, Callable, List
-import os
+import os,io
 import logging
 
 
@@ -60,6 +60,9 @@ class GameTwitterPlugin:
             "quote_tweet": self._quote_tweet,
             "search_tweets": self._search_tweets,
             "get_authenticated_user": self._get_authenticated_user,
+            "mentions": self._mentions,
+            "followers": self._followers,
+            "following": self._following
         }
         # Configure logging
         logging.basicConfig(level=logging.INFO)
@@ -162,3 +165,41 @@ class GameTwitterPlugin:
         Get details of the authenticated user.
         """
         return self._fetch_api("/me", "GET")
+
+    def _mentions(self, pagination_token: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Get mentions of the authenticated user.
+        """
+        endpoint = "/mentions"
+        if pagination_token:
+            endpoint += f"?paginationToken={paginationToken}"
+        return self._fetch_api(endpoint, "GET")
+
+    def _followers(self, pagination_token: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Get followers of the authenticated user.
+        """
+        endpoint = "/followers"
+        if pagination_token:
+            endpoint += f"?paginationToken={paginationToken}"
+        return self._fetch_api(endpoint, "GET")
+
+    def _following(self, pagination_token: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Get list of users whom the authenticated user is following.
+        """
+        endpoint = "/following"
+        if pagination_token:
+            endpoint += f"?paginationToken={paginationToken}"
+        return self._fetch_api(endpoint, "GET")
+    
+    def upload_media(self, media: bytes) -> str:
+        """
+        Uploads media (e.g. image, video) to X and returns the media ID.
+        """
+        response = requests.post(
+            url = f"{self.base_url}/media",
+            headers = {k: v for k, v in self.headers.items() if k != "Content-Type"},
+            files = {"file": media}
+        )
+        return response.json().get("mediaId")
