@@ -1,12 +1,7 @@
-import os
-import sys
 from typing import Tuple
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
-sys.path.append(project_root)
-
-from plugins.telegram.telegram_plugin_gamesdk.telegram_plugin import TelegramPlugin
-from src.game_sdk.game.custom_types import Function, FunctionResultStatus, Argument
+from game_sdk.game.custom_types import Function, FunctionResultStatus, Argument
+from telegram_plugin_gamesdk.telegram_plugin import TelegramPlugin
 
 
 def send_message_executable(tg_plugin: TelegramPlugin, chat_id: str, text: str) -> Tuple[FunctionResultStatus, str, dict]:
@@ -15,6 +10,7 @@ def send_message_executable(tg_plugin: TelegramPlugin, chat_id: str, text: str) 
         return FunctionResultStatus.DONE, "Message sent successfully", {}
     except Exception as e:
         return FunctionResultStatus.FAILED, str(e), {}
+
 
 def send_message_fn(bot: TelegramPlugin) -> Function:
     return Function(
@@ -27,12 +23,14 @@ def send_message_fn(bot: TelegramPlugin) -> Function:
         executable=lambda chat_id, text: send_message_executable(bot, chat_id, text),
     )
 
+
 def send_media_executable(tg_plugin: TelegramPlugin, chat_id: str, media_type: str, media: str, caption: str = None) -> Tuple[FunctionResultStatus, str, dict]:
     try:
         tg_plugin.send_media(chat_id=chat_id, media_type=media_type, media=media, caption=caption)
         return FunctionResultStatus.DONE, "Media sent successfully", {}
     except Exception as e:
         return FunctionResultStatus.FAILED, str(e), {}
+
 
 def send_media_fn(bot: TelegramPlugin) -> Function:
     return Function(
@@ -47,12 +45,14 @@ def send_media_fn(bot: TelegramPlugin) -> Function:
         executable=lambda chat_id, media_type, media, caption=None: send_media_executable(bot, chat_id, media_type, media, caption),
     )
 
+
 def create_poll_executable(tg_plugin: TelegramPlugin, chat_id: str, question: str, options: list[str], is_anonymous: bool = True, allows_multiple_answers: bool = False) -> Tuple[FunctionResultStatus, str, dict]:
     try:
         tg_plugin.create_poll(chat_id=chat_id, question=question, options=options, is_anonymous=is_anonymous, allows_multiple_answers=allows_multiple_answers)
         return FunctionResultStatus.DONE, "Poll created successfully", {}
     except Exception as e:
         return FunctionResultStatus.FAILED, str(e), {}
+
 
 def create_poll_fn(bot: TelegramPlugin) -> Function:
     return Function(
@@ -68,12 +68,14 @@ def create_poll_fn(bot: TelegramPlugin) -> Function:
         executable=lambda chat_id, question, options, is_anonymous=False, allows_multiple_answers=False: create_poll_executable(bot, chat_id, question, options, is_anonymous, allows_multiple_answers),
     )
 
+
 def pin_message_executable(tg_plugin: TelegramPlugin, chat_id: str, message_id: int) -> Tuple[FunctionResultStatus, str, dict]:
     try:
         tg_plugin.pin_message(chat_id=chat_id, message_id=message_id)
         return FunctionResultStatus.DONE, "Message pinned successfully", {}
     except Exception as e:
         return FunctionResultStatus.FAILED, str(e), {}
+
 
 def pin_message_fn(bot: TelegramPlugin) -> Function:
     return Function(
@@ -86,12 +88,14 @@ def pin_message_fn(bot: TelegramPlugin) -> Function:
         executable=lambda chat_id, message_id: pin_message_executable(bot, chat_id, message_id),
     )
 
+
 def unpin_message_executable(tg_plugin: TelegramPlugin, chat_id: str, message_id: int) -> Tuple[FunctionResultStatus, str, dict]:
     try:
         tg_plugin.unpin_message(chat_id=chat_id, message_id=message_id)
         return FunctionResultStatus.DONE, "Message unpinned successfully", {}
     except Exception as e:
         return FunctionResultStatus.FAILED, str(e), {}
+
 
 def unpin_message_fn(bot: TelegramPlugin) -> Function:
     return Function(
@@ -104,12 +108,14 @@ def unpin_message_fn(bot: TelegramPlugin) -> Function:
         executable=lambda chat_id, message_id: unpin_message_executable(bot, chat_id, message_id),
     )
 
+
 def delete_message_executable(tg_plugin: TelegramPlugin, chat_id: str, message_id: int) -> Tuple[FunctionResultStatus, str, dict]:
     try:
         tg_plugin.delete_message(chat_id=chat_id, message_id=message_id)
         return FunctionResultStatus.DONE, "Message deleted successfully", {}
     except Exception as e:
         return FunctionResultStatus.FAILED, str(e), {}
+
 
 def delete_message_fn(bot: TelegramPlugin) -> Function:
     return Function(
