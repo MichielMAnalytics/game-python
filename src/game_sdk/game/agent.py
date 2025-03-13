@@ -105,7 +105,7 @@ class Agent:
                  agent_description: str,
                  get_agent_state_fn: Callable,
                  workers: Optional[List[WorkerConfig]] = None,
-                 model_name: str = "Llama-3.1-70B-Instruct",
+                 model_name: str = "Llama-3.3-70B-Instruct",
                  ):
 
         if api_key.startswith("apt-"):
