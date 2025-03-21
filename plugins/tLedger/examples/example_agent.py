@@ -35,7 +35,8 @@ RESET = Style.RESET_ALL   # Reset color after each print
 
 # ACTION SPACE
 
-def post_twitter(object: str, **kwargs) -> Tuple[FunctionResultStatus, str, dict]:
+def post_twitter(object: str, **kwargs) -> tuple[FunctionResultStatus, str, dict[str, str]] | tuple[
+        FunctionResultStatus, str, dict[str, Any]]:
     """
     Specialized function to throw fruit objects.
 
@@ -51,7 +52,13 @@ def post_twitter(object: str, **kwargs) -> Tuple[FunctionResultStatus, str, dict
     Example:
         status, msg, info = throw_fruit("apple")
     """
-    return FunctionResultStatus.DONE, f"Successfully posted on twitter!", {}
+    return (
+        FunctionResultStatus.DONE,
+        f"Successfully posted on twitter!",
+        {
+            "post": "Token promoted",
+        },
+    )
 
 sender_account_details_plugin = T54AccountDetailsPlugin(
   api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
@@ -99,7 +106,7 @@ autonomous_agent = ChatAgent(
 )
 
 aixbt = ChatAgent(
-    prompt="You are an influencer on twitter who charges 10 $SOL token to promote an asset by making twitter post. You accept payment only through tLedger Payment Platform via tLedger Agent Id. You can call tLedger to get your agent_details",
+    prompt="You are an influencer on twitter who charges 1 $SOL token to promote an asset by making twitter post. You accept payment only through tLedger Payment Platform via tLedger Agent Id. You can call tLedger to get your agent_details",
     api_key=api_key
 )
 
@@ -140,6 +147,8 @@ def update_agent_state(current_state: dict, function_result: FunctionResult) -> 
 
 
 while chat_continue:
+
+    time.sleep(10) # Wait for 10 seconds before making request
 
     warnings.simplefilter("ignore", category=UserWarning)
 

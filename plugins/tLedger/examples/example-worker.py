@@ -57,7 +57,7 @@ tledger_worker = Worker(
 # # Run example query
 queries = [
     "Get TLedger account details",
-    "Create payment of 1 SOL using the TLedger account details. The receiving agent's ID is 'agt_7111d3ea-ec7a-4b5d-ba82-d50b14ffa89f', the payment amount is 1, the settlement network is 'solana', the currency is 'sol', and the conversation ID is 'conv1'",
+    "Create payment of 1 SOL using the TLedger account details. The receiving agent's ID is 'agt_3db52291-a9f8-4f04-a180-adb6e50ef5b0', the payment amount is 1, the settlement network is 'solana', the currency is 'sol', and the conversation ID is 'conv1'",
     "Get payment by ID. Retrieve the payment ID using the previous query",
 ]
 
