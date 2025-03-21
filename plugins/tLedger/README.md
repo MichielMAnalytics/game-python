@@ -11,7 +11,13 @@
 
 You are required to set up your account, project, agent profile, and keys in the TLedger platform to use the TLedger plugin for GAME SDK.
 
-To make testing easier, there are two agents already set up in the TLedger sandbox environment. You can use these agents to test the TLedger plugin. The agent details are as follows:
+To make the setup easy, all you need to do is run the setup.py file in the tLedger plugin folder. This will install the plugin and set up the necessary environment variables for you.
+To set up the necessary environment variables, please fill in thw details in the .env.setup file
+
+```shell
+python3 ./setup.py
+```
+There are also two agents set for you incase you want to test the plugin. The agent details are as follows:
 
 Agent 1:
 - Agent ID: agt_59b17650-a689-4649-91fa-4bf5d0db56ad
@@ -22,10 +28,6 @@ Agent 2:
 - Agent ID: agt_3db52291-a9f8-4f04-a180-adb6e50ef5b0
 - key: j06KtBcRRbmrEAqIVSiXZc3DPAJSqymDimo__ERD0oQ
 - secret: h13ERQG797cYMeNeRLvwDF_3-DBt4o-kp0fL-bFHKstTUTS5xsLUFgDEUZG2GsoEKINxeSVusbAQxc24mHm1eQ
-
-If you want to set your own TLedger agents, the following steps will guide you through the setup process.
-
-TLedger Sandbox URL = https://tledger-sandbox-69bd94a49289.herokuapp.com/
 
 ### TLedger Account Setup
 
