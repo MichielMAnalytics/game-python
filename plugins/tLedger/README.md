@@ -30,65 +30,9 @@ Agent 2:
 - secret: h13ERQG797cYMeNeRLvwDF_3-DBt4o-kp0fL-bFHKstTUTS5xsLUFgDEUZG2GsoEKINxeSVusbAQxc24mHm1eQ
 
 ### TLedger Account Setup
+For a complete list of TLedger setup APIs, please feel free to look at the public documentation at: https://docs.t54.ai/
 
-1. You first need to register your user on the TLedger platform
-
-POST /api/v1/users/signup
-payload = {
-  "email": "user@example.com",
-  "password": "password",
-  "full_name": "full name"
-}
-
-2. Login to your account and obtain the JWT token
-
-POST /api/v1/login/access-token
-payload = {
-    "username": "user@example.com",
-    "password": "password"
-}
-headers = {
-    "Content-Type": "application/x-www-form-urlencoded"
-}
-
-### TLedger Project Setup
-
-1. Create a project
-
-POST /api/v1/projects
-payload = {
-  "user_profile_id": "usr_123", # user_profile_id from the user profile
-  "network": "solana",
-  "description": "Solana Launch Pad",
-  "name": "Twitter Project",
-  "daily_limit": 100
-}
-
-### TLedger Agent Profile Setup
-
-1. Create an agent profile
-
-POST /api/v1/agent_profiles
-payload = {
-  "project_id": "{{project_id}}",
-  "name": "My Agent",
-  "description": "Twitter KOL Agent"
-}
-
-### TLedger Key Setup for Agent
-
-1. You need to create an API key for the agent to use the TLedger APIs
-
-POST /api/v1/api_key/generate-api-key
-{
-  "scopes": ["payments:read", "payments:write", "payments:agent:read"],
-  "agent_id": "agt_123456",
-  "created_by": "Name"
-}
-
-For a complete list of TLedger APIs, please feel free to look at the public documentation at: https://docs.t54.ai/
-
-### Setup and Configuration
+### Toolkit Setup and Configuration
 
 Import and initialize the plugin to use in your worker:
 
@@ -98,14 +42,14 @@ from plugins.tLedger.tledger_plugin_gamesdk.t54_payments_plugin import T54Paymen
 from plugins.tLedger.tledger_plugin_gamesdk.t54_account_details_plugin import T54AccountDetailsPlugin
 
 account_details_plugin = T54AccountDetailsPlugin(
-  api_key=os.environ.get("TLEDGER_API_KEY"),
-  api_secret=os.environ.get("TLEDGER_API_SECRET"),
+  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
+  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url=os.environ.get("TLEDGER_API_URL")
 )
 
 payments_plugin = T54PaymentsPlugin(
-  api_key=os.environ.get("TLEDGER_API_KEY"),
-  api_secret=os.environ.get("TLEDGER_API_SECRET"),
+  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
+  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url = os.environ.get("TLEDGER_API_URL")
 )
 ```
