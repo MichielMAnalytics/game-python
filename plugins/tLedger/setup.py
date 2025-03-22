@@ -83,8 +83,14 @@ email = os.environ.get("EMAIL")
 password = os.environ.get("PASSWORD")
 full_name = os.environ.get("FULL_NAME")
 
-# Register user
-user = register_user(email, password, full_name)
+try:
+    # Register user
+    user = register_user(email, password, full_name)
+except requests.HTTPError as e:
+    print(f"User already exists: {e}")
+    user = {
+        "id": "user_id"
+    }
 
 # Login user and get JWT token
 token = login_user(email, password)
@@ -94,15 +100,22 @@ project = create_project(token, user["id"], "solana", "Solana Launch Pad", "Twit
 project_id = project["id"]
 
 # Create agent profile
-agent_profile = create_agent_profile(token, project_id, "My Agent", "Twitter KOL Agent")
-agent_id = agent_profile["id"]
+agent_profile_sender = create_agent_profile(token, project_id, "Sending Agent", "Sending agent")
+agent_id_sender = agent_profile_sender["id"]
+
+# Create agent profile
+agent_profile_receiver = create_agent_profile(token, project_id, "Receiving Agent", "Twitter KOL Agent")
+agent_id_receiver = agent_profile_receiver["id"]
 
 # Generate API key for agent
-api_key = generate_api_key(token, agent_id, full_name)
+api_key_sender = generate_api_key(token, agent_id_sender, full_name)
+
+# Generate API key for agent
+api_key_receiver = generate_api_key(token, agent_id_receiver, full_name)
 
 print("Setup complete")
 print(f"Project ID: {project_id}")
-print(f"Agent ID: {agent_id}")
-print(f"API Key: {api_key}")
+print(f"Sender Agent ID: {agent_id_sender}. Solana address: {agent_profile_sender["account"][0]["wallet_address"]}. Sender API Key: {api_key_sender}")
+print(f"Receiver Agent ID: {agent_id_receiver}. Solana address: {agent_profile_receiver["account"][0]["wallet_address"]}. Receiver API Key: {api_key_receiver}")
 
 print(f"To add funds to your solana wallet, visit https://faucet.solana.com/")

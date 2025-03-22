@@ -31,14 +31,14 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
 
 
 account_details_plugin = T54AccountDetailsPlugin(
-  api_key=os.environ.get("TLEDGER_API_KEY"),
-  api_secret=os.environ.get("TLEDGER_API_SECRET"),
+  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
+  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url=os.environ.get("TLEDGER_API_URL")
 )
 
 payments_plugin = T54PaymentsPlugin(
-  api_key=os.environ.get("TLEDGER_API_KEY"),
-  api_secret=os.environ.get("TLEDGER_API_SECRET"),
+  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
+  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url = os.environ.get("TLEDGER_API_URL")
 )
 
