@@ -17,8 +17,7 @@ from game_sdk.game.custom_types import Argument, Function, FunctionResultStatus,
 from urllib3.exceptions import NotOpenSSLWarning
 
 
-from plugins.tLedger.tledger_plugin_gamesdk.t54_payments_plugin import T54PaymentsPlugin
-from plugins.tLedger.tledger_plugin_gamesdk.t54_account_details_plugin import T54AccountDetailsPlugin
+from plugins.tLedger.tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
 from colorama import Fore, Style
 
@@ -60,28 +59,22 @@ def post_twitter(object: str, **kwargs) -> tuple[FunctionResultStatus, str, dict
         },
     )
 
-sender_account_details_plugin = T54AccountDetailsPlugin(
+sender_tledger_plugin = TLedgerPlugin(
   api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
   api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url=os.environ.get("TLEDGER_API_URL")
 )
 
-sender_payments_plugin = T54PaymentsPlugin(
-  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
-  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
-  api_url = os.environ.get("TLEDGER_API_URL")
-)
-
-receiver_account_details_plugin = T54AccountDetailsPlugin(
+receiver_tledger_plugin = TLedgerPlugin(
   api_key=os.environ.get("RECEIVER_TLEDGER_API_KEY"),
   api_secret=os.environ.get("RECEIVER_TLEDGER_API_SECRET"),
   api_url=os.environ.get("TLEDGER_API_URL")
 )
 
 action_space = [
-    sender_account_details_plugin.functions.get("get_agent_profile_details"),
-    sender_payments_plugin.functions.get("create_payment"),
-    sender_payments_plugin.functions.get("get_payment_by_id"),
+    sender_tledger_plugin.functions.get("get_agent_profile_details"),
+    sender_tledger_plugin.functions.get("create_payment"),
+    sender_tledger_plugin.functions.get("get_payment_by_id"),
 ]
 
 aixbt_action_space = [
@@ -91,7 +84,7 @@ aixbt_action_space = [
         args=[Argument(name="object", type="string", description="Make post on twitter")],
         executable=post_twitter
     ),
-    receiver_account_details_plugin.functions.get("get_agent_profile_details")
+    receiver_tledger_plugin.functions.get("get_agent_profile_details")
 ]
 
 api_key = os.environ.get("GAME_API_KEY")

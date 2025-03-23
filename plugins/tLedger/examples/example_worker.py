@@ -12,8 +12,7 @@ load_dotenv(dotenv_path=env_path)
 # Add the project directory to the PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from plugins.tLedger.tledger_plugin_gamesdk.t54_payments_plugin import T54PaymentsPlugin
-from plugins.tLedger.tledger_plugin_gamesdk.t54_account_details_plugin import T54AccountDetailsPlugin
+from plugins.tLedger.tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
 def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     """
@@ -30,13 +29,8 @@ def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     return current_state
 
 
-account_details_plugin = T54AccountDetailsPlugin(
-  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
-  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
-  api_url=os.environ.get("TLEDGER_API_URL")
-)
 
-payments_plugin = T54PaymentsPlugin(
+tledger_plugin = TLedgerPlugin(
   api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
   api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url = os.environ.get("TLEDGER_API_URL")
@@ -48,9 +42,9 @@ tledger_worker = Worker(
     description="Worker specialized in doing payments on Tledger",
     get_state_fn=get_state_fn,
     action_space=[
-        account_details_plugin.functions.get("get_agent_profile_details"),
-        payments_plugin.functions.get("create_payment"),
-        payments_plugin.functions.get("get_payment_by_id"),
+        tledger_plugin.functions.get("get_agent_profile_details"),
+        tledger_plugin.functions.get("create_payment"),
+        tledger_plugin.functions.get("get_payment_by_id"),
     ],
 )
 
