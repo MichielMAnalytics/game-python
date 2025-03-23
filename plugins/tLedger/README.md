@@ -38,19 +38,12 @@ Import and initialize the plugin to use in your worker:
 
 ```python
 import os
-from plugins.tLedger.tledger_plugin_gamesdk.t54_payments_plugin import T54PaymentsPlugin
-from plugins.tLedger.tledger_plugin_gamesdk.t54_account_details_plugin import T54AccountDetailsPlugin
+from plugins.tLedger.tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
-account_details_plugin = T54AccountDetailsPlugin(
+tledger_plugin = TLedgerPlugin(
   api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
   api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
   api_url=os.environ.get("TLEDGER_API_URL")
-)
-
-payments_plugin = T54PaymentsPlugin(
-  api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
-  api_secret=os.environ.get("SENDER_TLEDGER_API_SECRET"),
-  api_url = os.environ.get("TLEDGER_API_URL")
 )
 ```
 
@@ -65,9 +58,9 @@ tledger_worker = Worker(
     description="Worker specialized in doing payments on Tledger",
     get_state_fn=get_state_fn,
     action_space=[
-        account_details_plugin.functions.get("get_agent_profile_details"),
-        payments_plugin.functions.get("create_payment"),
-        payments_plugin.functions.get("get_payment_by_id"),
+        tledger_plugin.functions.get("get_agent_profile_details"),
+        tledger_plugin.functions.get("create_payment"),
+        tledger_plugin.functions.get("get_payment_by_id"),
     ],
 )
 
