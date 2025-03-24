@@ -47,10 +47,14 @@ class Chat:
                 }
             )
             response_message = self._report_function_result(result)
+
+            # Noticing some issues with the FunctionResult model, so copying the result to a new object
+            result_copy = FunctionResult(action_id=result.action_id, action_status=result.action_status, feedback_message=result.feedback_message, info=result.info)
+
             function_call_response = FunctionCallResponse(
                 fn_name=fn_name,
                 fn_args=convo_response.function_call.args,
-                result=result,
+                result=result_copy,
             )
         else:
             response_message = convo_response.message or ""

@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "t54_plugin_gamesdk"
+name = "tledger_plugin_gamesdk"
 version = "0.1.0"
 authors = [{ name = "Prateek Tiwari", email = "ptiwari@t54.ai" }, { name = "Akshit Arora", email = "aarora@t54.ai" }]
 description = "TLedger SDK for GAME by Virtuals"

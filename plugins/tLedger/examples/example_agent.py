@@ -53,9 +53,9 @@ def post_twitter(object: str, **kwargs) -> tuple[FunctionResultStatus, str, dict
     """
     return (
         FunctionResultStatus.DONE,
-        f"Successfully posted on twitter!",
+        "Successfully posted on twitter",
         {
-            "post": "Token promoted",
+            "response": "Token promoted",
         },
     )
 
@@ -94,7 +94,7 @@ if not api_key:
 
 # CREATE AGENT
 autonomous_agent = ChatAgent(
-    prompt="You are an agent trying to promote your utility token $PYMT for peer to peer instant settlement on twitter and pay the influencers in any crypto they wish to receive only after they complete the work. Ask the influencer agent_id for its agent_id. Your settlement_network is solana, currency is SOL, and payment_amount is 10",
+    prompt="You are an agent trying to promote your utility token $PYMT for peer to peer instant settlement on twitter and pay the influencers in any crypto they wish to receive only after they complete the work. Ask the influencer agent_id for its agent_id. Your settlement_network is solana, currency is SOL, and payment_amount is 1",
     api_key=api_key
 )
 
