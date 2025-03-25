@@ -34,7 +34,7 @@ def login_user(username: str, password: str) -> str:
     response.raise_for_status()
     return response.json()["access_token"]
 
-def create_project(token, user_profile_id, network, description, name, daily_limit) -> dict:
+def create_project(user_profile_id, network, description, name, daily_limit) -> dict:
     url = f"{BASE_URL}/projects"
     payload = {
         "user_profile_id": user_profile_id,
@@ -43,9 +43,9 @@ def create_project(token, user_profile_id, network, description, name, daily_lim
         "name": name,
         "daily_limit": daily_limit
     }
-    headers = {
-        "Authorization": f"Bearer {token}"
-    }
+
+    headers = {}
+
     response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     return response.json()
@@ -58,17 +58,18 @@ def create_agent_profile(token, project_id, name, description) -> dict:
         "description": description
     }
     headers = {
-        "Authorization": f"Bearer {token}"
+        "X-API-Key": token["api_key"],
+        "X-API-Secret": token["secret"]
     }
     response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     return response.json()
 
-def generate_api_key(token, agent_id, created_by) -> dict:
+def generate_api_key(token, resource_id, created_by) -> dict:
     url = f"{BASE_URL}/api_key/generate-api-key"
     payload = {
-        "scopes": ["payments:read", "payments:write", "payments:agent:read"],
-        "agent_id": agent_id,
+        "scopes": ["payments:read", "balance:read", "payments:write", "agent:account:read", "agent:profile:create"],
+        "resource_id": resource_id,
         "created_by": created_by
     }
     headers = {
@@ -96,15 +97,18 @@ except requests.HTTPError as e:
 token = login_user(email, password)
 
 # Create project
-project = create_project(token, user["id"], "solana", "Solana Launch Pad", "Twitter Project", 100)
+project = create_project(user["id"], "solana", "Solana Launch Pad", "Twitter Project", 100)
 project_id = project["id"]
 
+# Generate API key for agent
+api_key_project = generate_api_key(token, project_id, full_name)
+
 # Create agent profile
-agent_profile_sender = create_agent_profile(token, project_id, "Sending Agent", "Sending agent")
+agent_profile_sender = create_agent_profile(api_key_project, project_id, "Sending Agent", "Sending agent")
 agent_id_sender = agent_profile_sender["id"]
 
 # Create agent profile
-agent_profile_receiver = create_agent_profile(token, project_id, "Receiving Agent", "Twitter KOL Agent")
+agent_profile_receiver = create_agent_profile(api_key_project, project_id, "Receiving Agent", "Twitter KOL Agent")
 agent_id_receiver = agent_profile_receiver["id"]
 
 # Generate API key for agent
