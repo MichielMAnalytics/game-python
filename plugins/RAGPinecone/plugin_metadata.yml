@@ -2,7 +2,7 @@
 plugin_name: "rag_pinecone_gamesdk"
 author: "Michiel Voortman"
 logo_url: ""
-release_date: "15-03-2025"
+release_date: "2025-03"
 
 # Description
 short_description: "RAG (Retrieval Augmented Generation) Plugin with Pinecone for GAME SDK"
