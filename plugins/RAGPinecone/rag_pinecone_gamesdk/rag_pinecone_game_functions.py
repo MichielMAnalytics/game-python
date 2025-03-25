@@ -168,4 +168,4 @@ def get_relevant_documents_fn(searcher: RAGSearcher) -> Function:
             Argument(name="query", description="The query to search for", type="str"),
         ],
         executable=lambda query: get_relevant_documents_executable(searcher, query),
-    ) 
+    )

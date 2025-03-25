@@ -567,4 +567,4 @@ if __name__ == "__main__":
     
     # Get all document IDs
     ids = populator.fetch_all_ids()
-    print(f"Total vectors in database: {len(ids)}") 
+    print(f"Total vectors in database: {len(ids)}")

@@ -71,4 +71,4 @@ def main():
             logger.info(f"First document preview: {content_preview}")
 
 if __name__ == "__main__":
-    main() 
+    main()

@@ -222,4 +222,4 @@ class RAGPineconePlugin:
                 {
                     "content": content[:100] + "..." if len(content) > 100 else content
                 }
-            ) 
+            )
