@@ -97,6 +97,7 @@ class GameSDK:
         payload = {
             "goal": goal,
             "description": description,
+            "worldInfo": "",
             "functions": functions,
             "customFunctions": [x.toJson() for x in custom_functions],
             "gameState": {

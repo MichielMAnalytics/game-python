@@ -108,3 +108,6 @@ agent.simulate_twitter(session_id="session-twitter")
 
 # reset production memory
 #agent.reset_memory()
+
+# deploy agent
+# agent.deploy_twitter()
