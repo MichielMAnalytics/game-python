@@ -36,6 +36,7 @@ class GameSDK:
                     "sessionId": session_id,
                     "goal": goal,
                     "description": description,
+                    "worldInfo": "",
                     "functions": functions,
                     "customFunctions": [x.toJson() for x in custom_functions]
                 }
@@ -60,6 +61,7 @@ class GameSDK:
             "sessionId": session_id,
             "goal": goal,
             "description": description,
+            "worldInfo": "",
             "functions": functions,
             "customFunctions": [x.toJson() for x in custom_functions]
         }
