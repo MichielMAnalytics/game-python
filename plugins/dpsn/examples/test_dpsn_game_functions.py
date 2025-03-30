@@ -24,9 +24,21 @@ async def test_dpsn_connection():
     print("✅ DPSN initialized successfully")
     return True
 
+  
 async def test_subscribe_and_receive():
     """Test subscribing to topics and receiving messages"""
     print("\n🔄 Testing Subscription and Message Reception...")
+    
+    # Define message handler first
+    async def message_handler(message):
+        print(f"\n📨 Received Message:")
+        print(f"Topic: {message['topic']}")
+        print(f"Payload: {message['payload']}")
+        print(f"Time: {message['timestamp']}")
+        print("-" * 50)
+
+    # Set the callback before subscribing
+    plugin.set_message_callback(message_handler)
     
     # Test topic
     topic = "0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/SOLUSDT/ticker"
@@ -39,18 +51,11 @@ async def test_subscribe_and_receive():
     
     print(f"✅ Subscribed to topic: {topic}")
     
-    # Wait for some messages
-    print("⏳ Waiting for messages (2 seconds)...")
-    await asyncio.sleep(2)
-    
-    
-    # Check received messages
-    # messages = plugin.get_messages()
-    print(f"\nReceived {len(messages)} messages:")
-    for msg in messages:
-        print(f"Topic: {msg['topic']}")
-        print(f"Payload: {msg['payload']}")
-        print(f"Timestamp: {msg['timestamp']}\n")
+    # Wait for messages with shorter intervals to see if we're receiving them
+    print("⏳ Waiting for messages (30 seconds)...")
+    for _ in range(6):  # Check every 5 seconds for 30 seconds total
+        await asyncio.sleep(5)
+        print("Checking for messages...")
     
     return True
 
