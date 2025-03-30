@@ -16,7 +16,7 @@ class DpsnPlugin:
         self.dpsn_url = os.getenv("DPSN_URL")
         self.pvt_key = os.getenv("PVT_KEY")
         self.client = None
-        self.messages = []
+        self.message_callback = None  # Single callback instead of array
 
     async def initialize(self):
         """Initialize the DPSN client with default configuration"""
@@ -77,16 +77,26 @@ class DpsnPlugin:
         """Default subscribe event handler"""
         print(f"📥 Subscribed to {info['topic']} (QoS:{info['qos']})")
 
+    def set_message_callback(self, callback):
+        """Set a single callback function to handle messages"""
+        self.message_callback = callback
+
     async def _on_message(self, msg):
-        """Default message event handler"""
+        """Process message immediately when received"""
         message_data = {
             "topic": msg["topic"],
             "payload": msg["payload"],
             "timestamp": datetime.now().isoformat()
         }
-        self.messages.append(message_data)
-        return msg
-        # print(f"📨 Message received -> {msg['topic']} : {msg['payload']}")
+        
+        # Execute single callback if set
+        if self.message_callback:
+            try:
+                await self.message_callback(message_data)
+            except Exception as e:
+                print(f"Error in message callback: {e}")
+        
+        return message_data
 
 
 # Create plugin instance
