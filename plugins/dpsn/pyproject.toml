@@ -6,7 +6,7 @@ authors = [{ name = "dpsn-dev", email = "dev@dpsn.org" }]
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-  "/Users/anishrane/workspace/dpsn-asyncio-py/asyncio-dpsn-client/dist/dpsn_client-0.1.0-py3-none-any.whl",
+  "/Users/anishrane/workspace/dpsn_python_lib/dpsn-python-client/dist/dpsn_client-0.1.0-py3-none-any.whl",
 ]
 
 [build-system]
