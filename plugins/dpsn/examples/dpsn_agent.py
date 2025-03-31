@@ -1,6 +1,5 @@
 import os
 import sys
-import asyncio
 from pathlib import Path
 import json
 from datetime import datetime
@@ -24,8 +23,10 @@ def handle_incoming_message(message_data: dict):
         # Pretty print payload if it's likely JSON/dict
         if isinstance(payload, (dict, list)):
             print(f"Payload:\n{json.dumps(payload, indent=2)}")
+            return payload
         else:
             print(f"Payload: {payload}")
+            return payload
         print("-----------------------------------")
     except Exception as e:
         print(f"Error in message handler: {e}")
@@ -58,24 +59,15 @@ def get_worker_state(function_result: FunctionResult, current_state: dict) -> di
 
     return current_state
 
-# Define workers for different DPSN operations
-connection_worker = WorkerConfig(
-    id="connection_worker",
-    worker_description="Worker specialized in managing DPSN connection lifecycle",
-    get_state_fn=get_worker_state,
-    action_space=[
-        plugin.get_function("initialize"),
-        plugin.get_function("shutdown")
-    ],
-)
 
 subscription_worker = WorkerConfig(
     id="subscription_worker",
-    worker_description="Worker specialized in managing DPSN topic subscriptions, unsubscriptions, and message handling",
+    worker_description="Worker specialized in managing DPSN topic subscriptions, unsubscriptions, message handling, and shutdown.",
     get_state_fn=get_worker_state,
     action_space=[
         plugin.get_function("subscribe"),
-        plugin.get_function("unsubscribe")
+        plugin.get_function("unsubscribe"),
+        plugin.get_function("shutdown")
     ],
 )
 
@@ -85,20 +77,16 @@ agent = Agent(
     name="DPSN Market Data Agent",
     agent_goal="Monitor SOLUSDT market data from DPSN and process real-time updates.",
     agent_description=(
-        "You are an AI agent specialized in DPSN market data processing. "
-        "You can establish connections to DPSN, manage topic subscriptions, "
-        "and handle real-time market data messages. "
-        "You focus on SOLUSDT trading pair data and can process market updates "
-        "as they arrive. The available topics include price and trading information "
-        "for SOLUSDT pairs. You should first initialize the connection, then "
-        "subscribe to relevant topics, and process incoming messages."
-        "Summarize the information received"
+        "You are an AI agent specialized in DPSN market data processing"
+        "You can subscribe dpsn topic"
+        "after 5 minutes unsubscribe the topic"
+        "next 5 minutes close the connection"
         "\n\nAvailable topics:"
         "\n- 0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/SOLUSDT/ohlc"
     ),
     get_agent_state_fn=get_agent_state_fn,
     workers=[
-        connection_worker,
+        # connection_worker,
         subscription_worker
     ]
 )

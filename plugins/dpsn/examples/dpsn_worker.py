@@ -22,18 +22,6 @@ class DpsnWorker:
         self.trades: List[Dict[str, Any]] = []
         self.is_running = False
 
-    def initialize(self):
-        """Initialize the DPSN worker"""
-        result = self.plugin.initialize()
-        # Check status using tuple index 0
-        if result[0] != FunctionResultStatus.DONE:
-            # Get error message from tuple index 1
-            error_message = result[1] if len(result) > 1 else "Unknown initialization error"
-            raise Exception(f"Failed to initialize DPSN: {error_message}")
-        print("DPSN Worker Initialized Successfully")
-        # No need to return True, can just proceed or return the result tuple if needed elsewhere
-        # return True
-
     def process_message(self, message: Dict[str, Any]):
         """Process incoming messages and execute trades"""
         topic = message['topic']
@@ -60,6 +48,7 @@ class DpsnWorker:
                 try:
                     price = float(payload.get('price', 0))
                     if price > 100:
+
                         return {
                             "action": "SELL",
                             "price": price,
@@ -74,8 +63,6 @@ class DpsnWorker:
 
     def start(self):
         """Start the DPSN worker"""
-        self.initialize()
-        
         self.plugin.set_message_callback(self.process_message)
         
         topics = [
@@ -83,17 +70,13 @@ class DpsnWorker:
             # Add other topics if needed
         ]
         
-        print("Subscribing to topics...")
+        print("Subscribing to topics (will initialize connection if needed)...")
         for topic in topics:
             result = self.plugin.subscribe(topic)
-            # Check status using tuple index 0
             if result[0] != FunctionResultStatus.DONE:
-                # Get error message from tuple index 1
                 error_message = result[1] if len(result) > 1 else f"Unknown subscription error for {topic}"
                 print(f"Failed to subscribe to {topic}: {error_message}")
-                # Consider raising Exception or implementing retry logic here
             else:
-                # Success message is at index 1
                 print(result[1]) # e.g., "Successfully subscribed to topic: ..."
         
         self.is_running = True
