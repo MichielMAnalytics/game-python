@@ -92,8 +92,9 @@ agent = Agent(
         "as they arrive. The available topics include price and trading information "
         "for SOLUSDT pairs. You should first initialize the connection, then "
         "subscribe to relevant topics, and process incoming messages."
+        "Summarize the information received"
         "\n\nAvailable topics:"
-        "\n- 0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/SOLUSDT/ticker"
+        "\n- 0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/SOLUSDT/ohlc"
     ),
     get_agent_state_fn=get_agent_state_fn,
     workers=[
