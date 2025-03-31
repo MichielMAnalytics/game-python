@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from dpsn_client.client import DpsnClient, DPSNError
 from datetime import datetime
 from game_sdk.game.custom_types import Function, Argument, FunctionResultStatus
-from typing import Dict, Any, Callable, Tuple
+from typing import Dict, Any, Callable, Tuple,Optional
 import json
 import logging
 
@@ -20,14 +20,14 @@ class DpsnPlugin:
     subscriptions, and message handling.
     """
 
-    def __init__(self):
-        self.dpsn_url = os.getenv("DPSN_URL")
-        self.pvt_key = os.getenv("PVT_KEY")
+    def __init__(self,
+                dpsn_url:Optional[str] = os.getenv("DPSN_URL"),
+                pvt_key:Optional[str] = os.getenv("PVT_KEY")
+                 ):
+        self.dpsn_url = dpsn_url
+        self.pvt_key = pvt_key
         if not self.dpsn_url or not self.pvt_key:
             logger.error("DPSN_URL and PVT_KEY must be set in .env file")
-            # Consider raising an error or handling this more gracefully
-            # depending on how the game SDK expects plugin failures
-        
         self.client: DpsnClient | None = None # Type hint for clarity
         self.message_callback: Callable[[Dict[str, Any]], None] | None = None # Type hint
 
@@ -53,7 +53,7 @@ class DpsnPlugin:
                 hint="Subscribes to a specific DPSN topic to receive messages.",
                 executable=self.subscribe
             ),
-            # Added unsubscribe function
+
             "unsubscribe": Function(
                 fn_name="unsubscribe",
                 fn_description="Unsubscribe from a DPSN topic",
