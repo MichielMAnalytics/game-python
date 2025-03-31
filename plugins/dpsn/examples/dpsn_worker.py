@@ -9,6 +9,8 @@ import time # Import time for sleep
 parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)
 
+# Import FunctionResultStatus to check the status enum
+from game_sdk.game.custom_types import FunctionResultStatus 
 from dpsn_plugin_gamesdk.dpsn_plugin import plugin
 
 class DpsnWorker:
@@ -22,12 +24,15 @@ class DpsnWorker:
 
     def initialize(self):
         """Initialize the DPSN worker"""
-        # Call synchronous initialize
         result = self.plugin.initialize()
-        if not result["success"]:
-            raise Exception(f"Failed to initialize DPSN: {result.get('error')}")
+        # Check status using tuple index 0
+        if result[0] != FunctionResultStatus.DONE:
+            # Get error message from tuple index 1
+            error_message = result[1] if len(result) > 1 else "Unknown initialization error"
+            raise Exception(f"Failed to initialize DPSN: {error_message}")
         print("DPSN Worker Initialized Successfully")
-        return True
+        # No need to return True, can just proceed or return the result tuple if needed elsewhere
+        # return True
 
     def process_message(self, message: Dict[str, Any]):
         """Process incoming messages and execute trades"""
@@ -71,10 +76,8 @@ class DpsnWorker:
         """Start the DPSN worker"""
         self.initialize()
         
-        # Set up message handler (synchronous)
         self.plugin.set_message_callback(self.process_message)
         
-        # Subscribe to topics (synchronous)
         topics = [
             "0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/SOLUSDT/ticker",
             # Add other topics if needed
@@ -83,13 +86,15 @@ class DpsnWorker:
         print("Subscribing to topics...")
         for topic in topics:
             result = self.plugin.subscribe(topic)
-            if not result["success"]:
-                print(f"Failed to subscribe to {topic}: {result.get('error')}")
-                # Decide how to handle subscription failure (e.g., raise error, skip)
-                # continue
-                # raise Exception(f"Subscription failed for {topic}")
+            # Check status using tuple index 0
+            if result[0] != FunctionResultStatus.DONE:
+                # Get error message from tuple index 1
+                error_message = result[1] if len(result) > 1 else f"Unknown subscription error for {topic}"
+                print(f"Failed to subscribe to {topic}: {error_message}")
+                # Consider raising Exception or implementing retry logic here
             else:
-                print(f"Successfully subscribed to {topic}")
+                # Success message is at index 1
+                print(result[1]) # e.g., "Successfully subscribed to topic: ..."
         
         self.is_running = True
         print("DPSN Worker Started")
