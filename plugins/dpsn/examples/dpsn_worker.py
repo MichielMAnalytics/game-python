@@ -39,8 +39,27 @@ class DpsnWorker:
             print(f"💼 Trade executed: {trade}")
 
     # Example use case of dpsn plugin worker
+    
     def execute_trade(self, topic: str, payload: Dict[str, Any]) -> Dict[str, Any] | None:
-        """Execute trades based on market data"""
+        """
+        Demonstrates a potential use case for reacting to DPSN messages.
+
+        **This is a highly simplified example for demonstration purposes only.**
+
+        It simulates a basic trading decision based on a received price.
+        It lacks proper error handling, risk management, sophisticated logic,
+        and integration with actual trading systems.
+
+        **Do NOT use this function in a real-world trading implementation.**
+
+        Args:
+            topic: The topic the message was received on.
+            payload: The message payload.
+
+        Returns:
+            A dictionary representing a trade order if conditions are met,
+            otherwise None.
+        """
         # Example trade execution logic (synchronous)
         if "SOLUSDT" in topic:
             # Ensure payload is a dictionary before accessing keys
