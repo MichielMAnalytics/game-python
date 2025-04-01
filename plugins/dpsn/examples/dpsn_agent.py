@@ -3,12 +3,14 @@ import sys
 from pathlib import Path
 import json
 from datetime import datetime
+from collections import deque
+from typing import Dict, Any, List
 
 parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)
 
 from game_sdk.game.agent import Agent, WorkerConfig
-from game_sdk.game.custom_types import FunctionResult
+from game_sdk.game.custom_types import FunctionResult, Function, Argument, FunctionResultStatus
 from dpsn_plugin_gamesdk.dpsn_plugin import plugin
 
 # --- Add Message Handler --- 
@@ -18,8 +20,14 @@ def handle_incoming_message(message_data: dict):
         topic = message_data.get('topic', 'N/A')
         payload = message_data.get('payload', '{}')
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Store the message
+        message_store.add_message(message_data)
+        
         print(f"\n--- Message Received ({timestamp}) ---")
         print(f"Topic: {topic}")
+        print(f"Message Count: {message_store.message_count}")
+        
         # Pretty print payload if it's likely JSON/dict
         if isinstance(payload, (dict, list)):
             print(f"Payload:\n{json.dumps(payload, indent=2)}")
@@ -85,7 +93,6 @@ agent = Agent(
         
         "3. When you receive messages on this topic:\n"
         "   - Report that you received a message\n"
-        "   - Summarize the content of each message in a clear, human-readable format\n"
         
         "4. After receiving messages for 2 minutes (or at least 3 messages, whichever comes first):\n"
         "   - Unsubscribe from the topic using the unsubscribe function\n"
