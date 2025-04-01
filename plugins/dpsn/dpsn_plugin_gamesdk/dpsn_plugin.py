@@ -68,12 +68,12 @@ class DpsnPlugin:
        
         self._functions = {
             "subscribe": Function(
-                fn_name="subscribe",
-                fn_description="Subscribe to a DPSN topic",
+                fn_name="subscribe_to_topic",
+                fn_description="Subscribe to a DPSN topic to receive messages",
                 args=[
                     Argument(
                         name="topic",
-                        description="The topic string to subscribe to",
+                        description="The DPSN topic to subscribe to",
                         type="string",
                         required=True
                     )
@@ -82,12 +82,12 @@ class DpsnPlugin:
                 executable=self.subscribe # Keep executable pointing to the public method
             ),
             "unsubscribe": Function(
-                fn_name="unsubscribe",
-                fn_description="Unsubscribe from a DPSN topic",
+                fn_name="unsubscribe_to_topic",
+                fn_description="unsubscribe to a DPSN topic to stop receiving messages",
                 args=[
                     Argument(
                         name="topic",
-                        description="The topic string to unsubscribe from",
+                        description="The DPSN topic to unsubscribe to",
                         type="string",
                         required=True
                     )
