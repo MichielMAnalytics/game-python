@@ -4,7 +4,7 @@
 
 [![Virtuals Protocol](https://img.shields.io/badge/Virtuals%20Protocol-plugin-blue)](https://virtuals.io/)
 [![Version](https://img.shields.io/badge/version-alpha-orange)](https://github.com/virtuals-protocol/virtuals-game-python)
-[![License](https://img.shields.io/badge/license-MIT-green)](../../LICENSE) # Adjust path if needed
+[![License](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 
 ## 📋 Overview
 
@@ -12,7 +12,7 @@ This plugin enables Virtuals Protocol agents (written in Python) to connect to, 
 
 Agents can leverage this plugin to consume real-time data for decision-making, reacting to events, or integrating external information feeds.
 
-To provide personalized data streams for your agents, you can create and publish data into your own DPSN topics using the [dpsn-client for Python](https://github.com/DPSN-org/dpsn-python-client). # Verify link/package name if available
+To provide personalized data streams for your agents, you can create and publish data into your own DPSN topics using the [dpsn-client for Python](https://github.com/DPSN-org/dpsn-python-client).
 
 For more information, visit:
 -   [DPSN Official Website](https://dpsn.org)
