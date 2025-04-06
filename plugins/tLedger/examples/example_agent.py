@@ -71,21 +71,18 @@ receiver_tledger_plugin = TLedgerPlugin(
   api_url=os.environ.get("TLEDGER_API_URL")
 )
 
-action_space = [
-    sender_tledger_plugin.functions.get("get_agent_profile_details"),
-    sender_tledger_plugin.functions.get("create_payment"),
-    sender_tledger_plugin.functions.get("get_payment_by_id"),
-]
+action_space = sender_tledger_plugin.get_tools()
 
-aixbt_action_space = [
+aixbt_action_space = receiver_tledger_plugin.get_tools()
+
+aixbt_action_space.append(
     Function(
         fn_name="post_twitter",
         fn_description="Make post on twitter",
         args=[Argument(name="object", type="string", description="Make post on twitter")],
         executable=post_twitter
-    ),
-    receiver_tledger_plugin.functions.get("get_agent_profile_details")
-]
+    )
+)
 
 api_key = os.environ.get("GAME_API_KEY")
 if not api_key:
@@ -94,12 +91,12 @@ if not api_key:
 
 # CREATE AGENT
 autonomous_agent = ChatAgent(
-    prompt="You are an agent trying to promote your utility token $PYMT for peer to peer instant settlement on twitter and pay the influencers in any crypto they wish to receive only after they complete the work. Ask the influencer agent_id for its agent_id. Your settlement_network is solana, currency is SOL, and payment_amount is 1",
+    prompt="You are an agent trying to promote your utility token $PYMT for peer to peer instant settlement on twitter and pay the influencers in any crypto they wish to receive only after they complete the work. Ask the influencer agent_id for its agent_id. Your settlement_network is solana, currency is SOL, and payment_amount is 0.1",
     api_key=api_key
 )
 
 aixbt = ChatAgent(
-    prompt="You are an influencer on twitter who charges 1 $SOL token to promote an asset by making twitter post. You accept payment only through tLedger Payment Platform via tLedger Agent Id. You can call tLedger to get your agent_details",
+    prompt="You are an influencer on twitter who charges 0.1 $SOL token to promote an asset by making twitter post. You accept payment only through tLedger Payment Platform via tLedger Agent Id. You can call tLedger to get your agent_details. Don't do a payment until you receive the payment and its completed",
     api_key=api_key
 )
 
@@ -147,9 +144,6 @@ while chat_continue:
 
     meme_agent_turn: bool
 
-    # print(f"Pymt Agent State: {autonomous_agent_chat.get_state_fn()}")
-    # print(f"Aixbt Agent state: {aixbt_chat.get_state_fn()}")
-#    chat_response: ChatResponse
     if initialize_conversation:
         chat_response = autonomous_agent_chat.next("Hi")
         if chat_response.message:
@@ -172,8 +166,6 @@ while chat_continue:
     else:
 
         updated_response = aixbt_chat.next(chat_response.message)
-        # if updated_response.function_call:
-        #     print(f"Function call: {updated_response.function_call}")
 
         if updated_response.message:
             print(f"{USER_COLOR}Aixbt Response{RESET}: {updated_response.message}")

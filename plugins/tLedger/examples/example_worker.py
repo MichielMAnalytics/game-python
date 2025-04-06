@@ -41,11 +41,7 @@ tledger_worker = Worker(
     api_key=os.environ.get("GAME_API_KEY"),
     description="Worker specialized in doing payments on Tledger",
     get_state_fn=get_state_fn,
-    action_space=[
-        tledger_plugin.functions.get("get_agent_profile_details"),
-        tledger_plugin.functions.get("create_payment"),
-        tledger_plugin.functions.get("get_payment_by_id"),
-    ],
+    action_space=tledger_plugin.get_tools(),
 )
 
 # # Run example query

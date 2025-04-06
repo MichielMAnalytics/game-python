@@ -74,13 +74,6 @@ class TLedgerPlugin:
                     )
                 ],
             ),
-            "get_payments": Function(
-                fn_name="get_payments",
-                fn_description="Get payments",
-                hint="This function is used to get all the payments",
-                executable=self.get_payments,
-                args=[],
-            ),
 
             "get_agent_profile_details": Function(
                 fn_name="get_agent_profile_details",
@@ -90,6 +83,10 @@ class TLedgerPlugin:
                 args=[],
             ),
         }
+
+    def get_tools(self) -> list[Function]:
+        # returns the available functions
+        return list(self.functions.values())
 
     def create_payment(self, request_id: str, receiving_agent_id: str, payment_amount: float, settlement_network: str, currency: str, conversation_id: str, **kwargs) -> \
     tuple[FunctionResultStatus, str, dict[str, Any]] | tuple[FunctionResultStatus, str, dict[Any, Any]]:
@@ -136,10 +133,10 @@ class TLedgerPlugin:
                 },
             )
         except Exception as e:
-            print(f"An error occurred while generating image: {str(e)}")
+            print(f"An error occurred while creating a payment: {str(e)}")
             return (
                 FunctionResultStatus.FAILED,
-                f"An error occurred while while generating image: {str(e)}",
+                f"An error occurred while creating a payment: {str(e)}",
                 {
                 },
             )
@@ -183,48 +180,6 @@ class TLedgerPlugin:
                 f"An error occurred while while getting payment: {str(e)}",
                 {
                     "payment_id": payment_id,
-                    "get_url": get_url,
-                },
-            )
-
-    def get_payments(self, **kwargs) -> \
-            tuple[FunctionResultStatus, str, dict[str, Any]] | tuple[FunctionResultStatus, str, dict[Any, Any]]:
-        """Generate image based on prompt.
-
-        Returns:
-            str URL of image (need to save since temporal)
-        """
-        # API endpoint for image generation
-        # Prepare headers for the request
-        headers = {
-            "X-API-Key": self.api_key,
-            "X-API-Secret": self.api_secret,
-            "Content-Type": "application/json",
-        }
-
-        get_url = self.api_url + "payments"
-
-        try:
-            # Make the API request
-            response = requests.get(get_url, headers=headers)
-            response.raise_for_status()
-
-            # Extract the image URL from the response
-            response_data = response.json()
-
-            return (
-                FunctionResultStatus.DONE,
-                f"The get payments response is: {response_data}",
-                {
-                    "response": response_data,
-                },
-            )
-        except Exception as e:
-            print(f"An error occurred while getting payments: {str(e)}")
-            return (
-                FunctionResultStatus.FAILED,
-                f"An error occurred while getting payments: {str(e)}",
-                {
                     "get_url": get_url,
                 },
             )

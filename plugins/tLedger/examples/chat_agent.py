@@ -84,7 +84,7 @@ class Chat:
                 else None
             ),
         }
-        #print(f"Data: {data}")
+
         result = self.client.update_chat(self.chat_id, data)
         return GameChatResponse.model_validate(result)
 
