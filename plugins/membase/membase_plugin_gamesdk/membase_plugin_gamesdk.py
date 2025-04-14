@@ -42,4 +42,3 @@ class MembasePlugin:
     
     def reload_memory(self, conversation_id: str):
         self._multi_memory.load_from_hub(conversation_id)
-    
