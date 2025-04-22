@@ -50,7 +50,14 @@ The `DpsnPlugin` is designed to be used within the Virtuals Protocol Game SDK fr
 
 ```python
 # Import the pre-instantiated plugin (recommended)
-from plugins.dpsn.dpsn_plugin_gamesdk.dpsn_plugin import plugin
+from plugins.dpsn.dpsn_plugin_gamesdk.dpsn_plugin import DpsnPlugin
+load_dotenv()
+
+dpsn_plugin=DpsnPlugin(
+            dpsn_url=os.getenv("DPSN_URL"),
+            pvt_key=os.getenv("PVT_KEY")
+        )
+
 # Define a simple message handler
 def handle_message(message_data):
     topic = message_data.get('topic', 'unknown')
@@ -58,17 +65,17 @@ def handle_message(message_data):
     print(f"Message on {topic}: {payload}")
 
 # Register the message handler
-plugin.set_message_callback(handle_message)
+dpsn_plugin.set_message_callback(handle_message)
 
 # Subscribe to a topic
-status, message, details = plugin.subscribe(
+status, message, details = dpsn_plugin.subscribe(
     topic="0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/BTCUSDT/ticker"
 )
 print(f"Subscription status: {status}, Message: {message}")
 
 # Later when done:
-# plugin.unsubscribe(topic="0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/BTCUSDT/ticker")
-# plugin.shutdown()
+dpsn_plugin.unsubscribe(topic="0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/BTCUSDT/ticker")
+dpsn_plugin.shutdown()
 
 ```
 
@@ -79,8 +86,14 @@ The Game Agent interacts with the plugin by executing tasks that map to the plug
 ```python
 from game_sdk.game.agent import Agent, WorkerConfig
 from game_sdk.game.custom_types import FunctionResult
-from dpsn_plugin_gamesdk.dpsn_plugin import plugin
+from dpsn_plugin_gamesdk.dpsn_plugin import DpsnPlugin
 
+load_dotenv()
+
+dpsn_plugin=DpsnPlugin(
+            dpsn_url=os.getenv("DPSN_URL"),
+            pvt_key=os.getenv("PVT_KEY")
+        )
 # --- Add Message Handler --- 
 def handle_incoming_message(message_data: dict):
     """Callback function to process messages received via the plugin."""
@@ -102,7 +115,7 @@ def handle_incoming_message(message_data: dict):
         print(f"Error in message handler: {e}")
 
 # Set the callback in the plugin instance *before* running the agent
-plugin.set_message_callback(handle_incoming_message)
+dpsn_plugin.set_message_callback(handle_incoming_message)
 
 def get_agent_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     """Update state based on the function results"""
@@ -134,9 +147,9 @@ subscription_worker = WorkerConfig(
     worker_description="Worker specialized in managing DPSN topic subscriptions, unsubscriptions, message handling, and shutdown.",
     get_state_fn=get_worker_state,
     action_space=[
-        plugin.get_function("subscribe"),
-        plugin.get_function("unsubscribe"),
-        plugin.get_function("shutdown")
+        dpsn_plugin.get_function("subscribe"),
+        dpsn_plugin.get_function("unsubscribe"),
+        dpsn_plugin.get_function("shutdown")
     ],
 )
 
@@ -189,5 +202,3 @@ The plugin exposes the following functions intended to be called via the Game Ag
 
 
 > In case of any queries regarding DPSN, please reach out to the team on [Telegram](https://t.me/dpsn_dev) 📥.
-
-
