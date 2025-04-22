@@ -3,23 +3,24 @@ import os
 from pathlib import Path
 import time
 from datetime import datetime
+from game_sdk.game.custom_types import Function, Argument, FunctionResultStatus
+from dotenv import load_dotenv
+load_dotenv()
 
-# Add the parent directory to Python path
-parent_dir = str(Path(__file__).parent.parent)
-sys.path.append(parent_dir)
 
-from dpsn_plugin_gamesdk.dpsn_plugin import plugin
+
+from dpsn_plugin_gamesdk.dpsn_plugin import DpsnPlugin
+
+dpsn_plugin=DpsnPlugin(
+     dpsn_url=os.getenv("DPSN_URL"),
+    pvt_key=os.getenv("PVT_KEY")
+)
 
 def test_dpsn_connection():
     """Test DPSN connection and basic functionality"""
     print("\n🔄 Testing DPSN Connection...")
     
-    # Initialize DPSN client (without options since the method doesn't accept them)
-    result = plugin.initialize()
-    if not result["success"]:
-        print(f"❌ Failed to initialize DPSN: {result.get('error')}")
-        return False
-    
+  
     # Wait for connection to stabilize
     time.sleep(1)
     print("✅ DPSN initialized successfully")
@@ -36,13 +37,13 @@ def test_subscribe_and_receive():
         print(f"Received message on {topic}: {payload}")
 
     # Set the callback
-    plugin.set_message_callback(handle_message)
+    dpsn_plugin.set_message_callback(handle_message)
     
     # Test topic
     topic = "0xe14768a6d8798e4390ec4cb8a4c991202c2115a5cd7a6c0a7ababcaf93b4d2d4/SOLUSDT/ohlc"
     
     print(f"Subscribing to topic: {topic}")
-    result = plugin.subscribe(topic)
+    result = dpsn_plugin.subscribe(topic)
     if not result["success"]:
         print(f"❌ Failed to subscribe to topic: {result.get('error')}")
         return False
@@ -52,26 +53,24 @@ def test_subscribe_and_receive():
     
     try:
         while True:
-            if not plugin.client.dpsn_broker.is_connected():
+            if not dpsn_plugin.client.dpsn_broker.is_connected():
                 print("Connection lost, attempting to reconnect...")
-                plugin.initialize()
+                dpsn_plugin.initialize()
                 time.sleep(1)
-                plugin.subscribe(topic)
+                dpsn_plugin.subscribe(topic)
             time.sleep(1)
             
     except KeyboardInterrupt:
         print("\n⚠️ Test interrupted by user")
         return True
     
-    return True
-
 def test_shutdown():
     """Test graceful shutdown"""
     print("\n🔄 Testing Shutdown...")
     
-    result = plugin.shutdown()
-    if not result["success"]:
-        print(f"❌ Failed to shutdown: {result.get('error')}")
+    status,message,extra = dpsn_plugin.shutdown()
+    if status is not FunctionResultStatus.DONE:
+        print(f"❌ Failed to shutdown")
         return False
     
     print("✅ Shutdown successful")
@@ -86,7 +85,6 @@ def main():
         if not test_dpsn_connection():
             return
         
-        # Test subscription and message reception
         if not test_subscribe_and_receive():
             return
         

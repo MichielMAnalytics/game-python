@@ -7,13 +7,17 @@ import time
 import threading
 import signal
 from typing import Dict, Any, Tuple
-
-parent_dir = str(Path(__file__).parent.parent)
-sys.path.append(parent_dir)
-
+from dotenv import load_dotenv
 from game_sdk.game.agent import Agent, WorkerConfig
 from game_sdk.game.custom_types import FunctionResult, FunctionResultStatus, Function, Argument
-from dpsn_plugin_gamesdk.dpsn_plugin import plugin
+from dpsn_plugin_gamesdk.dpsn_plugin import DpsnPlugin
+load_dotenv()
+
+dpsn_plugin = DpsnPlugin(
+    dpsn_url=os.getenv("DPSN_URL"),
+    pvt_key=os.getenv("PVT_KEY")
+)
+
 
 # Global message counter and timestamp
 message_count = 0
@@ -134,7 +138,7 @@ complete_task_function = Function(
 )
 
 # Set the callback in the plugin instance *before* running the agent
-plugin.set_message_callback(handle_incoming_message)
+dpsn_plugin.set_message_callback(handle_incoming_message)
 # --- End Message Handler Setup ---
 
 def get_agent_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
@@ -187,13 +191,14 @@ subscription_worker = WorkerConfig(
     worker_description="Worker specialized in managing DPSN topic subscriptions, unsubscriptions, message handling, and shutdown.",
     get_state_fn=get_worker_state,
     action_space=[
-        plugin.get_function("subscribe"),
-        plugin.get_function("unsubscribe"),
-        plugin.get_function("shutdown"),
+        dpsn_plugin.get_function("subscribe"),
+        dpsn_plugin.get_function("unsubscribe"),
+        dpsn_plugin.get_function("shutdown"),
         check_status_function,
         complete_task_function  # Add the task completion function
     ],
 )
+
 
 # Initialize the agent
 agent = Agent(

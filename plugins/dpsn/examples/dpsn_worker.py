@@ -1,24 +1,25 @@
 import sys
 import os
+from dotenv import load_dotenv
 from pathlib import Path
 from typing import Dict, Any, List
 from datetime import datetime
 import time # Import time for sleep
-
-# Add the parent directory to Python path
-parent_dir = str(Path(__file__).parent.parent)
-sys.path.append(parent_dir)
+load_dotenv()
 
 # Import FunctionResultStatus to check the status enum
 from game_sdk.game.custom_types import FunctionResultStatus 
-from dpsn_plugin_gamesdk.dpsn_plugin import plugin
+from dpsn_plugin_gamesdk.dpsn_plugin import DpsnPlugin
 
 class DpsnWorker:
     """
     DPSN Worker for processing market data and executing trades (Synchronous Version)
     """
     def __init__(self):
-        self.plugin = plugin
+        self.plugin = DpsnPlugin(
+            dpsn_url=os.getenv("DPSN_URL"),
+            pvt_key=os.getenv("PVT_KEY")
+        )
         self.trades: List[Dict[str, Any]] = []
         self.is_running = False
 
@@ -128,4 +129,5 @@ def main():
 
 if __name__ == "__main__":
     # Run main directly without asyncio
-    main() 
+    main()
+    

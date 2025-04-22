@@ -1,15 +1,10 @@
 import os
-from dotenv import load_dotenv
 from dpsn_client.client import DpsnClient, DPSNError
 from datetime import datetime
 from game_sdk.game.custom_types import Function, Argument, FunctionResultStatus
 from typing import Dict, Any, Callable, Tuple, Optional
 import json
 import logging
-
-# Load .env variables
-load_dotenv()
-
 # Configure logging for the plugin (optional, but good practice)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("DpsnPlugin")
@@ -285,7 +280,5 @@ class DpsnPlugin:
             self._initialized = False
          else:
              logger.warning("Client error received, but plugin was already not marked as initialized.")
-             
-# Create plugin instance
-plugin = DpsnPlugin()
+    
     
