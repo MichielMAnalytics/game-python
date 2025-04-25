@@ -18,7 +18,7 @@ from plugins.twitter.twitter_plugin_gamesdk.twitter_plugin import TwitterPlugin
 # Using GAME Twitter API credentials
 options = {
     "credentials": {
-        "gameTwitterAccessToken": "apx-a3a69f5bbb7aba5b595c3f14457ce4d1",
+        "gameTwitterAccessToken": os.environ.get("GAME_TWITTER_ACCESS_TOKEN"),
     },
 }
 
