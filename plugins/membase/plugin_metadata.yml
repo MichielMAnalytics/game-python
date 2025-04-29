@@ -18,6 +18,6 @@ documentation_url: "https://www.unibase.io/"      # Link to the plugin's officia
 changelog_url: ""          # Link to the changelog (if maintained)
 
 # Contact & Support
-x_account_handle: "fiatlucis"       # X (formerly known as Twitter) account handle (ie: @GAME_Virtuals)
+x_account_handle: "@fiatlucis"       # X (formerly known as Twitter) account handle (ie: @GAME_Virtuals)
 support_contact: "yydfjt@gmail.com"        # Email or Slack/Discord link for user support
 community_link: ""         # Forum or community link (if any)
