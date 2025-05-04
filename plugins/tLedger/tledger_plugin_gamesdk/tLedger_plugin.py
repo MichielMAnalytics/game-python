@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 import requests
 
-from src.game_sdk.game.custom_types import Function, Argument, FunctionResultStatus
+from game_sdk.game.custom_types import Function, Argument, FunctionResultStatus
 
 BASE_URL = "https://api-sandbox.t54.ai/api/v1/"
 

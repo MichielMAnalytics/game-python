@@ -1,5 +1,4 @@
 import os
-import sys
 from game_sdk.game.worker import Worker
 from game_sdk.game.custom_types import FunctionResult
 from dotenv import load_dotenv
@@ -9,10 +8,8 @@ from pathlib import Path
 env_path = Path(__file__).parent / '.env.example'
 load_dotenv(dotenv_path=env_path)
 
-# Add the project directory to the PYTHONPATH
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from plugins.tLedger.tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
+from tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
 def get_state_fn(function_result: FunctionResult, current_state: dict) -> dict:
     """

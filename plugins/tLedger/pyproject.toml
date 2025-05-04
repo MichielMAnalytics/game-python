@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tledger_plugin_gamesdk"
-version = "0.1.0"
+version = "0.1.2"
 authors = [{ name = "Prateek Tiwari", email = "ptiwari@t54.ai" }, { name = "Akshit Arora", email = "aarora@t54.ai" }]
 description = "TLedger SDK for GAME by Virtuals"
 requires-python = ">=3.8"
@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["tledger_gamesdk"]
+packages = ["tledger_plugin_gamesdk"]
 
 [project.urls]
 "Homepage" = "https://github.com/game-by-virtuals/game-python/plugins/tLedger"

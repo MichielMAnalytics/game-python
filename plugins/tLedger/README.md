@@ -37,7 +37,7 @@ Import and initialize the plugin to use in your worker:
 
 ```python
 import os
-from plugins.tLedger.tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
+from tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
 tledger_plugin = TLedgerPlugin(
   api_key=os.environ.get("SENDER_TLEDGER_API_KEY"),
@@ -47,6 +47,9 @@ tledger_plugin = TLedgerPlugin(
 ```
 
 **Basic worker example:**
+
+Install the tLedger plugin using the following command: `pip install tledger-plugin-gamesdk`
+For the latest version of tLedger plugin, please check the [tLedger Plugin](https://pypi.org/project/tledger-plugin-gamesdk/) page.
 
 ```python
 

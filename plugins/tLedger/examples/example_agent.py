@@ -1,5 +1,4 @@
 import os
-import sys
 import time
 import warnings
 from typing import Any, Tuple
@@ -7,17 +6,12 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 import requests
-# Add the project directory to the PYTHONPATH
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from typing_extensions import Dict
 
 from chat_agent import ChatAgent
 from game_sdk.game.custom_types import Argument, Function, FunctionResultStatus, ChatResponse, FunctionResult
 
-from urllib3.exceptions import NotOpenSSLWarning
-
-
-from plugins.tLedger.tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
+from tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
 from colorama import Fore, Style
 
