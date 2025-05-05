@@ -5,11 +5,10 @@ from typing import Any, Tuple
 from dotenv import load_dotenv
 from pathlib import Path
 
-import requests
 from typing_extensions import Dict
 
-from chat_agent import ChatAgent
-from game_sdk.game.custom_types import Argument, Function, FunctionResultStatus, ChatResponse, FunctionResult
+from game_sdk.game.chat_agent import ChatAgent
+from game_sdk.game.custom_types import Argument, Function, FunctionResultStatus, FunctionResult
 
 from tledger_plugin_gamesdk.tLedger_plugin import TLedgerPlugin
 
