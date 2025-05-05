@@ -1,7 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
-from plugins.twitter.twitter_plugin_gamesdk.twitter_plugin import TwitterPlugin
+from twitter_plugin_gamesdk.twitter_plugin import TwitterPlugin
 
 # Define your options with the necessary credentials
 # Using your own X API credentials
