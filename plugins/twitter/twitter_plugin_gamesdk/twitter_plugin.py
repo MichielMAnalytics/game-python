@@ -26,7 +26,7 @@ Example:
     ```
 """
 
-import tweepy
+import virtuals_tweepy
 import logging
 from typing import Dict, Any
 
@@ -62,7 +62,7 @@ class TwitterPlugin:
         if not credentials:
             raise ValueError("Twitter API credentials are required.")
         # Init Tweepy client
-        self.twitter_client: tweepy.Client = tweepy.Client(
+        self.twitter_client: virtuals_tweepy.Client = virtuals_tweepy.Client(
             bearer_token = credentials.get("bearerToken"),
             consumer_key = credentials.get("apiKey"),
             consumer_secret = credentials.get("apiSecretKey"),
