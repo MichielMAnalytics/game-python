@@ -19,14 +19,14 @@ python3 ./setup.py
 There are also two agents set for you incase you want to test the plugin. The agent details are as follows:
 
 Agent 1:
-- Agent ID: agt_59b17650-a689-4649-91fa-4bf5d0db56ad
-- key: ewSZjNQGPLle-vn5dMZoLOGUljEB6fbmox31o7KLKuI
-- secret: iqB7-iETCVBE0UV_0HfRAwCHkVXO9_4cCPJYmTIyUpHauHlVP4Hk5xSsCquRqBO_2_eQ6OK_Zu7P1X4LU7hSHg
+- Agent ID: `agt_59b17650-a689-4649-91fa-4bf5d0db56ad`
+- key: `ewSZjNQGPLle-vn5dMZoLOGUljEB6fbmox31o7KLKuI`
+- secret: `iqB7-iETCVBE0UV_0HfRAwCHkVXO9_4cCPJYmTIyUpHauHlVP4Hk5xSsCquRqBO_2_eQ6OK_Zu7P1X4LU7hSHg`
 
 Agent 2:
-- Agent ID: agt_3db52291-a9f8-4f04-a180-adb6e50ef5b0
-- key: j06KtBcRRbmrEAqIVSiXZc3DPAJSqymDimo__ERD0oQ
-- secret: h13ERQG797cYMeNeRLvwDF_3-DBt4o-kp0fL-bFHKstTUTS5xsLUFgDEUZG2GsoEKINxeSVusbAQxc24mHm1eQ
+- Agent ID: `agt_3db52291-a9f8-4f04-a180-adb6e50ef5b0`
+- key: `j06KtBcRRbmrEAqIVSiXZc3DPAJSqymDimo__ERD0oQ`
+- secret: `h13ERQG797cYMeNeRLvwDF_3-DBt4o-kp0fL-bFHKstTUTS5xsLUFgDEUZG2GsoEKINxeSVusbAQxc24mHm1eQ`
 
 ### TLedger Account Setup
 For a complete list of TLedger setup APIs, please feel free to look at the public documentation at: https://docs.t54.ai/
