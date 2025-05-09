@@ -20,7 +20,7 @@ def run_twitter_actions():
     #     },
     # }
 
-    # Option B: Using GAME Twitter API credentials
+    # Option B: Using GAME Twitter API Access Token (Recommended, higher rate limits: 35 calls/5 minutes)
     options = {
         "credentials": {
             "game_twitter_access_token": token
