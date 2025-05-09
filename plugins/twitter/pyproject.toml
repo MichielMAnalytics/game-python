@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "twitter-plugin-gamesdk"
-version = "0.2.6"
+version = "0.2.7"
 description = "Twitter Plugin for Python SDK for GAME by Virtuals"
 authors = ["Celeste Ang <celeste@virtuals.io>"]
 readme = "README.md"
