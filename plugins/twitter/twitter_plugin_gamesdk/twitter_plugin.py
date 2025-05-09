@@ -26,9 +26,9 @@ Example:
     ```
 """
 
-import virtuals_tweepy
 import logging
 from typing import Dict, Any
+from virtuals_tweepy import Client, TweepyException
 
 class TwitterPlugin:
     """
@@ -48,7 +48,7 @@ class TwitterPlugin:
         id (str): Plugin identifier
         name (str): Plugin name
         description (str): Plugin description
-        twitter_client (tweepy.Client): Authenticated Twitter API client
+        twitter_client (virtuals_tweepy.Client): Authenticated Twitter API client
         logger (logging.Logger): Plugin logger
 
     Raises:
@@ -63,27 +63,26 @@ class TwitterPlugin:
             raise ValueError("Twitter API credentials are required.")
 
         # Capture token for internal use
-        self.game_twitter_access_token = credentials.get("gameTwitterAccessToken")
+        self.game_twitter_access_token = credentials.get("game_twitter_access_token")
 
         # Auth gate: require EITHER gameTwitterAccessToken OR full credential set
         has_api_credentials = all(
-            credentials.get(key) for key in ["bearerToken", "apiKey", "apiSecretKey", "accessToken", "accessTokenSecret"]
+            credentials.get(key) for key in ["api_key", "api_key_secret", "access_token", "access_token_secret"]
         )
 
         if not self.game_twitter_access_token and not has_api_credentials:
             raise ValueError(
-                "Missing valid authentication. Provide either a 'gameTwitterAccessToken' or all required Twitter API credentials."
+                "Missing valid authentication. Provide either a 'game_twitter_access_token' or all required Twitter API credentials."
             )
 
         # Init Tweepy client
-        self.twitter_client: virtuals_tweepy.Client = virtuals_tweepy.Client(
-            bearer_token = credentials.get("bearerToken"),
-            consumer_key = credentials.get("apiKey"),
-            consumer_secret = credentials.get("apiSecretKey"),
-            access_token = credentials.get("accessToken"),
-            access_token_secret=credentials.get("accessTokenSecret"),
+        self.twitter_client: Client = Client(
+            consumer_key = credentials.get("api_key"),
+            consumer_secret = credentials.get("api_key_secret"),
+            access_token = credentials.get("access_token"),
+            access_token_secret=credentials.get("access_token_secret"),
             return_type = dict,
-            game_twitter_access_token = credentials.get("gameTwitterAccessToken"),
+            game_twitter_access_token = credentials.get("game_twitter_access_token"),
         )
         # Configure logging
         logging.basicConfig(level=logging.INFO)
@@ -98,6 +97,6 @@ class TwitterPlugin:
         try:
             user = self.twitter_client.get_me(user_fields=["public_metrics"]).get('data')
             self.logger.info(f"Authenticated as: {user.get('name')} (@{user.get('username')})")
-        except virtuals_tweepy.TweepyException as e:
+        except TweepyException as e:
             self.logger.error(f"Authentication failed: {e}")
             raise ValueError("Invalid Twitter credentials or failed authentication.")
