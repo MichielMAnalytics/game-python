@@ -15,7 +15,7 @@ repository = "https://github.com/game-by-virtuals/game-python"
 [tool.poetry.dependencies]
 python = ">=3.9"
 tweepy = ">=4.15.0"
-virtuals-tweepy >= "0.1.4"
+virtuals-tweepy ">=0.1.4"
 
 [tool.poetry.scripts]
 twitter-plugin-gamesdk = "twitter_plugin_gamesdk.game_twitter_auth:start"
