@@ -6,6 +6,7 @@ from twitter_plugin_gamesdk.twitter_plugin import TwitterPlugin
 def run_twitter_actions():
     load_dotenv()
     token = os.getenv("GAME_TWITTER_ACCESS_TOKEN")
+    print("Token:", token)
     if not token:
         raise RuntimeError("Please set GAME_TWITTER_ACCESS_TOKEN in your .env")
 
@@ -62,7 +63,7 @@ def run_twitter_actions():
 
         # 5. Upload local media and tweet
         with open("sample_media/virtuals-logo.png", "rb") as img:
-            media_id = client.upload_media(media=img)
+            media_id = client.upload_media(media=img, media_type="image/png")
         local = client.create_tweet(
             text="Check this out! Uploaded with local media!",
             media_ids=[media_id]
