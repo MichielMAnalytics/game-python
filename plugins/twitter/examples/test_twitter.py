@@ -74,7 +74,7 @@ def run_twitter_actions():
         url = "https://assets.coingecko.com/coins/images/51063/large/Gaming_Agent_1fe70d54ba.jpg"
         resp = requests.get(url)
         resp.raise_for_status()
-        media_id_url = client.upload_media(media=resp.content)
+        media_id_url = client.upload_media(media=resp.content, media_type="image/jpeg")
         url_tweet = client.create_tweet(
             text="Check this out! Uploaded with URL media!",
             media_ids=[media_id_url]
