@@ -1,0 +1,80 @@
+/* Font Imports */
+
+/* Cabinet Grotesk - Primary Font */
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700&display=swap');
+
+/* JetBrains Mono - Monospace Font */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* Font Variables */
+:root {
+  /* Primary Font - Cabinet Grotesk */
+  --font-primary: 'Cabinet Grotesk', system-ui, sans-serif;
+  
+  /* Header Font - Orpheus Pro (with fallback) */
+  --font-header: 'Orpheus Pro', 'Cormorant Garamond', Georgia, serif;
+  
+  /* Monospace Font - JetBrains Mono */
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Accent Font - Basement Grotesque (with fallback) */
+  --font-accent: 'Basement Grotesque', 'Arial Black', sans-serif;
+  
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-loose: 1.75;
+}
+
+/* Local Font Declarations for Premium Fonts */
+
+/* Orpheus Pro - Header Font (Local Fallback) */
+@font-face {
+  font-family: 'Orpheus Pro Fallback';
+  src: local('Georgia');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Orpheus Pro Fallback';
+  src: local('Georgia');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Basement Grotesque - Accent Font (Local Fallback) */
+@font-face {
+  font-family: 'Basement Grotesque Fallback';
+  src: local('Impact');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Basement Grotesque for notification */
+@font-face {
+  font-family: 'Basement Grotesque';
+  src: url('fonts/BasementGrotesque-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+} 

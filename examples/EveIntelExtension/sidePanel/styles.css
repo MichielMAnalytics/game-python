@@ -1,0 +1,966 @@
+/* Import Fonts */
+@import 'fonts.css';
+
+body {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: var(--line-height-normal);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 100%;
+}
+
+.chat-header {
+  background-color: #242424;
+  color: #ffeb3b;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.header-left {
+  /* Empty div to balance the header layout */
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 2;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+}
+
+.logo-title img {
+  height: 24px;
+  margin-right: 8px;
+}
+
+.collab-separator {
+  margin: 0 12px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  opacity: 0.9;
+}
+
+.collab-separator svg {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  position: relative;
+  z-index: 1;
+}
+
+.collab-separator::before {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle, var(--premium-yellow-glow) 0%, rgba(26, 26, 26, 0) 70%);
+  opacity: 0.7;
+  filter: blur(5px);
+  z-index: 0;
+  animation: separator-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes separator-glow {
+  0% { opacity: 0.5; transform: scale(0.9); }
+  100% { opacity: 0.8; transform: scale(1.1); }
+}
+
+.collab-separator svg path {
+  stroke: transparent;
+}
+
+.virtuals-logo {
+  display: flex;
+  align-items: center;
+}
+
+.virtuals-logo img {
+  height: 20px;
+}
+
+.chat-header h1 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.02em;
+}
+
+.chat-header h1 img {
+  height: 24px;
+  margin-right: 8px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #1a1a1a;
+}
+
+.message {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.3s ease;
+  font-size: var(--font-size-base);
+  position: relative;
+}
+
+.user-message {
+  background-color: #333333;
+  color: #ffffff;
+  align-self: flex-end;
+  border-left: 3px solid #ffeb3b;
+  font-weight: var(--font-weight-medium);
+}
+
+.assistant-message {
+  background-color: #242424;
+  color: #e0e0e0;
+  align-self: flex-start;
+  position: relative;
+}
+
+.system-message {
+  background-color: rgba(255, 235, 59, 0.15);
+  color: #ffeb3b;
+  align-self: center;
+  font-size: var(--font-size-sm);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 235, 59, 0.3);
+  font-family: var(--font-accent);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Updated chat input container */
+.chat-input-container {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  background-color: #242424;
+  border-top: 1px solid #333333;
+}
+
+/* Warning message below input */
+.chat-disclaimer {
+  text-align: center;
+  font-size: 11px;
+  color: #888888;
+  margin-top: 8px;
+  font-family: var(--font-primary);
+}
+
+/* Updated input styling */
+#message-input {
+  flex: 1;
+  border: 1px solid #444444;
+  border-radius: 4px;
+  padding: 12px 48px 12px 16px;
+  resize: none;
+  min-height: 48px;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: var(--line-height-normal);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-base);
+  background-color: #353535;
+  color: #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+
+#message-input::placeholder {
+  color: #a0a0a0;
+  font-size: 15px;
+  font-weight: var(--font-weight-regular);
+}
+
+#message-input:focus {
+  outline: none;
+  border-color: #555555;
+  background-color: #3a3a3a;
+}
+
+/* New input wrapper to position send button correctly */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+/* Updated send button */
+#send-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffeb3b;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  margin-right: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#send-button:hover {
+  background-color: #fff176;
+}
+
+#send-button:disabled {
+  background-color: #4f4e38;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+/* SVG icon for send button */
+.send-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.typing-indicator {
+  display: flex;
+  padding: 10px 15px;
+  background-color: #242424;
+  border-radius: 4px;
+  align-self: flex-start;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  background-color: #ffeb3b;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 2px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  0%, 60%, 100% { transform: scale(1); opacity: 0.8; }
+  30% { transform: scale(1.5); opacity: 1; }
+}
+
+/* Handle Twitter function effects */
+.twitter-action {
+  font-style: italic;
+  color: #aaaaaa;
+}
+
+.twitter-success {
+  color: #e0e0e0;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+}
+
+.twitter-error {
+  color: #ff5252;
+}
+
+/* Code block styling */
+pre {
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-radius: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #333333;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: #e0e0e0;
+}
+
+/* Style for quoted text */
+.quoted-text {
+  border-left: 3px solid #ffeb3b;
+  padding-left: 10px;
+  color: #bbbbbb;
+  margin: 5px 0;
+  font-style: italic;
+}
+
+/* Add styles for the selection button */
+.selection-button {
+  transition: transform 0.2s ease;
+}
+
+.selection-button:hover {
+  transform: scale(1.2);
+}
+
+/* Style for notifications */
+.notification {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffeb3b;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 4px;
+  z-index: 9999;
+  animation: fadeInOut 2.3s ease forwards;
+  font-family: var(--font-accent);
+  font-weight: var(--font-weight-bold);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Reset button and Logout button styling */
+.reset-button, .logout-button {
+  background-color: transparent;
+  border: 1px solid #ffeb3b;
+  color: #ffeb3b;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.reset-button:hover, .logout-button:hover {
+  background-color: rgba(255, 235, 59, 0.1);
+}
+
+/* Feature titles and special headings */
+h2.feature-title {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-light);
+  color: #ffeb3b;
+  margin-bottom: 16px;
+  font-size: var(--font-size-2xl);
+}
+
+/* For important callouts */
+.callout {
+  font-family: var(--font-accent);
+  font-weight: var(--font-weight-bold);
+  color: #ffeb3b;
+  font-size: var(--font-size-lg);
+}
+
+/* Mono title variations */
+.mono-title {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.02em;
+}
+
+h3.mono-title {
+  font-size: var(--font-size-lg);
+  color: #ffeb3b;
+  margin-bottom: 16px;
+  font-weight: var(--font-weight-medium);
+}
+
+/* For code blocks with highlight sections */
+.code-highlight {
+  background-color: rgba(255, 235, 59, 0.2);
+  border-radius: 2px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+}
+
+/* For monospace sections in regular content */
+.mono-text {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-regular);
+  background-color: #2c2c2c;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Special style for the EVE name */
+.eve-brand {
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  font-weight: var(--font-weight-bold);
+  color: #ffeb3b;
+  font-size: var(--font-size-lg);
+}
+
+/* Header collaboration badge */
+.header-collab {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-xs);
+}
+
+.header-collab span {
+  margin-right: 6px;
+  color: #bbbbbb;
+}
+
+.header-collab img {
+  height: 20px;
+}
+
+/* Header action buttons */
+.header-actions {
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 3;
+  position: relative;
+}
+
+.icon-button {
+  background-color: transparent;
+  border: 1px solid rgba(255, 235, 59, 0.3);
+  color: #ffeb3b;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  background-color: rgba(255, 235, 59, 0.1);
+  border-color: #ffeb3b;
+}
+
+.icon-button svg {
+  stroke: #ffeb3b;
+}
+
+/* Logo links styling */
+.logo-title, .virtuals-logo {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.logo-title:hover, .virtuals-logo:hover {
+  opacity: 0.8;
+}
+
+/* Special style for authentication screen */
+.auth-brand {
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Selected text container styling */
+.selected-text-container {
+  display: none; /* Hidden by default */
+  width: 100%;
+  min-height: 36px;
+  background-color: #303030;
+  border: 1px solid #444444;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  position: relative;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+  color: #e0e0e0;
+  align-items: center;
+}
+
+/* When there's content, display it */
+.selected-text-container.has-content {
+  display: flex;
+}
+
+.selected-text-content {
+  flex: 1;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 28px; /* Space for the clear button */
+}
+
+/* Clear button for selections */
+.clear-selection-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #999999;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.clear-selection-button:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Update the menu button to remove border */
+.menu-button {
+  background-color: transparent;
+  border: none; /* Remove the border */
+  color: #ffeb3b;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.menu-button:hover {
+  background-color: rgba(255, 235, 59, 0.1);
+  /* Remove border-color since we don't have a border anymore */
+}
+
+.menu-button svg {
+  stroke: #ffeb3b;
+  width: 16px;
+  height: 16px;
+  stroke-width: 3;
+}
+
+/* Dropdown menu styling */
+.menu-dropdown {
+  position: absolute;
+  top: 44px;
+  right: 16px;
+  width: 100px;
+  background-color: #2c2c2c;
+  border: 1px solid #444444;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.menu-dropdown.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: #3a3a3a;
+}
+
+.menu-item svg {
+  margin-right: 8px;
+  stroke: #ffeb3b;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+}
+
+.menu-item span {
+  font-size: 12px;
+  font-family: var(--font-primary);
+  white-space: nowrap;
+}
+
+/* Update message action buttons positioning and display */
+.message-actions {
+  display: flex;
+  position: absolute;
+  bottom: -22px;
+  right: 10px;
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  padding: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Make action buttons a bit more compact */
+.message-action-btn {
+  background-color: transparent;
+  border: none;
+  border-radius: 3px;
+  width: 24px; /* Slightly larger for thumbs */
+  height: 24px; /* Slightly larger for thumbs */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 2px; /* Increased margin */
+  transition: background-color 0.2s;
+}
+
+.message-action-btn:hover {
+  background-color: #333333;
+}
+
+/* Style for specific action buttons with proper sizing for thumbs */
+.copy-btn svg {
+  stroke: #bbbbbb;
+}
+
+.upvote-btn svg {
+  stroke: #bbbbbb;
+}
+
+.downvote-btn svg {
+  stroke: #bbbbbb;
+}
+
+/* Improve visibility of active states */
+.upvote-btn.active svg {
+  stroke: #4caf50;
+  fill: rgba(76, 175, 80, 0.2); /* Light fill for better visibility */
+}
+
+.downvote-btn.active svg {
+  stroke: #f44336;
+  fill: rgba(244, 67, 54, 0.2); /* Light fill for better visibility */
+}
+
+/* X button styling */
+.x-btn {
+  background-color: transparent;
+  border: none;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 2px;
+  transition: all 0.2s;
+}
+
+.x-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+}
+
+.x-btn svg {
+  fill: #bbbbbb !important;
+  stroke: none !important;
+}
+
+.x-btn:hover svg {
+  fill: #1d9bf0 !important;
+}
+
+/* Make all icons visible by ensuring fill/stroke properties */
+.message-action-btn svg {
+  stroke: #bbbbbb;
+  stroke-width: 2;
+}
+
+.message-action-btn:hover svg {
+  stroke: #e0e0e0;
+}
+
+/* Make sure message actions buttons container is properly styled */
+.message-actions {
+  display: flex;
+  position: absolute;
+  bottom: -22px;
+  right: 10px;
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  padding: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Make the message position relative to ensure action buttons position correctly */
+.message {
+  position: relative;
+}
+
+/* Logo loading animation */
+.logo-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(26, 26, 26, 0.95);
+  z-index: 1000;
+}
+
+.logo-loader {
+  width: 40px;
+  height: 40px;
+  animation: logo-pulse 1.5s ease-in-out infinite;
+}
+
+.logo-loader-text {
+  display: none;
+}
+
+@keyframes logo-pulse {
+  0% { opacity: 0.6; transform: scale(0.98); filter: brightness(0.8); }
+  50% { opacity: 1; transform: scale(1.02); filter: brightness(1.1); }
+  100% { opacity: 0.6; transform: scale(0.98); filter: brightness(0.8); }
+}
+
+/* Add a new style for the tweet content */
+.tweet-content {
+  font-style: italic;
+  color: #bbbbbb;
+  display: block;
+  margin: 8px 0;
+  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #ffeb3b;
+  border-radius: 2px;
+}
+
+/* Style for error messages */
+.system-message.error-message {
+  background-color: rgba(244, 67, 54, 0.15);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Premium yellow styling updates */
+:root {
+  /* Add premium yellow gradient colors */
+  --premium-yellow-light: #fff5a0;
+  --premium-yellow: #ffeb3b;
+  --premium-yellow-dark: #ffd600;
+  --premium-yellow-shadow: rgba(255, 214, 0, 0.25);
+  --premium-yellow-glow: rgba(255, 235, 59, 0.15);
+}
+
+/* Update the auth button styling */
+.auth-button {
+  background: linear-gradient(135deg, var(--premium-yellow-light), var(--premium-yellow), var(--premium-yellow-dark));
+  color: #1a1a1a;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-primary);
+  margin-top: 10px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 6px var(--premium-yellow-shadow), 0 1px 3px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.auth-button:hover {
+  background: linear-gradient(135deg, var(--premium-yellow-light) 10%, var(--premium-yellow), var(--premium-yellow-dark) 90%);
+  box-shadow: 0 6px 12px var(--premium-yellow-shadow), 0 2px 4px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.auth-button:disabled {
+  background: #4f4e38;
+  color: #888888;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Update the active tab styling */
+.auth-tab.active {
+  border-bottom: 2px solid var(--premium-yellow);
+  color: var(--premium-yellow-light);
+  font-weight: var(--font-weight-bold);
+  position: relative;
+}
+
+.auth-tab.active:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--premium-yellow-light), transparent);
+  filter: blur(1px);
+}
+
+/* Update EVE brand styling */
+.eve-brand {
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  font-weight: var(--font-weight-bold);
+  background: linear-gradient(135deg, var(--premium-yellow-light), var(--premium-yellow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: var(--font-size-lg);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Update the auth steps heading */
+.auth-steps h3 {
+  margin-top: 0;
+  background: linear-gradient(90deg, var(--premium-yellow), var(--premium-yellow-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.02em;
+}
+
+/* Update focus state for inputs */
+.input-group input:focus {
+  outline: none;
+  border-color: var(--premium-yellow);
+  box-shadow: 0 0 0 2px var(--premium-yellow-glow);
+}
+
+/* Update success messages */
+.success {
+  background-color: rgba(255, 214, 0, 0.1);
+  color: var(--premium-yellow-light);
+  border: 1px solid rgba(255, 214, 0, 0.3);
+}
+
+/* Update the collab-separator */
+.collab-separator svg path {
+  stroke: var(--premium-yellow);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 1px 1px rgba(255, 214, 0, 0.3));
+}
+
+/* Premium background styling */
+.premium-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 10%, #242424, #1a1a1a 60%);
+  overflow: hidden;
+}
+
+.premium-glow {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--premium-yellow-glow) 0%, rgba(26, 26, 26, 0) 70%);
+  opacity: 0.4;
+  filter: blur(40px);
+  animation: glow-pulse 8s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0% { opacity: 0.2; transform: translateX(-50%) scale(0.8); }
+  50% { opacity: 0.5; transform: translateX(-50%) scale(1.2); }
+  100% { opacity: 0.2; transform: translateX(-50%) scale(0.8); }
+}
+
+/* Add subtle texture to darker areas */
+.auth-form-container, .auth-steps {
+  position: relative;
+}
+
+.auth-form-container::before, .auth-steps::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23333333' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+} 

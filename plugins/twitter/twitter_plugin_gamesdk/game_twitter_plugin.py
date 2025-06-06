@@ -121,10 +121,28 @@ class GameTwitterPlugin:
         """
         if media_ids and len(media_ids) > 4:
             raise ValueError("media_ids cannot contain more than 4 items.")
+        
+        # Debug information
+        print(f"Tweet content: '{tweet}'")
+        # print(f"Headers: {self.headers}")
+        
         payload = {"content": tweet}
         if media_ids:
             payload["mediaIds"] = media_ids
-        return self._fetch_api("/post", "POST", data=payload)
+        
+        # More verbose version of _fetch_api for debugging
+        url = f"{self.base_url}/post"
+        print(f"Making request to: {url}")
+        print(f"With payload: {payload}")
+        
+        response = requests.post(url, headers=self.headers, json=payload)
+        print(f"Response status: {response.status_code}")
+        print(f"Response text: {response.text}")
+        
+        if response.status_code not in [200, 201]:
+            raise Exception(f"Error {response.status_code}: {response.text}")
+
+        return response.json()
 
     def _search_tweets(self, query: str) -> Dict[str, Any]:
         """
