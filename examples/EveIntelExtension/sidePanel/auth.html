@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>EVE - Digital Presence Agent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+      font-family: var(--font-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 20px;
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .auth-header h1 {
+      color: #ffeb3b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+      font-weight: var(--font-weight-regular);
+      letter-spacing: -0.02em;
+    }
+    
+    .auth-header p {
+      font-family: var(--font-primary);
+      font-weight: var(--font-weight-regular);
+    }
+    
+    .auth-header h1 img {
+      height: 32px;
+      margin-right: 12px;
+    }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .logo-container img {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #333333;
+    }
+    
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      color: #bbbbbb;
+      font-family: var(--font-primary);
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .auth-tab.active {
+      border-bottom: 2px solid #ffeb3b;
+      color: #ffeb3b;
+      font-weight: var(--font-weight-bold);
+    }
+    
+    .auth-form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .auth-form {
+      display: none;
+    }
+    
+    .auth-form.active {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .input-group label {
+      font-weight: var(--font-weight-medium);
+      color: #e0e0e0;
+    }
+    
+    .input-group input {
+      padding: 10px;
+      border: 1px solid #333333;
+      border-radius: 4px;
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      font-family: var(--font-primary);
+      font-weight: var(--font-weight-regular);
+    }
+    
+    .input-group input:focus {
+      outline: none;
+      border-color: #ffeb3b;
+    }
+    
+    .auth-button {
+      background-color: #ffeb3b;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 4px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: var(--font-weight-bold);
+      font-family: var(--font-primary);
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+    
+    .auth-button:hover {
+      background-color: #fff176;
+    }
+    
+    .auth-button:disabled {
+      background-color: #4f4e38;
+      color: #888888;
+      cursor: not-allowed;
+    }
+    
+    .auth-status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      font-family: var(--font-primary);
+    }
+    
+    .error {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: #f44336;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+    
+    .success {
+      background-color: rgba(255, 235, 59, 0.1);
+      color: #ffeb3b;
+      border: 1px solid rgba(255, 235, 59, 0.3);
+    }
+    
+    .auth-steps {
+      margin-top: 20px;
+      background-color: #242424;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #333333;
+    }
+    
+    .auth-steps h3 {
+      margin-top: 0;
+      color: #ffeb3b;
+      font-family: var(--font-mono);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: -0.02em;
+    }
+    
+    .auth-steps ol {
+      padding-left: 20px;
+      color: #e0e0e0;
+      font-family: var(--font-primary);
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .custom-loader {
+      width: 40px;
+      height: 40px;
+      animation: pulse 1.5s ease-in-out infinite;
+      margin-bottom: 10px;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.4; transform: scale(0.95); }
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .collab-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #bbbbbb;
+    }
+    
+    .collab-badge span {
+      margin-bottom: 6px;
+      font-size: var(--font-size-xs);
+      font-family: var(--font-primary);
+    }
+    
+    .virtuals-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .virtuals-logo img {
+      height: 30px;
+      max-width: 100%;
+    }
+    
+    .brand-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-title {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    
+    .logo-title:hover, .virtuals-logo:hover {
+      opacity: 0.8;
+    }
+    
+    .logo-title img {
+      height: 32px;
+      margin-right: 8px;
+    }
+    
+    .collab-separator {
+      margin: 0 12px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      opacity: 0.9;
+    }
+    
+    .collab-separator svg {
+      width: 18px;
+      height: 18px;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+      position: relative;
+      z-index: 1;
+    }
+    
+    .collab-separator::before {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: radial-gradient(circle, var(--premium-yellow-glow) 0%, rgba(26, 26, 26, 0) 70%);
+      opacity: 0.7;
+      filter: blur(5px);
+      z-index: 0;
+      animation: separator-glow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes separator-glow {
+      0% { opacity: 0.5; transform: scale(0.9); }
+      100% { opacity: 0.8; transform: scale(1.1); }
+    }
+    
+    .collab-separator svg path {
+      stroke: transparent;
+    }
+    
+    .virtuals-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    
+    .virtuals-logo img {
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="premium-background">
+    <div class="premium-glow"></div>
+  </div>
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="brand-container auth-brand">
+        <a href="https://eve-protocol.ai" target="_blank" class="logo-title" title="Visit EVE Protocol">
+          <img src="images/icon-hq-white.png" alt="EVE Logo">
+          <span class="eve-brand">EVE</span>
+        </a>
+        <div class="collab-separator">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--premium-yellow-light)" />
+                <stop offset="50%" stop-color="var(--premium-yellow)" />
+                <stop offset="100%" stop-color="var(--premium-yellow-dark)" />
+              </linearGradient>
+            </defs>
+            
+            <path d="M18 6L6 18M6 6L18 18" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" />
+            
+            <path d="M18 6L6 18M6 6L18 18" stroke="url(#goldGradient)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <a href="https://virtuals.io" target="_blank" class="virtuals-logo" title="Visit Virtuals">
+          <img src="images/virtuals-hq.svg" alt="Virtuals HQ Logo" height="20">
+        </a>
+      </div>
+    </div>
+    
+    <div class="auth-tabs">
+      <div id="login-tab" class="auth-tab active">Login</div>
+      <div id="register-tab" class="auth-tab">Register</div>
+    </div>
+    
+    <div class="auth-form-container">
+      <!-- Login Form -->
+      <div id="login-form" class="auth-form active">
+        <div class="input-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="Enter your email">
+        </div>
+        
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password">
+        </div>
+        
+        <button id="login-button" class="auth-button">Login</button>
+      </div>
+      
+      <!-- Register Form -->
+      <div id="register-form" class="auth-form">
+        <div class="input-group">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" placeholder="name@example.com">
+        </div>
+        
+        <div class="input-group">
+          <label for="register-password">Choose a Password</label>
+          <input type="password" id="register-password" placeholder="At least 8 characters">
+        </div>
+        
+        <div class="input-group">
+          <label for="register-confirm">Confirm Password</label>
+          <input type="password" id="register-confirm" placeholder="Repeat your password">
+        </div>
+        
+        <button id="register-button" class="auth-button">Register</button>
+      </div>
+      
+      <!-- Game API Key Form (shown after login/register) -->
+      <div id="api-key-form" class="auth-form">
+        <div class="input-group">
+          <label for="api-key">GAME API Key</label>
+          <input type="password" id="api-key" placeholder="Enter your GAME API key">
+        </div>
+        
+        <button id="auth-button" class="auth-button">Authorize with Twitter</button>
+      </div>
+      
+      <div id="loading" class="loading">
+        <img src="images/icon-hq-white.png" alt="EVE Logo" class="custom-loader">
+        <p>Processing your request...</p>
+      </div>
+      
+      <div id="auth-status" class="auth-status" style="display: none;"></div>
+    </div>
+    
+    <div class="auth-steps">
+      <h3 class="mono-title">Getting Started</h3>
+      <ol>
+        <li>Create or log into your account</li>
+        <li>Enter your GAME API key</li>
+        <li>Authorize with Twitter</li>
+        <li>Start using EVE to enhance your digital presence!</li>
+      </ol>
+    </div>
+  </div>
+  
+  <script src="auth.js"></script>
+</body>
+</html> 
