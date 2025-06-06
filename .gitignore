@@ -11,6 +11,11 @@ dist/
 
 # JetBrains IDEs
 .idea/
+<<<<<<< HEAD
 .venv/
 *.log
 logs/
+=======
+
+.venv/
+>>>>>>> 76a1a712be14b971fd59a45c14c76c8775884e73
