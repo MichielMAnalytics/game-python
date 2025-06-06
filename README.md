@@ -86,6 +86,24 @@ The models currently supported are:
     ```bash
     python examples/game/example_twitter_reaction_module.py
     ```
+
+  ### EVE Chrome Extension - Extended GAME Framework
+  We've extended the GAME framework with a Chrome plugin to supercharge your digital presence! The EVE Intel Extension integrates seamlessly with your browser to provide AI-powered assistance and intelligence.
+
+  ![EVE Chrome Extension](docs/imgs/eve-chrome-extension.png)
+
+  Features:
+  - **Seamless Integration**: Works directly in your browser as a side panel
+  - **GAME API Integration**: Leverages the full power of the GAME framework
+  - **User Authentication**: Secure login and API key management
+  - **Twitter Authorization**: Connect with social media platforms
+  - **Real-time Intelligence**: Get AI-powered insights while browsing
+
+  Example: [`EveIntelExtension`](examples/EveIntelExtension/)
+  - Complete Chrome extension with Flask backend
+  - Demonstrates GAME framework integration in browser environments
+  - Shows how to build modern web interfaces for AI agents
+
   
   ### Hosted Agent
   Example 1: [`example-custom.py`](examples/hosted_agent/example-custom.py) 
